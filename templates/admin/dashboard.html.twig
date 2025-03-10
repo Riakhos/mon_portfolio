@@ -1,0 +1,140 @@
+{% extends '@EasyAdmin/page/content.html.twig' %}
+
+{% block content %}
+    <div class="container mt-4">
+        <h1 class="mb-4">Tableau de bord</h1>
+
+        <!-- Sélection du mois et de l'année -->
+        <div class="row mb-4">
+            <div class="col-md-6">
+                <label for="month">Mois :</label>
+                <select id="month" class="form-control">
+                    {% for month in 1..12 %}
+                        <option value="{{ month }}">{{ month }}</option>
+                    {% endfor %}
+                </select>
+            </div>
+            <div class="col-md-6">
+                <label for="year">Année :</label>
+                <select id="year" class="form-control">
+                    {% set current_year = "now"|date("Y") %}
+                    {% for year in 2025..current_year %}
+                        <option value="{{ year }}">{{ year }}</option>
+                    {% endfor %}
+                </select>
+            </div>
+        </div>
+
+        <!-- Cartes d'information avec graphiques -->
+        <div class="row">
+            <!-- Carte des utilisateurs -->
+            <div class="col-md-3">
+                <div class="card text-white bg-secondary mb-3">
+                    <div class="card-header">Utilisateurs</div>
+                    <div class="card-body">
+                        <h5 class="card-title">{{ user_count }}</h5>
+                        <canvas id="userChart"></canvas>
+                    </div>
+                </div>
+            </div>
+
+            <!-- Carte des articles de blog -->
+            <div class="col-md-3">
+                <div class="card text-white bg-primary mb-3">
+                    <div class="card-header">Derniers articles de blog</div>
+                    <div class="card-body">
+                        <ul class="list-unstyled">
+                            {% for post in latest_posts %}
+                                <li>{{ post.title }}</li>
+                            {% endfor %}
+                        </ul>
+                        <canvas id="postChart"></canvas>
+                    </div>
+                </div>
+            </div>
+
+            <!-- Carte des messages de contact -->
+            <div class="col-md-3">
+                <div class="card text-white bg-warning mb-3">
+                    <div class="card-header">Derniers messages de contact</div>
+                    <div class="card-body">
+                        <ul class="list-unstyled">
+                            {% for message in latest_contacts %}
+                                <li>{{ message.subject }}</li>
+                            {% endfor %}
+                        </ul>
+                        <canvas id="contactChart"></canvas>
+                    </div>
+                </div>
+            </div>
+
+            <!-- Carte du dernier projet -->
+            <div class="col-md-3">
+                <div class="card text-white bg-success mb-3">
+                    <div class="card-header">Dernier projet</div>
+                    <div class="card-body">
+                        {% if latest_project %}
+                            <h5 class="card-title">{{ latest_project.title }}</h5>
+                            <p class="card-text">{{ latest_project.description }}</p>
+                        {% else %}
+                            <p class="card-text">Aucun projet disponible</p>
+                        {% endif %}
+                        <canvas id="projectChart"></canvas>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <!-- Inclusion de Chart.js -->
+    <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
+    <script>
+        // Exemple de données pour les graphiques
+        const userChartData = [12, 19, 3, 5, 2, 3];
+        const postChartData = [2, 3, 20, 5, 1, 4];
+        const contactChartData = [3, 10, 13, 15, 22, 30];
+        const projectChartData = [5, 2, 3, 10, 8, 12];
+
+        // Configuration des graphiques
+        const config = (data, label) => ({
+            type: 'line', // Type de graphique
+            data: {
+                labels: ['Jan', 'Feb', 'Mar', 'Apr', 'May', 'Jun'], // Labels des mois
+                datasets: [{
+                    label: label, // Label du dataset
+                    data: data, // Données du dataset
+                    borderColor: 'rgba(75, 192, 192, 1)', // Couleur de la ligne
+                    borderWidth: 1 // Épaisseur de la ligne
+                }]
+            },
+            options: {
+                scales: {
+                    y: {
+                        beginAtZero: true, // Commencer l'axe Y à zéro
+                        ticks: {
+                            color: 'white' // Couleur des labels de l'axe Y
+                        }
+                    },
+                    x: {
+                        ticks: {
+                            color: 'white' // Couleur des labels de l'axe X
+                        }
+                    }
+                },
+                plugins: {
+                    legend: {
+                        labels: {
+                            color: 'white' // Couleur des labels de la légende
+                        }
+                    }
+                }
+            }
+        });
+
+        // Initialisation des graphiques
+        new Chart(document.getElementById('userChart'), config(userChartData, 'Utilisateurs'));
+        new Chart(document.getElementById('postChart'), config(postChartData, 'Articles de blog'));
+        new Chart(document.getElementById('contactChart'), config(contactChartData, 'Messages de contact'));
+        new Chart(document.getElementById('projectChart'), config(projectChartData, 'Projets'));
+    </script>
+{% endblock %}
