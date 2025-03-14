@@ -1,0 +1,84 @@
+{% extends 'base.html.twig' %}
+
+{% block title %}Connexion{% endblock %}
+
+{% block body %}
+<div class="container mt-5">
+    <div class="row justify-content-center">
+        <div class="col-md-6">
+            <div class="card">
+                <div class="card-header text-center">
+                    <h2>Connectez-vous</h2>
+                </div>
+                <div class="card-body">
+                    <form method="post" aria-label="Formulaire de connexion">
+                        {% if error %}
+                            <div class="alert alert-danger" role="alert">{{ error.messageKey|trans(error.messageData, 'security') }}</div>
+                        {% endif %}
+
+                        {% if app.user %}
+                            <div class="mb-3">
+                                Vous êtes connecté à {{ app.user.userIdentifier }}, <a href="{{ path('app_logout') }}">Déconnexion</a>
+                            </div>
+                        {% endif %}
+                        <div class="mb-3">
+                            <label for="username" class="form-label">Mail</label>
+                            <input type="email" value="{{ last_username }}" name="_username" id="username" class="form-control" autocomplete="email" required autofocus>
+                        </div>
+                        <div class="mb-3">
+                            <label for="password" class="form-label">Mot de passe</label>
+                            <input type="password" id="password" name="_password" class="form-control" autocomplete="current-password" required>
+                        </div>
+                        <div class="mb-3 form-check">
+                            <input type="checkbox" id="remember_me" name="_remember_me" class="form-check-input">
+                            <label for="remember_me" class="form-check-label">Se souvenir de moi</label>
+                        </div>
+                        <div class="mt-3 text-center">
+                            <button type="submit" class="btn btn-info">Connexion</button>
+                        </div>
+                    </form>
+                    <div class="register mt-3 text-center">
+                        Vous n'avez pas de compte ? <a href="{{ path('app_register') }}">Inscrivez-vous</a><br/>
+                        <a href="{{ path('app_password') }}">Mot de passe oublié ?</a>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    {# Optionnel: Connexion via Google (désactivée pour l'instant) #}
+    <div class="mt-3 text-center">
+        <button id="google-sign-in-btn" class="btn btn-info">
+            <i class="fab fa-google"></i> Se connecter avec Google
+        </button>
+    </div>
+    
+</div>
+{% endblock %}
+
+{# Inclusion du script Google Sign-In (si vous réactivez cette fonctionnalité) #}
+{% block javascripts %}
+    <script>
+        window.onload = function () {
+            google.accounts.id.initialize({
+                client_id: "305203962782-h9a7k49vu0gh27lt1i3bnaqq6halvkmg.apps.googleusercontent.com",
+                callback: handleCredentialResponse
+            });
+            google.accounts.id.renderButton(
+                document.getElementById("google-sign-in-btn"),
+                { 
+                    theme: "outline",
+                    size: "large",
+                    type: "standard",
+                    text: "signup_with",
+                    shape: "pill"
+                }
+            );
+        };
+
+        function handleCredentialResponse(response) {
+            console.log("Encoded JWT ID token: " + response.credential);
+            // Envoyez le jeton au serveur pour vérification et connexion
+        }
+    </script> 
+{% endblock %}

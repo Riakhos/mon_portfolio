@@ -65,8 +65,7 @@ class DashboardController extends AbstractDashboardController
     public function configureDashboard(): Dashboard
     {
         return Dashboard::new()
-            // ->setTitle('<a href="' . $this->generateUrl('app_home') . '" style="text-decoration: none; color: inherit;">Mon Portfolio</a>');
-            ->setTitle('Mon Portfolio');
+            ->setTitle('<a href="' . $this->generateUrl('app_home') . '" style="text-decoration: none; color: inherit;">Mon Portfolio</a>');
     }
 
     public function configureMenuItems(): iterable
