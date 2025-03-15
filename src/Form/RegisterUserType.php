@@ -118,7 +118,7 @@ class RegisterUserType extends AbstractType
                 ]
             ])
             ->add('submit', SubmitType::class, [
-                'label' => 'Inscription',
+                'label' => 'Valider',
                 'attr' => [
                     'class' => 'btn btn-info btn-block d-block mx-auto',
                     'data-loading-text' => 'Chargement...'

@@ -6,10 +6,10 @@ use App\Entity\User;
 use EasyCorp\Bundle\EasyAdminBundle\Config\Crud;
 use EasyCorp\Bundle\EasyAdminBundle\Controller\AbstractCrudController;
 use EasyCorp\Bundle\EasyAdminBundle\Field\EmailField;
-use EasyCorp\Bundle\EasyAdminBundle\Field\IdField;
 use EasyCorp\Bundle\EasyAdminBundle\Field\TextField;
-use EasyCorp\Bundle\EasyAdminBundle\Field\ArrayField;
 use EasyCorp\Bundle\EasyAdminBundle\Field\BooleanField;
+use EasyCorp\Bundle\EasyAdminBundle\Field\ChoiceField;
+use EasyCorp\Bundle\EasyAdminBundle\Field\DateField;
 use EasyCorp\Bundle\EasyAdminBundle\Field\DateTimeField;
 
 class UserCrudController extends AbstractCrudController
@@ -29,10 +29,6 @@ class UserCrudController extends AbstractCrudController
     public function configureFields(string $pageName): iterable
     {
         return [
-            IdField::new('id')
-                ->hideOnForm() // Masquer le champ ID dans les formulaires de création et d'édition
-                ->setColumns('col-md-6'), // Définir la colonne pour l'affichage
-
             EmailField::new('email', 'Email')
                 ->setHelp('Entrez l\'adresse email de l\'utilisateur.')
                 ->setColumns('col-md-6'), // Définir la colonne pour l'affichage
@@ -41,17 +37,23 @@ class UserCrudController extends AbstractCrudController
                 ->setHelp('Entrez le pseudo de l\'utilisateur.')
                 ->setColumns('col-md-6'), // Définir la colonne pour l'affichage
 
-            ArrayField::new('roles', 'Rôles')
-                ->setHelp('Définissez les rôles de l\'utilisateur.')
-                ->setColumns('col-md-6'), // Définir la colonne pour l'affichage
+            DateField::new('lastLoginAt', 'Dernière connexion')
+                ->onlyOnIndex(),
+
+            ChoiceField::new('roles', 'Permissions')
+                ->setHelp('Vous pouvez choisir le rôle de cet utilisateur.')
+                ->setChoices([
+                    'ROLE_USER' => 'ROLE_USER',
+                    'ROLE_ADMIN' => 'ROLE_ADMIN'
+                ])
+                ->allowMultipleChoices(),
 
             BooleanField::new('isActive', 'Actif')
                 ->setHelp('Indique si l\'utilisateur est actif.')
                 ->setColumns('col-md-6'), // Définir la colonne pour l'affichage
 
             DateTimeField::new('createdAt', 'Date de création')
-                ->hideOnForm() // Masquer le champ dans les formulaires de création et d'édition
-                ->setColumns('col-md-6'), // Définir la colonne pour l'affichage
+                ->onlyOnIndex(), // Masquer le champ dans les formulaires de création et d'édition
         ];
     }
 }

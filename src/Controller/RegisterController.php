@@ -5,6 +5,7 @@ namespace App\Controller;
 use App\Classe\Mail;
 use App\Entity\User;
 use App\Form\RegisterUserType;
+use DateTimeImmutable;
 use Doctrine\ORM\EntityManagerInterface;
 use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\HttpFoundation\Response;
@@ -24,6 +25,9 @@ class RegisterController extends AbstractController
         
         // Si le formulaire est soumis alors :
         if ($form->isSubmitted() && $form->isValid()) {
+            // Tu définis la date de création de l'utilisateur
+            $user->setCreatedAt(new DateTimeImmutable());
+
             // Tu enregistres les datas en BDD
             $em->persist($user);
             $em->flush();
@@ -33,11 +37,11 @@ class RegisterController extends AbstractController
             );
             
             // Envoie d'un email de confirmation d'inscription
-            // $mail = new Mail();
-            // $vars = [
-            //     'username' => $user->getUsername()
-            // ];
-            // $mail->send($user->getEmail(), $user->getUsername(), 'Bienvenue sur Le blog de Richard Bonnegent', 'welcome.html', $vars);
+            $mail = new Mail();
+            $vars = [
+                'username' => $user->getUsername()
+            ];
+            $mail->send($user->getEmail(), $user->getUsername(), 'Bienvenue sur Le blog de Richard Bonnegent', 'welcome.html', $vars);
             
             return $this->redirectToRoute('app_login');
         }

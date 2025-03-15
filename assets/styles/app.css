@@ -33,6 +33,8 @@
     --bs-form-valid-border-color: #198754;
     --bs-form-invalid-color: #dc3545;
     --bs-form-invalid-border-color: #dc3545;
+    --bs-danger-color: #8b1a1a;
+    --bs-danger-color-rgb: 139, 26, 26;
 }
 
 /* Section: General Styles */
@@ -54,6 +56,10 @@
 
 .border-cyan-700 {
     border-color: #0e7490;
+}
+
+.text-danger {
+    color: var(--bs-danger-color) !important;
 }
 
 .text-shadow {
