@@ -110,6 +110,10 @@
     text-decoration: underline;
 }
 
+.navbar-custom-border {
+    border: 2px solid var(--bs-border-color);
+}
+
 a:hover {
     --bs-link-color-rgb: var(--bs-link-hover-color-rgb);
     text-shadow: 2px 2px 5px rgba(0, 0, 0, 0.3);

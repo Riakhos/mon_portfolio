@@ -5,6 +5,7 @@
 {% block body %}
     <div class="container mt-5">
         <div class="row justify-content-center">
+            <!-- Section: Register Card -->
             <div class="card">
                 <div class="card-header text-center">
                     <h2>Inscription</h2>
@@ -19,7 +20,7 @@
             </div>
         </div>
 
-        {# Optionnel: Connexion via Google (désactivée pour l'instant) #}
+        <!-- Section: Google Sign-In -->
         <div class="mt-3 text-center">
             <button id="google-sign-in-btn" class="btn btn-info">
                 <i class="fab fa-google"></i> S'inscrire avec Google
@@ -29,7 +30,7 @@
     </div>
 {% endblock %}
 
-{# Si vous prévoyez d'ajouter la connexion Google plus tard, voici le code pour l'initialiser #}
+{# Inclusion du script Google Sign-In #}
 {% block javascripts %}
     <script>
         window.onload = function () {
