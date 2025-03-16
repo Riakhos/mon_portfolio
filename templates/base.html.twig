@@ -84,9 +84,9 @@
                 </div>
                 <div class="speed-menu ms-3">
                     {% if app.user %}
-                        <a href="{{ path('app_account') }}"><i class="bi bi-person-fill"></i></i> {{ app.user.username }}</a>
+                        <a href="{{ path('app_account') }}"><i class="bi bi-person-fill"></i> {{ app.user.username }}</a>
                     {% else %}
-                        <a href="{{ path('app_login') }}"><i class="bi bi-person-fill"></i></i></a>
+                        <a href="{{ path('app_login') }}"><i class="bi bi-person-fill"></i></a>
                     {% endif %}
                 </div>
             </div>

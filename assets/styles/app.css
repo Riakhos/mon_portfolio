@@ -105,7 +105,7 @@
 }
 
 /* Section: Navbar Styles */
-.speed-menu a, .register a, .login a {
+.speed-menu a, .register a, .login a, .logout a {
     color: rgba(var(--bs-link-hover-color-rgb), var(--bs-link-opacity, 1));
     text-decoration: underline;
 }
@@ -139,4 +139,21 @@ a:hover {
 .form-check-input:checked {
     background-color: var(--bs-secondary-bg);
     border-color: var(--bs-border-color);
+}
+
+.speed-menu a {
+    margin-right: 20px;
+    text-decoration: none;
+}
+
+/* Section: Sidebar Styles */
+.nav.flex-column {
+    background-color: var(--bs-secondary-bg);
+    padding: 1rem;
+    border-radius: 0.5rem;
+    box-shadow: var(--bs-box-shadow);
+}
+
+.nav.flex-column .nav-link {
+    color: var(--bs-body-color);
 }
