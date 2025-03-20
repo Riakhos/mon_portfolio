@@ -11,6 +11,7 @@ use EasyCorp\Bundle\EasyAdminBundle\Field\BooleanField;
 use EasyCorp\Bundle\EasyAdminBundle\Field\ChoiceField;
 use EasyCorp\Bundle\EasyAdminBundle\Field\DateField;
 use EasyCorp\Bundle\EasyAdminBundle\Field\DateTimeField;
+use EasyCorp\Bundle\EasyAdminBundle\Field\FormField;
 
 class UserCrudController extends AbstractCrudController
 {
@@ -29,6 +30,7 @@ class UserCrudController extends AbstractCrudController
     public function configureFields(string $pageName): iterable
     {
         return [
+            FormField::addFieldset('Informations Personnelles')->setIcon('fas fa-user'),
             EmailField::new('email', 'Email')
                 ->setHelp('Entrez l\'adresse email de l\'utilisateur.')
                 ->setColumns('col-md-6'), // Définir la colonne pour l'affichage

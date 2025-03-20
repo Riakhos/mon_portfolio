@@ -1,0 +1,81 @@
+{% block javascripts %}
+    <script>
+        document.addEventListener('DOMContentLoaded', function () {
+            const platformSelect = document.querySelector('.platform-select');
+
+            if (platformSelect) {
+                const platformData = {
+                    facebook: {
+                        src: 'images/social-links/facebook.png',
+                        alt: 'Logo Facebook',
+                        title: 'Suivez-moi sur Facebook'
+                    },
+                    linkedin: {
+                        src: 'images/social-links/linkedin.png',
+                        alt: 'Logo LinkedIn',
+                        title: 'Suivez-moi sur LinkedIn'
+                    },
+                    google: {
+                        src: 'images/social-links/google.png',
+                        alt: 'Logo Google',
+                        title: 'Suivez-moi sur Google'
+                    },
+                    instagram: {
+                        src: 'images/social-links/instagram.png',
+                        alt: 'Logo Instagram',
+                        title: 'Suivez-moi sur Instagram'
+                    },
+                    github: {
+                        src: 'images/social-links/github.png',
+                        alt: 'Logo GitHub',
+                        title: 'Suivez-moi sur GitHub'
+                    },
+                    twitter: {
+                        src: 'images/social-links/twitter.png',
+                        alt: 'Logo Twitter',
+                        title: 'Suivez-moi sur Twitter'
+                    },
+                    youtube: {
+                        src: 'images/social-links/youtube.png',
+                        alt: 'Logo YouTube',
+                        title: 'Suivez-moi sur YouTube'
+                    },
+                    pinterest: {
+                        src: 'images/social-links/pinterest.png',
+                        alt: 'Logo Pinterest',
+                        title: 'Suivez-moi sur Pinterest'
+                    },
+                    snapchat: {
+                        src: 'images/social-links/snapchat.png',
+                        alt: 'Logo Snapchat',
+                        title: 'Suivez-moi sur Snapchat'
+                    },
+                    tiktok: {
+                        src: 'images/social-links/tic-tac.png',
+                        alt: 'Logo TikTok',
+                        title: 'Suivez-moi sur TikTok'
+                    },
+                    whatsapp: {
+                        src: 'images/social-links/whatsapp.png',
+                        alt: 'Logo WhatsApp',
+                        title: 'Suivez-moi sur WhatsApp'
+                    },
+                    discord: {
+                        src: 'images/social-links/discord.png',
+                        alt: 'Logo Discord',
+                        title: 'Suivez-moi sur Discord'
+                    }
+                };
+
+                platformSelect.addEventListener('change', function () {
+                    const selectedPlatform = platformSelect.value;
+                    if (platformData[selectedPlatform]) {
+                        document.querySelector('.imgSrc').value = platformData[selectedPlatform].src;
+                        document.querySelector('.imgAlt').value = platformData[selectedPlatform].alt;
+                        document.querySelector('.imgTitle').value = platformData[selectedPlatform].title;
+                    }
+                });
+            }
+        });
+    </script>
+{% endblock %}

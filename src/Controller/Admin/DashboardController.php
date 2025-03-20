@@ -2,6 +2,7 @@
 
 namespace App\Controller\Admin;
 
+use App\Entity\About;
 use App\Entity\BlogPost;
 use App\Entity\Contact;
 use App\Entity\Project;
@@ -75,6 +76,7 @@ class DashboardController extends AbstractDashboardController
         // 📌 Espace Membres
         yield MenuItem::subMenu('Utilisateur', 'fas fa-users')->setSubItems([
             MenuItem::linkToCrud('Utilisateurs', 'fas fa-user', User::class),
+            MenuItem::linkToCrud('About', 'fas fa-info', About::class),
         ]);
 
         // 📌 Blog

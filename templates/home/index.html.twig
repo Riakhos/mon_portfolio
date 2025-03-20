@@ -4,6 +4,141 @@
 
 {% block body %}
 
-    {% include "home/about.html.twig" %}
+    <!-- Section: About Card -->
+    <div class="container">
+        <div id="about" class="row about-section">
+            <div class="row justify-content-center">
+                <div class="card m-4">
+                    <div class="card-header text-center">
+                        <h2 class="font-weight-light">Qui suis-je ?</h2>
+                        <h3 class="mb-3">Web Designer | Developer Full Stack</h3>
+                    </div>
+                    <div class="card-body">
+                        <p>Je suis Richard Bonnegent, un Web Designer et Developer Full Stack passionné par la création de solutions web innovantes et efficaces. Avec plusieurs années d'expérience dans le domaine, j'ai acquis une expertise solide en développement front-end et back-end.</p>
+                        <p>Mon objectif est de fournir des services de haute qualité qui répondent aux besoins spécifiques de mes clients, tout en respectant les meilleures pratiques en matière de développement web et de design.</p>
+                        <p class="mt-20">Après plusieurs années dans la restauration, j’ai pris la décision de mettre à profits mes connaissances pour pratiquer ma passion de l’informatique et ainsi m’offrir de nouveaux objectifs de carrière dans un domaine plus florissant.<br>Je suis un développeur junior, passionné d’informatique, je suis depuis deux ans des cours à distance grâce auxquels j'ai consolidé mes connaissances et ma maîtrise de langage informatique.<br>En effet apprendre de nouveaux langages et résoudre des problèmes, ainsi que parfaire mes connaissances en informatique m'apporte beaucoup de satisfaction.<br>Je cherche actuellement un stage de 2 à 6 mois(à partir de Janvier 2025) pour valider mes acquis, apprendre de nouvelles technologies et connaître un véritable environnement de travail.</p>
+                        <!-- bouton doit lancer le téléchargement du CV -->
+                        <div class="mt-3 text-center">
+                            <a id="btn_download_cv" class="btn btn-info" href="images/cv_richardbonnegent.pdf" download="CV-Richard-Bonnegent.pdf">Télécharger mon CV</a>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+    
+    <section class="section bg-dark text-center">
+        <div class="container">
+            <div class="row text-center">
+                <div class="col-md-6 col-lg-3">
+                    <div class="row ">
+                        <div class="col-5 text-right text-light border-right py-3">
+                            <div class="m-auto"><i class="ti-alarm-clock icon-xl"></i></div>
+                        </div>
+                        <div class="col-7 text-left py-3">
+                            <h1 class="text-danger font-weight-bold font40">500</h1>
+                            <p class="text-light mb-1">Hours Worked</p>
+                        </div>
+                    </div>
+                </div>
+                <div class="col-md-6 col-lg-3">
+                    <div class="row">
+                        <div class="col-5 text-right text-light border-right py-3">
+                            <div class="m-auto"><i class="ti-layers-alt icon-xl"></i></div>
+                        </div>
+                        <div class="col-7 text-left py-3">
+                            <h1 class="text-danger font-weight-bold font40">50K</h1>
+                            <p class="text-light mb-1">Project Finished</p>
+                        </div>
+                    </div>
+                </div>
+                <div class="col-md-6 col-lg-3">
+                    <div class="row">
+                        <div class="col-5 text-right text-light border-right py-3">
+                            <div class="m-auto"><i class="ti-face-smile icon-xl"></i></div>
+                        </div>
+                        <div class="col-7 text-left py-3">
+                            <h1 class="text-danger font-weight-bold font40">200K</h1>
+                            <p class="text-light mb-1">Happy Clients</p>
+                        </div>
+                    </div>
+                </div>
+                <div class="col-md-6 col-lg-3">
+                    <div class="row">
+                        <div class="col-5 text-right text-light border-right py-3">
+                            <div class="m-auto"><i class="ti-heart-broken icon-xl"></i></div>
+                        </div>
+                        <div class="col-7 text-left py-3">
+                            <h1 class="text-danger font-weight-bold font40">2k</h1>
+                            <p class="text-light mb-1">Coffee Drinked</p>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- Section: Skills Card -->
+    <div class="container">
+        <div id="about" class="row about-section">
+            <div class="row justify-content-center">
+                <div class="card col-md-5 m-4">
+                    <div class="card-header text-center">
+                    {# <div class="pull-left"> #}
+                        <h4 class="mt-2">Skills</h4>
+                        <span class="line"></span>  
+                    </div>
+                    <div class="card-body pb-2">
+                        <h6>hTL5 &amp; CSS3</h6>
+                        <div class="progress mb-3">
+                            <div class="progress-bar bg-danger" role="progressbar" style="width: 97%" aria-valuenow="25" aria-valuemin="0" aria-valuemax="100"></div>
+                        </div>
+                        <h6>JavaScript</h6>
+                        <div class="progress mb-3">
+                            <div class="progress-bar bg-danger" role="progressbar" style="width: 85%" aria-valuenow="25" aria-valuemin="0" aria-valuemax="100"></div>
+                        </div>
+                        <h6>PHP</h6>
+                        <div class="progress mb-3">
+                            <div class="progress-bar bg-danger" role="progressbar" style="width: 80%" aria-valuenow="50" aria-valuemin="0" aria-valuemax="100"></div>
+                        </div>
+                        <h6>SQL</h6>
+                        <div class="progress mb-3">
+                            <div class="progress-bar bg-danger" role="progressbar" style="width: 90%" aria-valuenow="75" aria-valuemin="0" aria-valuemax="100"></div>
+                        </div>
+                        <h6>Laborum</h6>
+                        <div class="progress mb-3">
+                            <div class="progress-bar bg-danger" role="progressbar" style="width: 90%" aria-valuenow="75" aria-valuemin="0" aria-valuemax="100"></div>
+                        </div>
+                        <h6>Tempora</h6>
+                        <div class="progress mb-3">
+                            <div class="progress-bar bg-danger" role="progressbar" style="width: 90%" aria-valuenow="75" aria-valuemin="0" aria-valuemax="100"></div>
+                        </div>
+                    </div>
+                </div>
+                <div class="card col-md-5 m-4">
+                    <div class="card-header">
+                        <div class="pull-left">
+                            <h4 class="mt-2">Languages</h4>
+                            <span class="line"></span>  
+                        </div>
+                    </div>
+                    <div class="card-body pb-2">
+                        <h6>English</h6>
+                        <div class="progress mb-3">
+                            <div class="progress-bar bg-danger" role="progressbar" style="width: 80%" aria-valuenow="25" aria-valuemin="0" aria-valuemax="100"></div>
+                        </div>
+                        <h6>French</h6>
+                        <div class="progress mb-3">
+                            <div class="progress-bar bg-danger" role="progressbar" style="width: 45%" aria-valuenow="25" aria-valuemin="0" aria-valuemax="100"></div>
+                        </div>
+                        <h6>Spanish</h6>
+                        <div class="progress mb-3">
+                            <div class="progress-bar bg-danger" role="progressbar" style="width: 67%" aria-valuenow="50" aria-valuemin="0" aria-valuemax="100"></div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
     
 {% endblock %}
