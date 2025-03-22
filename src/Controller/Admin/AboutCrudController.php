@@ -3,7 +3,6 @@
 namespace App\Controller\Admin;
 
 use App\Entity\About;
-use App\Form\ExperienceType;
 use App\Form\SocialLinkType;
 use EasyCorp\Bundle\EasyAdminBundle\Config\Crud;
 use EasyCorp\Bundle\EasyAdminBundle\Controller\AbstractCrudController;
@@ -39,9 +38,11 @@ class AboutCrudController extends AbstractCrudController
     {
         return [
             FormField::addFieldset('Informations Personnelles')->setIcon('fas fa-user'),
-            DateField::new('birthdate', 'Date de naissance')->setColumns('col-md-4'),
-            TextField::new('birthplace', 'Lieu de naissance')->setColumns('col-md-4'),
-            CountryField::new('birthcountry', 'Pays de naissance')->setColumns('col-md-4'),
+            TextField::new('firstname', 'Prénom')->setColumns('col-md-3'),
+            TextField::new('lastname', 'Nom')->setColumns('col-md-3'),
+            DateField::new('birthdate', 'Date de naissance')->setColumns('col-md-2'),
+            TextField::new('birthplace', 'Lieu de naissance')->setColumns('col-md-2'),
+            CountryField::new('birthcountry', 'Pays de naissance')->setColumns('col-md-2'),
             TextField::new('email', 'Email')->setColumns('col-md-6'),
             TelephoneField::new('phone', 'Téléphone')->setColumns('col-md-6'),
             TextField::new('zoom', 'Zoom')->setColumns('col-md-6'),
@@ -50,7 +51,7 @@ class AboutCrudController extends AbstractCrudController
             TextField::new('city', 'Ville')->setColumns('col-md-4'),
             CountryField::new('country', 'Pays')->setColumns('col-md-4'),
 
-            FormField::addFieldset('Réseaux Sociaux')->setIcon('fas fa-share-alt')->setColumns('col-md-6'),
+            FormField::addFieldset('Réseaux Sociaux')->setIcon('fas fa-share-alt'),
             CollectionField::new('socialLinks', 'Réseaux sociaux')
                 ->setEntryType(SocialLinkType::class)
                 ->setFormTypeOption('by_reference', false)
@@ -58,18 +59,9 @@ class AboutCrudController extends AbstractCrudController
                 ->setTemplatePath('admin/social_link_form.html.twig')
                 ->hideOnIndex(),
 
-            FormField::addFieldset('Expériences')->setIcon('fas fa-briefcase')->setColumns('col-md-6'),
-            CollectionField::new('experiences', 'Expériences')
-                ->setEntryType(ExperienceType::class)
-                ->setFormTypeOption('by_reference', false)
-                ->setColumns('col-md-12')
-                ->hideOnIndex(),
-
             FormField::addFieldset('Informations Professionnelles')->setIcon('fas fa-briefcase'),
             TextField::new('jobTitle', 'Titre métier')->setColumns('col-md-4'),
             TextEditorField::new('aboutMe', 'À propos de moi')->setColumns('col-md-8'),
-            TextEditorField::new('skills', 'Compétences')->setColumns('col-md-6'),
-            TextEditorField::new('languages', 'Langues')->setColumns('col-md-6'),
         ];
     }
 }

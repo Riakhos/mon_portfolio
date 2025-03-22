@@ -46,12 +46,6 @@ class About
     #[ORM\Column(type: Types::TEXT)]
     private ?string $aboutMe = null;
 
-    #[ORM\Column(length: 255)]
-    private ?string $titleExperience = null;
-
-    #[ORM\Column(type: Types::TEXT)]
-    private ?string $descriptionExperience = null;
-
     #[ORM\Column(type: Types::TEXT)]
     private ?string $skills = null;
 
@@ -61,20 +55,26 @@ class About
     #[ORM\Column(length: 255)]
     private ?string $jobTitle = null;
 
+    #[ORM\Column(length: 255)]
+    private ?string $birthcountry = null;
+
     /**
      * @var Collection<int, SocialLink>
      */
     #[ORM\OneToMany(targetEntity: SocialLink::class, mappedBy: 'about', cascade: ['persist', 'remove'])]
     private Collection $socialLinks;
 
-    #[ORM\Column(length: 255)]
-    private ?string $birthcountry = null;
-
     /**
      * @var Collection<int, Experience>
      */
     #[ORM\OneToMany(targetEntity: Experience::class, mappedBy: 'about', cascade: ['persist', 'remove'])]
     private Collection $experiences;
+
+    #[ORM\Column(length: 80)]
+    private ?string $firstname = null;
+
+    #[ORM\Column(length: 180)]
+    private ?string $lastname = null;
 
     public function __construct()
     {
@@ -207,30 +207,6 @@ class About
         return $this;
     }
 
-    public function getTitleExperience(): ?string
-    {
-        return $this->titleExperience;
-    }
-
-    public function setTitleExperience(string $titleExperience): static
-    {
-        $this->titleExperience = $titleExperience;
-
-        return $this;
-    }
-
-    public function getDescriptionExperience(): ?string
-    {
-        return $this->descriptionExperience;
-    }
-
-    public function setDescriptionExperience(string $descriptionExperience): static
-    {
-        $this->descriptionExperience = $descriptionExperience;
-
-        return $this;
-    }
-
     public function getSkills(): ?string
     {
         return $this->skills;
@@ -335,6 +311,30 @@ class About
                 $experience->setAbout(null);
             }
         }
+
+        return $this;
+    }
+
+    public function getFirstname(): ?string
+    {
+        return $this->firstname;
+    }
+
+    public function setFirstname(string $firstname): static
+    {
+        $this->firstname = $firstname;
+
+        return $this;
+    }
+
+    public function getLastname(): ?string
+    {
+        return $this->lastname;
+    }
+
+    public function setLastname(string $lastname): static
+    {
+        $this->lastname = $lastname;
 
         return $this;
     }

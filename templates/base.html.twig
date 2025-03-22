@@ -39,7 +39,7 @@
                         Richard<br><span class="d-block mt-2">Bonnegent</span>
                     </h1>
                     <h3 class="fw-bold fs-1 mb-3 p-2">Web Designer | Developer Full Stack</h3>
-                    <button class="btn btn-info btn-rounded" onclick="printfile()" aria-label="Imprimer CV"><i class="bi bi-printer pr-2"></i> Imprimer CV</button>
+                    <button class="btn btn-info btn-rounded" onclick="printfile()" aria-label="Imprimer CV"><i class="bi bi-printer pr-2"></i> Imprimer</button>
                 </div>
             </div>
         </header>
@@ -59,7 +59,7 @@
                             <a href="{{ path('app_about') }}" class="nav-link {% if app.request.attributes.get('_route') == 'app_about' %}active{% endif %}" aria-label="À propos">À propos</a>
                         </li>
                         <li class="nav-item">
-                            <a href="{{ path('app_resume') }}" class="nav-link {% if app.request.attributes.get('_route') == 'app_resume' %}active{% endif %}" aria-label="Resume">Resume</a>
+                            <a href="{{ path('app_resume') }}" class="nav-link {% if app.request.attributes.get('_route') == 'app_resume' %}active{% endif %}" aria-label="Resume">Mon parcours</a>
                         </li>
                     </ul>
                     <ul class="navbar-nav brand d-none d-sm-flex align-items-center justify-content-between">
@@ -121,6 +121,15 @@
             
             <script>
                 function printfile() {
+                    const style = document.createElement('style');
+                    style.type = 'text/css';
+                    style.media = 'print';
+                    style.innerHTML = `
+                        header, footer, .navbar, .section {
+                            display: none;
+                        }
+                    `;
+                    document.head.appendChild(style);
                     window.print();
                 }
             </script>

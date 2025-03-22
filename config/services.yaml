@@ -22,3 +22,11 @@ services:
 
     # add more service definitions when explicit configuration is needed
     # please note that last definitions always *replace* previous ones
+
+    App\Controller\Admin\ResumeCrudController:
+        tags: ['controller.service_arguments']
+
+    # Enable the IntlExtension for Twig
+    twig.extension.intl:
+        class: Twig\Extra\Intl\IntlExtension
+        tags: ['twig.extension']

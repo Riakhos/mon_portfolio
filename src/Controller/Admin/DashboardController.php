@@ -4,7 +4,9 @@ namespace App\Controller\Admin;
 
 use App\Entity\About;
 use App\Entity\BlogPost;
+use App\Entity\ColorSettings;
 use App\Entity\Contact;
+use App\Entity\Experience;
 use App\Entity\Project;
 use App\Entity\User;
 use Doctrine\ORM\EntityManagerInterface;
@@ -73,26 +75,31 @@ class DashboardController extends AbstractDashboardController
     {
         yield MenuItem::linkToDashboard('Tableau de bord', 'fa fa-home');
 
+        // 📌 Mon Portfolio
+        yield MenuItem::subMenu('Mon Portfolio', 'fas fa-chart-line')->setSubItems([
+            MenuItem::linkToCrud('À propos', 'fas fa-info', About::class),
+            MenuItem::linkToCrud('Mon parcours', 'fas fa-briefcase', Experience::class),
+        ]);
+
         // 📌 Espace Membres
-        yield MenuItem::subMenu('Utilisateur', 'fas fa-users')->setSubItems([
-            MenuItem::linkToCrud('Utilisateurs', 'fas fa-user', User::class),
-            MenuItem::linkToCrud('About', 'fas fa-info', About::class),
+        yield MenuItem::subMenu('Utilisateurs', 'fas fa-users')->setSubItems([
+            MenuItem::linkToCrud('Utilisateur', 'fas fa-user', User::class),
         ]);
 
         // 📌 Blog
-        yield MenuItem::subMenu('Blog', 'fas fa-blog')->setSubItems([
+        yield MenuItem::subMenu('Mon Blog', 'fas fa-blog')->setSubItems([
             // MenuItem::linkToCrud('Catégories', 'fas fa-tags', Category::class),
             MenuItem::linkToCrud('Posts', 'fas fa-file-alt', BlogPost::class),
             // MenuItem::linkToCrud('Commentaires', 'fas fa-comments', Comment::class),
         ]);
 
         // 📌 Contact
-        yield MenuItem::subMenu('Contact', 'fas fa-address-book')->setSubItems([
+        yield MenuItem::subMenu('Mes Contacts', 'fas fa-address-book')->setSubItems([
             MenuItem::linkToCrud('Contact', 'fas fa-envelope', Contact::class),
         ]);
 
         // 📌 Projet
-        yield MenuItem::subMenu('Projet', 'fas fa-project-diagram')->setSubItems([
+        yield MenuItem::subMenu('Mes Projets', 'fas fa-project-diagram')->setSubItems([
             // MenuItem::linkToCrud('Catégories', 'fas fa-tags', Category::class),
             MenuItem::linkToCrud('Projet', 'fas fa-chart-line', Project::class)
         ]);
