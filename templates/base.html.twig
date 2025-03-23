@@ -4,8 +4,8 @@
         <!-- Section: Meta Tags -->
         <meta charset="UTF-8">
         <meta name="viewport" content="width=device-width, initial-scale=1.0">
-        <meta name="description" content="Portfolio de Richard Bonnegent, un designer et développeur full-stack.">
-        <meta name="keywords" content="Richard Bonnegent, portfolio, designer, développeur, front-end, back-end, full-stack">
+        <meta name="description" content="Portfolio de {{ about.firstname }} {{ about.lastname }}, un designer et développeur full-stack.">
+        <meta name="keywords" content="{{ about.firstname }} {{ about.lastname }}, portfolio, designer, développeur, front-end, back-end, full-stack">
         <meta name="author" content="Richard Bonnegent">
 
         <title>{% block title %}Bienvenue!{% endblock %}</title>
@@ -25,20 +25,22 @@
         <!-- Section: Header -->
         <header class="header text-cyan-700 py-5" style="background: url('{{ asset('images/header-richard.jpg') }}') no-repeat center center; background-size: cover;">
             <div class="container">
-                <ul class="social-icons list-inline mb-4 text-start d-flex justify-content-start" aria-label="Réseaux sociaux">
+                <ul class="social-icons list-inline mb-4 text-center d-flex justify-content-start" aria-label="Réseaux sociaux">
                     <!-- Social Media Links -->
-                    <li class="social-item me-3"><a class="social-link" href="https://www.facebook.com/richard.bonnegent" target="_blank" aria-label="Facebook"><i class="bi bi-facebook" alt="Logo Facebook" title="Suivez moi sur Facebook" aria-hidden="true"></i></a></li>
-                    <li class="social-item me-3"><a class="social-link" href="https://fr.linkedin.com/in/richard-bonnegent-49a24114b" target="_blank" aria-label="Linkedin"><i class="bi bi-linkedin" alt="Logo Linkedin" title="Suivez moi sur Linkedin" aria-hidden="true"></i></a></li>
-                    <li class="social-item me-3"><a class="social-link" href="mailto:richard.bonnegent@gmail.com" target="_blank" aria-label="Google"><i class="bi bi-envelope-at-fill" alt="Logo Gmail" title="Contactez moi par mail" aria-hidden="true"></i></a></li>
-                    <li class="social-item me-3"><a class="social-link" href="https://www.instagram.com/richardbonnegent?igsh=MWZlbm93bWxnbndxYw==" target="_blank" aria-label="Instagram"><i class="bi bi-instagram" alt="Logo Instagram" title="Suivez moi sur Instagram" aria-hidden="true"></i></a></li>
-                    <li class="social-item"><a class="social-link" href="https://github.com/Riakhos" target="_blank" aria-label="GitHub"><i class="bi bi-github" alt="Logo Github" title="Suivez moi sur Github" aria-hidden="true"></i></a></li>            
+                    {% for social in about.socialLinks %}
+                        <li class="social-item me-3">
+                            <a class="social-link text-light" href="{{ social.href }}" target="_blank" aria-label="{{ social.imgAlt }}">
+                                <img src="{{ social.imgSrc }}" alt="{{ social.imgAlt }}" title="{{ social.imgTitle }}" aria-hidden="true">
+                            </a>
+                        </li>
+                    {% endfor %}
                 </ul>
                 <div class="text-shadow text-start p-3">
                     <h2 class="fw-bold fs-2 p-2">Bonjour, Je suis</h2>
                     <h1 class="display-4 p-2 fw-bold" style="font-size: calc(40px + (120 - 40) * ((100vw - 300px) / (1600 - 300))); line-height: .7; margin: 25px;">
-                        Richard<br><span class="d-block mt-2">Bonnegent</span>
+                        {{ about.firstname }}<br><span class="d-block mt-2">{{ about.lastname }}</span>
                     </h1>
-                    <h3 class="fw-bold fs-1 mb-3 p-2">Web Designer | Developer Full Stack</h3>
+                    <h3 class="fw-bold fs-1 mb-3 p-2"> {{ about.jobTitle }}</h3>
                     <button class="btn btn-info btn-rounded" onclick="printfile()" aria-label="Imprimer CV"><i class="bi bi-printer pr-2"></i> Imprimer</button>
                 </div>
             </div>
@@ -63,10 +65,10 @@
                         </li>
                     </ul>
                     <ul class="navbar-nav brand d-none d-sm-flex align-items-center justify-content-between">
-                        <img src="{{ asset('images/avatar-richard.jpeg') }}" alt="Avatar de Richard Bonnegent" class="brand-img rounded-circle me-3 border border-cyan-400 border-2" width="50" height="50">
+                        <img src="{{ asset('images/avatar-richard.jpeg') }}" alt="Avatar de {{ about.firstname }} {{ about.lastname }}" class="brand-img rounded-circle me-3 border border-cyan-400 border-2" width="50" height="50">
                         <li class="brand-txt">
-                            <h5 class="brand-title">Richard Bonnegent</h5>
-                            <div class="brand-subtitle">Web Designer | Developer Full-stack</div>
+                            <h5 class="brand-title">{{ about.firstname }} {{ about.lastname }}</h5>
+                            <div class="brand-subtitle">{{ about.jobTitle }}</div>
                         </li>
                     </ul>
                     <ul class="navbar-nav ms-auto">
@@ -109,7 +111,7 @@
         <footer class="footer py-4 bg-cyan-700 mt-5">
             <div class="container text-center">
                 <p class="small mb-0">
-                    &copy; 2025 Created With <i class="bi bi-suit-heart-fill text-danger"></i> By Richard Bonnegent 
+                    &copy; 2025 Created With <i class="bi bi-suit-heart-fill text-danger"></i> By {{ about.firstname }} {{ about.lastname }}
                 </p>
             </div>
         </footer>

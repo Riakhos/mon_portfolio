@@ -2,10 +2,9 @@
 
 namespace App\Entity;
 
-use App\Repository\SocialLinkRepository;
 use Doctrine\ORM\Mapping as ORM;
 
-#[ORM\Entity(repositoryClass: SocialLinkRepository::class)]
+#[ORM\Entity]
 class SocialLink
 {
     #[ORM\Id]
