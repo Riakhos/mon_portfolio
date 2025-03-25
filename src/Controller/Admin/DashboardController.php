@@ -6,6 +6,7 @@ use App\Entity\About;
 use App\Entity\BlogPost;
 use App\Entity\Contact;
 use App\Entity\Experience;
+use App\Entity\PricingPlan;
 use App\Entity\Project;
 use App\Entity\Service;
 use App\Entity\User;
@@ -80,6 +81,7 @@ class DashboardController extends AbstractDashboardController
             MenuItem::linkToCrud('À propos', 'fas fa-info', About::class),
             MenuItem::linkToCrud('Mon parcours', 'fas fa-briefcase', Experience::class),
             MenuItem::linkToCrud('Mes services', 'fas fa-tools', Service::class),
+            MenuItem::linkToCrud('Mes tarifs', 'fas fa-coins', PricingPlan::class),
         ]);
 
         // 📌 Espace Membres

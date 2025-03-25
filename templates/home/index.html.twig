@@ -148,7 +148,7 @@
                     <div class="col-md-4 col-sm-6">
                         <div class="card mb-4">
                             <div class="card-header m-2 has-icon">
-                                <h2 class="mt-2 card-title"><i class="{{ service.icon }} text-danger" aria-hidden="true"></i> {{ service.title }}</h2>
+                                <h3 class="mt-2 card-title"><i class="{{ service.icon }} text-danger" aria-hidden="true"></i> {{ service.title }}</h3>
                             </div>
                             <div class="card-body pb-2">
                                 <p class="subtitle">{{ service.description|raw }}</p>
@@ -157,6 +157,45 @@
                     </div>
                 {% endfor %}
             </div>
+        </div>
+    </section>
+
+    <!-- Section: Prix -->
+    {# <section class="section" id="price">
+        <div class="container">
+            <h2 class="text-danger m-4">Packs Tarifs</h2>
+            <div class="row align-items-center">
+                {% for plan in pricingPlans %}
+                    <div class="col-md-6 col-lg-3">
+                        <div class="card mb-4 text-center">
+                            <div class="card-header m-2">
+                                <h3 class="card-title mt-2">{{ plan.name }} <span class="text-danger">{{ plan.price|price }}</span></h3>
+                                <div class="card-text">
+                                    <span class="text-danger">{{ plan.price|price }}</span> / 
+                                    <span>{{ plan.currency }}</span>
+                                </div>
+                            </div>
+                            <div class="card-body">
+                                <ul class="list-unstyled">
+                                    <li class="list-item"><span class="text-tertiary-color">{{ plan.projects }}</span> Projets</li>
+                                    <li class="list-item"><span class="text-tertiary-color">{{ plan.storage }}</span> Stockage</li>
+                                    <li class="list-item"><span class="text-tertiary-color">{{ plan.domains }}</span> Domaines</li>
+                                    <li class="list-item"><span class="text-tertiary-color">{{ plan.users }}</span> Utilisateurs</li>
+                                </ul>
+                            </div>
+                            <button class="btn btn-info btn-rounded w-50 mx-auto mb-2">S'abonner</button>
+                        </div>
+                    </div>
+                {% endfor %}
+            </div>
+        </div>
+    </section> #}
+
+    <!-- Section: Freelance -->
+    <section class="section bg-secondary-color py-5">
+        <div class="container text-center">
+            <h2 class="mb-5 font-weight-normal">Je suis disponible pour des missions freelance</h2>
+            <button href="mailto:richard.bonnegent@gmail.com" target="_blank" class="btn btn-info w-lg">Engagez-moi</button>
         </div>
     </section>
 
