@@ -14,7 +14,7 @@
             </div>  
 
             <!-- Section: Account Content -->
-            <div class="col-md-9 text-cyan-700">
+            <div class="col-md-9 text-secondary-color">
                 <h1>Bienvenue, {{ app.user.username }}</h1>
                 <p>Gérez vos informations de compte ici.</p>
                 <!-- Ajoutez d'autres sections de gestion de compte ici -->
@@ -25,7 +25,8 @@
                     <p>Vous êtes un administrateur.</p>
                 {% endif %}
 
-                <p>Vous pouvez modifier vos informations personnelles.</p>
+                <p>Vous pouvez modifier vos informations personnelles <a href="{{ path('app_account_profil') }}">ici</a>.</p>
+                
                 <p>Vous pouvez également <a href="{{ path('app_logout') }}">vous déconnecter</a>.</p>
 
                 <a href="{{ path('app_account_modify_pwd') }}" class="btn btn-info">Modifier mon mot de passe</a>

@@ -76,6 +76,12 @@ class About
     #[ORM\Column(length: 180)]
     private ?string $lastname = null;
 
+    #[ORM\Column(length: 255)]
+    private ?string $imageHeader = null;
+
+    #[ORM\Column(length: 255)]
+    private ?string $imageAvatar = null;
+
     public function __construct()
     {
         $this->socialLinks = new ArrayCollection();
@@ -335,6 +341,30 @@ class About
     public function setLastname(string $lastname): static
     {
         $this->lastname = $lastname;
+
+        return $this;
+    }
+
+    public function getImageHeader(): ?string
+    {
+        return $this->imageHeader;
+    }
+
+    public function setImageHeader(string $imageHeader): static
+    {
+        $this->imageHeader = $imageHeader;
+
+        return $this;
+    }
+
+    public function getImageAvatar(): ?string
+    {
+        return $this->imageAvatar;
+    }
+
+    public function setImageAvatar(string $imageAvatar): static
+    {
+        $this->imageAvatar = $imageAvatar;
 
         return $this;
     }

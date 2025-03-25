@@ -44,31 +44,31 @@
 }
 
 /* Section: General Styles */
-.text-cyan-400 {
+.text-primary-color {
     color: var(--primary-color);
 }
 
-.text-cyan-700 {
+.text-secondary-color {
     color: var(--secondary-color);
 }
 
-.text-tertiary {
+.text-tertiary-color {
     color: var(--tertiary-color);
 }
 
-.bg-cyan-700 {
+.bg-secondary-color {
     background-color: var(--secondary-color);
 }
 
-.bg-tertiary {
+.bg-tertiary-color {
     background-color: var(--tertiary-color);
 }
 
-.border-cyan-400 {
+.border-primary-color {
     border-color: var(--primary-color);
 }
 
-.border-cyan-700 {
+.border-secondary-color {
     border-color: var(--secondary-color);
 }
 
@@ -135,9 +135,10 @@ a:hover {
 }
 
 /* Section: Footer Styles */
-.form-control:focus {
+.form-control:focus, .form-control {
     border-color: var(--bs-border-color, 0.15);
     box-shadow: var(--bs-box-shadow);
+    color: var(--secondary-color);
 }
 
 .form-check-input:focus {

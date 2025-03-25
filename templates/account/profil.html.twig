@@ -1,19 +1,25 @@
 {% extends 'base.html.twig' %}
 
+{% block title %}Mon Profil{% endblock %}
+
 {% block body %}
     <div class="container my-5">
+        <!-- Section: Account Header -->
         <h2>Espace membre</h2>
+        
         <div class="row">
+            <!-- Section: Sidebar -->
             <div class="col-md-3">
                 {% include 'account/sidebar.html.twig' %}
-            </div>
-            <!-- Section: UpdatePassword Card -->
-            <div class="card col-md-9">
+            </div>  
+
+            <!-- Section: Form -->
+            <div class="col-md-9 card">
                 <div class="card-header text-center">
-                    <h3>Modification de mon mot de passe</h3>
+                    <h2>Modifier vos informations personnelles</h2>
                 </div>
                 <div class="card-body">
-                    {{ form(modifyPwd) }}
+                    {{ form(updateForm) }}
                 </div>
             </div>
         </div>

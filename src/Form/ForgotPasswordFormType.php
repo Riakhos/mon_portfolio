@@ -18,7 +18,7 @@ class ForgotPasswordFormType extends AbstractType
             ->add('email', EmailType::class, [
                 'label' => 'Votre adresse mail <span class="text-danger">*</span>',
                 'label_html' => true,
-                'help' => 'Vous recevrez votre nouveau mot de passe par email.',
+                'help' => 'Vous recevrez un lien par email pour créer votre nouveau mot de passe.',
                 'required' => true,
                 'constraints' => [
                     new NotBlank([
@@ -28,6 +28,9 @@ class ForgotPasswordFormType extends AbstractType
                         'message' => 'Adresse email invalide.'
                     ])
                 ],
+                'help_attr' => [
+                    'class' => 'text-primary-color'
+                ],
                 'attr' => [
                     'class' => 'form-control',
                     'placeholder' => 'Indiquez votre adresse mail',
@@ -35,7 +38,7 @@ class ForgotPasswordFormType extends AbstractType
                 ]
             ])
             ->add('submit', SubmitType::class, [
-                'label' => 'Réinitialisé',
+                'label' => 'Envoyer',
                 'attr' => [
                     'class' => 'btn btn-info btn-block d-block mx-auto',
                     'data-loading-text' => 'Chargement...'

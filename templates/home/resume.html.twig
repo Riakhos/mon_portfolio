@@ -19,8 +19,8 @@
                             {% for experience in about.experiences %}
                                 {% if experience.title is null %}
                                     <hr class="text-danger mx-auto w-75 custom-hr">
-                                    <h3 class="mb-3 text-tertiary">{{ experience.titleJob }}</h3>
-                                    <p class="text-end text-tertiary"><strong>Du </strong> {{ experience.startDate|date('d/m/Y') }} <strong>au </strong> {{ experience.endDate|date('d/m/Y') }}</p>
+                                    <h3 class="mb-3 text-tertiary-color">{{ experience.titleJob }}</h3>
+                                    <p class="text-end text-tertiary-color"><strong>Du </strong> {{ experience.startDate|date('d/m/Y') }} <strong>au </strong> {{ experience.endDate|date('d/m/Y') }}</p>
                                     <p>{{ experience.descriptionJob|raw }}</p>
                                 {% endif %}
                             {% endfor %}
@@ -38,9 +38,9 @@
                             {% for experience in about.experiences %}
                                 {% if experience.institution is not null %}
                                     <hr class="text-danger mx-auto w-75 custom-hr">
-                                    <h3 class="text-tertiary mb-3">{{ experience.title }}</h3>
+                                    <h3 class="text-tertiary-color mb-3">{{ experience.title }}</h3>
                                     <p><strong>Institution :</strong> {{ experience.institution }}</p>
-                                    <p class="text-end text-tertiary"><strong>Du </strong> {{ experience.startDate|date('d/m/Y') }} <strong>Au </strong> {{ experience.endDate|date('d/m/Y') }}</p>
+                                    <p class="text-end text-tertiary-color"><strong>Du </strong> {{ experience.startDate|date('d/m/Y') }} <strong>Au </strong> {{ experience.endDate|date('d/m/Y') }}</p>
                                     <p>{{ experience.description|raw }}</p>
                                 {% endif %}
                             {% endfor %}

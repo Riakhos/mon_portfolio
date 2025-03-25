@@ -13,6 +13,7 @@ use EasyCorp\Bundle\EasyAdminBundle\Field\TextEditorField;
 use EasyCorp\Bundle\EasyAdminBundle\Field\TextField;
 use EasyCorp\Bundle\EasyAdminBundle\Field\CollectionField;
 use EasyCorp\Bundle\EasyAdminBundle\Field\FormField;
+use EasyCorp\Bundle\EasyAdminBundle\Field\ImageField;
 
 class AboutCrudController extends AbstractCrudController
 {
@@ -36,6 +37,12 @@ class AboutCrudController extends AbstractCrudController
 
     public function configureFields(string $pageName): iterable
     {
+        $required = true;
+        
+        if ($pageName == 'edit') {
+            $required = false;
+        }
+        
         return [
             FormField::addFieldset('Informations Personnelles')->setIcon('fas fa-user'),
             TextField::new('firstname', 'Prénom')->setColumns('col-md-3'),
@@ -58,6 +65,26 @@ class AboutCrudController extends AbstractCrudController
                 ->setColumns('col-md-12')
                 ->setTemplatePath('admin/social_link_form.html.twig')
                 ->hideOnIndex(),
+
+            FormField::addFieldset('Informations Professionnelles')->setIcon('fas fa-briefcase'),
+            ImageField::new('imageHeader', 'Image de couverture')
+                ->setHelp('Image de votre entête de page')
+                ->setUploadedFileNamePattern('[year]-[month]-[day]-[contenthash].[extension]')
+                ->setBasePath('/uploads/imageHeader')
+                ->setUploadDir('public/uploads/imageHeader')
+                ->setRequired($required)
+                ->hideOnIndex()
+                ->setColumns('col-md-6')
+            ,
+            ImageField::new('imageAvatar', 'Image de profil')
+                ->setHelp('Image de votre profil')
+                ->setUploadedFileNamePattern('[year]-[month]-[day]-[contenthash].[extension]')
+                ->setBasePath('/uploads/imageAvatar')
+                ->setUploadDir('public/uploads/imageAvatar')
+                ->setRequired($required)
+                ->hideOnIndex()
+                ->setColumns('col-md-6')
+            ,
 
             FormField::addFieldset('Informations Professionnelles')->setIcon('fas fa-briefcase'),
             TextField::new('jobTitle', 'Titre métier')->setColumns('col-md-4'),

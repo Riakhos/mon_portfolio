@@ -55,6 +55,9 @@ class User implements UserInterface, PasswordAuthenticatedUserInterface
     #[ORM\Column(type: Types::DATETIME_MUTABLE, nullable: true)]
     private ?\DateTimeInterface $lastLoginAt = null;
 
+    #[ORM\Column(length: 255, nullable: true)]
+    private ?string $imageAvatar = null;
+
     public function getId(): ?int
     {
         return $this->id;
@@ -198,6 +201,18 @@ class User implements UserInterface, PasswordAuthenticatedUserInterface
     public function setLastLoginAt(?\DateTimeInterface $lastLoginAt): static
     {
         $this->lastLoginAt = $lastLoginAt;
+
+        return $this;
+    }
+
+    public function getImageAvatar(): ?string
+    {
+        return $this->imageAvatar;
+    }
+
+    public function setImageAvatar(?string $imageAvatar): static
+    {
+        $this->imageAvatar = $imageAvatar;
 
         return $this;
     }

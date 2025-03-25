@@ -23,14 +23,14 @@
     </head>
     <body data-bs-spy="scroll" data-bs-target=".navbar" data-bs-offset="40" id="home">
         <!-- Section: Header -->
-        <header class="header text-cyan-700 py-5" style="background: url('{{ asset('images/header-richard.jpg') }}') no-repeat center center; background-size: cover;">
+        <header class="header text-secondary-color py-5" style="background: url('{{ asset('uploads/imageHeader/' ~ about.imageHeader) }}') no-repeat center center; background-size: cover;">
             <div class="container">
                 <ul class="social-icons list-inline mb-4 text-center d-flex justify-content-start" aria-label="Réseaux sociaux">
                     <!-- Social Media Links -->
                     {% for social in about.socialLinks %}
                         <li class="social-item me-3">
                             <a class="social-link text-light" href="{{ social.href }}" target="_blank" aria-label="{{ social.imgAlt }}">
-                                <img src="{{ social.imgSrc }}" alt="{{ social.imgAlt }}" title="{{ social.imgTitle }}" aria-hidden="true">
+                                <img src="{{ asset(social.imgSrc) }}" alt="{{ social.imgAlt }}" title="{{ social.imgTitle }}" aria-hidden="true">
                             </a>
                         </li>
                     {% endfor %}
@@ -46,7 +46,7 @@
             </div>
         </header>
         <!-- Section: Navbar -->
-        <nav class="navbar navbar-expand-lg bg-cyan-700 sticky-top shadow navbar-custom-border" aria-label="Navigation principale">
+        <nav class="navbar navbar-expand-lg bg-secondary-color sticky-top shadow navbar-custom-border" aria-label="Navigation principale">
             <div class="container">
                 <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarNav" aria-controls="navbarNav" aria-expanded="false" aria-label="Toggle navigation">
                     <span class="navbar-toggler-icon"></span>
@@ -65,9 +65,10 @@
                         </li>
                     </ul>
                     <ul class="navbar-nav brand d-none d-sm-flex align-items-center justify-content-between">
-                        <img src="{{ asset('images/avatar-richard.jpeg') }}" alt="Avatar de {{ about.firstname }} {{ about.lastname }}" class="brand-img rounded-circle me-3 border border-cyan-400 border-2" width="50" height="50">
+                        <img src="/uploads/imageAvatar/{{ about.imageAvatar }}" alt="Avatar de {{ about.firstname }} {{ about.lastname }}" class="brand-img rounded-circle me-3 border border-primary-color border-4" width="100" height="100">
                         <li class="brand-txt">
                             <h5 class="brand-title">{{ about.firstname }} {{ about.lastname }}</h5>
+
                             <div class="brand-subtitle">{{ about.jobTitle }}</div>
                         </li>
                     </ul>
@@ -86,7 +87,14 @@
                 </div>
                 <div class="speed-menu ms-3">
                     {% if app.user %}
-                        <a href="{{ path('app_account') }}"><i class="bi bi-person-fill"></i> {{ app.user.username }}</a>
+                        <a href="{{ path('app_account') }}">
+                        {% if app.user.imageAvatar %}
+                            <img class="rounded-circle" style="height: 25px; width: 25px;" src="{{ asset('uploads/imageAvatar/' ~ app.user.imageAvatar) }}" alt="Photo de profil">
+                        {% else %}
+                            <i class="bi bi-person-fill" style="font-size: 25px;"></i>
+                        {% endif %}
+                        
+                         {{ app.user.username }}</a>
                     {% else %}
                         <a href="{{ path('app_login') }}"><i class="bi bi-person-fill"></i></a>
                     {% endif %}
@@ -108,7 +116,7 @@
         {% block body %}{% endblock %}
 
         <!-- Section: Footer -->
-        <footer class="footer py-4 bg-cyan-700 mt-5">
+        <footer class="footer py-4 bg-secondary-color mt-5">
             <div class="container text-center">
                 <p class="small mb-0">
                     &copy; 2025 Created With <i class="bi bi-suit-heart-fill text-danger"></i> By {{ about.firstname }} {{ about.lastname }}
