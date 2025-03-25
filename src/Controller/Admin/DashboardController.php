@@ -4,10 +4,10 @@ namespace App\Controller\Admin;
 
 use App\Entity\About;
 use App\Entity\BlogPost;
-use App\Entity\ColorSettings;
 use App\Entity\Contact;
 use App\Entity\Experience;
 use App\Entity\Project;
+use App\Entity\Service;
 use App\Entity\User;
 use Doctrine\ORM\EntityManagerInterface;
 use EasyCorp\Bundle\EasyAdminBundle\Attribute\AdminDashboard;
@@ -79,6 +79,7 @@ class DashboardController extends AbstractDashboardController
         yield MenuItem::subMenu('Mon Portfolio', 'fas fa-chart-line')->setSubItems([
             MenuItem::linkToCrud('À propos', 'fas fa-info', About::class),
             MenuItem::linkToCrud('Mon parcours', 'fas fa-briefcase', Experience::class),
+            MenuItem::linkToCrud('Mes services', 'fas fa-tools', Service::class),
         ]);
 
         // 📌 Espace Membres
