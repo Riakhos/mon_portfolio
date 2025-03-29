@@ -1,8 +1,10 @@
 {% extends '@EasyAdmin/page/content.html.twig' %}
 
+{% import 'macros/progress_bar.html.twig' as progressBar %}
+
 {% block content %}
     <div class="container mt-4">
-        <h1 class="mb-4">Tableau de bord</h1>
+        <h2 class="mb-4">Tableau de bord</h2>
 
         <!-- Sélection du mois et de l'année -->
         <div class="row mb-4">
@@ -32,7 +34,7 @@
                 <div class="card text-white bg-secondary-color mb-3">
                     <div class="card-header">Utilisateurs</div>
                     <div class="card-body">
-                        <h5 class="card-title">{{ user_count }}</h5>
+                        <h3 class="card-title">{{ user_count }}</h3>
                         <canvas id="userChart"></canvas>
                     </div>
                 </div>
@@ -74,8 +76,16 @@
                     <div class="card-header">Dernier projet</div>
                     <div class="card-body">
                         {% if latest_project %}
-                            <h5 class="card-title">{{ latest_project.title }}</h5>
-                            <p class="card-text">{{ latest_project.description }}</p>
+                            <div class="card-header mx-2">
+                                <h3 class="card-title">{{ latest_project.title }}</h3>
+                                
+                                <!-- Section: Date -->
+                                <p class="text-end">
+                                    {{ latest_project.updated ? latest_project.updated|date('d/m/Y') : latest_project.createdAt|date('d/m/Y') }}
+                                </p>
+                            </div>
+
+                            <p class="card-text">{{ latest_project.description|raw }}</p>
                         {% else %}
                             <p class="card-text">Aucun projet disponible</p>
                         {% endif %}

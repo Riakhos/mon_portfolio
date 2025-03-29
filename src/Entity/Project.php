@@ -26,7 +26,7 @@ class Project
     #[ORM\Column(length: 255)]
     private ?string $github_link = null;
 
-    #[ORM\Column(length: 255)]
+    #[ORM\Column(length: 255, nullable: true)]
     private ?string $demo_link = null;
 
     #[ORM\Column]
@@ -34,6 +34,20 @@ class Project
 
     #[ORM\Column(type: Types::DATETIME_MUTABLE, nullable: true)]
     private ?\DateTimeInterface $updated = null;
+
+    #[ORM\Column(type: Types::JSON)]
+    private array $skills = [];
+
+    #[ORM\Column(type: Types::JSON, nullable: true)]
+    private ?array $frameworks = [];
+
+    #[ORM\Column(type: Types::JSON, nullable: true)]
+    private ?array $apis = [];
+
+    public function __construct()
+    {
+        $this->created_at = new \DateTimeImmutable(); // Définit la date actuelle par défaut
+    }
 
     public function getId(): ?int
     {
@@ -120,6 +134,74 @@ class Project
     public function setUpdated(?\DateTimeInterface $updated): static
     {
         $this->updated = $updated;
+
+        return $this;
+    }
+
+    public function updateTimestamp(): void
+    {
+        $this->updated = new \DateTime(); // Met à jour la date à l'heure actuelle
+    }
+
+    public function getSkills(): array
+    {
+        $formattedSkills = [];
+
+        foreach ($this->skills as $skill) {
+            if (strpos($skill, ':') !== false) {
+                [$key, $value] = explode(':', $skill);
+                $formattedSkills[trim($key)] = (int) trim($value);
+            }
+        }
+
+        return $formattedSkills;
+    }
+
+    public function setSkills(array $skills): static
+    {
+        $this->skills = $skills;
+
+        return $this;
+    }
+
+    public function getFrameworks(): ?array
+    {
+        $formattedFrameworks = [];
+
+        foreach ($this->frameworks as $framework) {
+            if (strpos($framework, ':') !== false) {
+                [$key, $value] = explode(':', $framework);
+                $formattedFrameworks[trim($key)] = (int) trim($value);
+            }
+        }
+
+        return $formattedFrameworks;
+    }
+
+    public function setFrameworks(?array $frameworks): static
+    {
+        $this->frameworks = $frameworks;
+
+        return $this;
+    }
+
+    public function getApis(): ?array
+    {
+        $formattedApis = [];
+
+        foreach ($this->apis as $api) {
+            if (strpos($api, ':') !== false) {
+                [$key, $value] = explode(':', $api);
+                $formattedApis[trim($key)] = (int) trim($value);
+            }
+        }
+
+        return $formattedApis;
+    }
+
+    public function setApis(?array $apis): static
+    {
+        $this->apis = $apis;
 
         return $this;
     }

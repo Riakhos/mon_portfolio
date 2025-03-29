@@ -1,0 +1,17 @@
+{% macro renderProgressBar(title, items) %}
+    {% if items is not empty %}
+        {% set colors = ['--primary-color', '--danger-color', '--tertiary-color'] %}
+        <div class="{{ title|lower }} mb-4">
+            <h3 class="text-tertiary-color">{{ title }}</h3>
+            <div class="progress-stacked">
+                {% for key, percentage in items %}
+                    <div class="progress mb-2" role="progressbar" aria-label="{{ key }}" aria-valuenow="{{ percentage }}" aria-valuemin="0" aria-valuemax="100" style="width: {{ percentage }}%;">
+                        <div class="progress-bar text-secondary-color" style="background-color: var({{ colors[loop.index0 % colors|length] }});">
+                            {{ key }} {{ percentage }}%
+                        </div>
+                    </div>
+                {% endfor %}
+            </div>
+        </div>
+    {% endif %}
+{% endmacro %}

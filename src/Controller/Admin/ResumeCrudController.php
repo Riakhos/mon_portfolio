@@ -46,13 +46,27 @@ class ResumeCrudController extends AbstractCrudController implements EventSubscr
     {
         return [
             FormField::addFieldset('Informations Professionnelles')->setIcon('fas fa-briefcase'),
-            TextField::new('title', 'Titre de l\'expérience')->setColumns('col-md-6'),
-            TextEditorField::new('description', 'Description de l\'expérience')->setColumns('col-md-6'),
-            TextField::new('titleJob', 'Titre du poste')->setColumns('col-md-6'),
-            TextEditorField::new('descriptionJob', 'Description du poste')->setColumns('col-md-6'),
-            TextField::new('institution', 'Institution')->setColumns('col-md-6'),
-            DateField::new('startDate', 'Date de début')->setColumns('col-md-3'),
-            DateField::new('endDate', 'Date de fin')->setColumns('col-md-3'),
+            TextField::new('title', 'Titre de l\'expérience')
+                ->setColumns('col-md-6')
+                ->setHelp('Entrez le titre de l\'expérience.'),
+            TextEditorField::new('description', 'Description de l\'expérience')
+                ->setColumns('col-md-6')
+                ->setHelp('Entrez une description détaillée de l\'expérience.'),
+            TextField::new('titleJob', 'Titre du poste')
+                ->setColumns('col-md-6')
+                ->setHelp('Entrez le titre du poste.'),
+            TextEditorField::new('descriptionJob', 'Description du poste')
+                ->setColumns('col-md-6')
+                ->setHelp('Entrez une description détaillée du poste.'),
+            TextField::new('institution', 'Institution')
+                ->setColumns('col-md-6')
+                ->setHelp('Entrez le nom de l\'institution.'),
+            DateField::new('startDate', 'Date de début')
+                ->setColumns('col-md-3')
+                ->setHelp('Entrez la date de début de l\'expérience.'),
+            DateField::new('endDate', 'Date de fin')
+                ->setColumns('col-md-3')
+                ->setHelp('Entrez la date de fin de l\'expérience.'),
         ];
     }
 

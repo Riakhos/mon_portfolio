@@ -1,0 +1,50 @@
+{% extends 'base.html.twig' %}
+
+{% import 'macros/progress_bar.html.twig' as progressBar %}
+
+{% block title %}{{ project.title }}{% endblock %}
+
+{% block body %}
+    <div class="container my-5">
+        <h2 class="text-danger mb-5">{{ project.title }}</h2>
+
+        <p class="text-muted">Dernière mise à jour : {{ project.updated ? project.updated|date('d/m/Y') : project.createdAt|date('d/m/Y') }}</p>
+        <img src="{{ asset('uploads/projects/' ~ project.image) }}" class="img-fluid" alt="{{ project.title }}">
+
+        <div class="card mb-4 h-100">
+            <div class="card-body">
+                <p>{{ project.description|raw }}</p>
+
+                <!-- Section: Skills -->
+                <div class="skills">
+                    {{ progressBar.renderProgressBar('Compétences', project.skills) }}
+                </div>
+
+                <!-- Section: Frameworks -->
+                <div class="frameworks">
+                    {{ progressBar.renderProgressBar('Frameworks', project.frameworks) }}
+                </div>
+
+                <!-- Section: APIs -->
+                <div class="apis">
+                    {{ progressBar.renderProgressBar('APIs', project.apis) }}
+                </div>
+                
+                <!-- Section: Links -->
+                <div class="links mb-3 text-center">
+                    {% if project.githubLink %}
+                        <a href="{{ project.githubLink }}" target="_blank" class="btn btn-info me-2">
+                            <i class="bi bi-github"></i> GitHub
+                        </a>
+                    {% endif %}
+                    {% if project.demoLink %}
+                        <a href="{{ project.demoLink }}" target="_blank" class="btn btn-info me-2">
+                            <i class="bi bi-box-arrow-up-right"></i> Démo
+                        </a>
+                    {% endif %}
+                </div>
+            </div>
+        </div>
+
+    </div>
+{% endblock %}

@@ -104,7 +104,7 @@ class DashboardController extends AbstractDashboardController
         // 📌 Projet
         yield MenuItem::subMenu('Mes Projets', 'fas fa-project-diagram')->setSubItems([
             // MenuItem::linkToCrud('Catégories', 'fas fa-tags', Category::class),
-            MenuItem::linkToCrud('Projet', 'fas fa-chart-line', Project::class)
+            MenuItem::linkToCrud('Projet', 'fas fa-chart-line', Project::class),
         ]);
     }
 }

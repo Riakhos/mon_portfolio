@@ -45,18 +45,42 @@ class AboutCrudController extends AbstractCrudController
         
         return [
             FormField::addFieldset('Informations Personnelles')->setIcon('fas fa-user'),
-            TextField::new('firstname', 'Prénom')->setColumns('col-md-3'),
-            TextField::new('lastname', 'Nom')->setColumns('col-md-3'),
-            DateField::new('birthdate', 'Date de naissance')->setColumns('col-md-2'),
-            TextField::new('birthplace', 'Lieu de naissance')->setColumns('col-md-2'),
-            CountryField::new('birthcountry', 'Pays de naissance')->setColumns('col-md-2'),
-            TextField::new('email', 'Email')->setColumns('col-md-6'),
-            TelephoneField::new('phone', 'Téléphone')->setColumns('col-md-6'),
-            TextField::new('zoom', 'Zoom')->setColumns('col-md-6'),
-            TextField::new('address', 'Adresse')->setColumns('col-md-6'),
-            TextField::new('postal', 'Code postal')->setColumns('col-md-4'),
-            TextField::new('city', 'Ville')->setColumns('col-md-4'),
-            CountryField::new('country', 'Pays')->setColumns('col-md-4'),
+            TextField::new('firstname', 'Prénom')
+                ->setColumns('col-md-3')
+                ->setHelp('Entrez votre prénom.'),
+            TextField::new('lastname', 'Nom')
+                ->setColumns('col-md-3')
+                ->setHelp('Entrez votre nom.'),
+            DateField::new('birthdate', 'Date de naissance')
+                ->setColumns('col-md-2')
+                ->setHelp('Entrez votre date de naissance.'),
+            TextField::new('birthplace', 'Lieu de naissance')
+                ->setColumns('col-md-2')
+                ->setHelp('Entrez votre lieu de naissance.'),
+            CountryField::new('birthcountry', 'Pays de naissance')
+                ->setColumns('col-md-2')
+                ->setHelp('Entrez votre pays de naissance.'),
+            TextField::new('email', 'Email')
+                ->setColumns('col-md-6')
+                ->setHelp('Entrez votre adresse email.'),
+            TelephoneField::new('phone', 'Téléphone')
+                ->setColumns('col-md-6')
+                ->setHelp('Entrez votre numéro de téléphone.'),
+            TextField::new('zoom', 'Zoom')
+                ->setColumns('col-md-6')
+                ->setHelp('Entrez votre identifiant Zoom.'),
+            TextField::new('address', 'Adresse')
+                ->setColumns('col-md-6')
+                ->setHelp('Entrez votre adresse.'),
+            TextField::new('postal', 'Code postal')
+                ->setColumns('col-md-4')
+                ->setHelp('Entrez votre code postal.'),
+            TextField::new('city', 'Ville')
+                ->setColumns('col-md-4')
+                ->setHelp('Entrez votre ville.'),
+            CountryField::new('country', 'Pays')
+                ->setColumns('col-md-4')
+                ->setHelp('Entrez votre pays.'),
 
             FormField::addFieldset('Réseaux Sociaux')->setIcon('fas fa-share-alt'),
             CollectionField::new('socialLinks', 'Réseaux sociaux')
@@ -64,7 +88,8 @@ class AboutCrudController extends AbstractCrudController
                 ->setFormTypeOption('by_reference', false)
                 ->setColumns('col-md-12')
                 ->setTemplatePath('admin/social_link_form.html.twig')
-                ->hideOnIndex(),
+                ->hideOnIndex()
+                ->setHelp('Ajoutez vos liens vers les réseaux sociaux.'),
 
             FormField::addFieldset('Informations Professionnelles')->setIcon('fas fa-briefcase'),
             ImageField::new('imageHeader', 'Image de couverture')
@@ -74,8 +99,7 @@ class AboutCrudController extends AbstractCrudController
                 ->setUploadDir('public/uploads/imageHeader')
                 ->setRequired($required)
                 ->hideOnIndex()
-                ->setColumns('col-md-6')
-            ,
+                ->setColumns('col-md-6'),
             ImageField::new('imageAvatar', 'Image de profil')
                 ->setHelp('Image de votre profil')
                 ->setUploadedFileNamePattern('[year]-[month]-[day]-[contenthash].[extension]')
@@ -83,12 +107,14 @@ class AboutCrudController extends AbstractCrudController
                 ->setUploadDir('public/uploads/imageAvatar')
                 ->setRequired($required)
                 ->hideOnIndex()
-                ->setColumns('col-md-6')
-            ,
+                ->setColumns('col-md-6'),
 
-            FormField::addFieldset('Informations Professionnelles')->setIcon('fas fa-briefcase'),
-            TextField::new('jobTitle', 'Titre métier')->setColumns('col-md-4'),
-            TextEditorField::new('aboutMe', 'À propos de moi')->setColumns('col-md-8'),
+            TextField::new('jobTitle', 'Titre métier')
+                ->setColumns('col-md-4')
+                ->setHelp('Entrez votre titre professionnel.'),
+            TextEditorField::new('aboutMe', 'À propos de moi')
+                ->setColumns('col-md-8')
+                ->setHelp('Entrez une description à propos de vous.'),
         ];
     }
 }

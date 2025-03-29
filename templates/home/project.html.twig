@@ -1,0 +1,112 @@
+{% extends 'base.html.twig' %}
+
+{% import 'macros/progress_bar.html.twig' as progressBar %}
+
+{% block title %}Mes projets{% endblock %}
+
+{% block body %}
+    <div class="container my-5">
+        <h2 class="text-danger mb-5">Mes projets</h2>
+        
+        <!-- Section: Filters -->
+        <div class="filters text-center mb-4">
+            <a href="#" data-filter="*" class="btn btn-info active">Tous</a>
+            <a href="#" data-filter=".new" class="btn btn-info">Nouveauté</a>
+            {% for framework in frameworks %}
+                <a href="#" data-filter=".{{ framework|lower }}" class="btn btn-info">{{ framework }}</a>
+            {% endfor %}
+        </div>
+
+        <!-- Section: Portfolio Items -->
+        {% for project in projects %}
+            <div class="portfolio-item {{ project.frameworks|keys|join(' ')|lower }} {% if loop.index <= 5 %}new{% endif %}">
+                <div class="card mb-4 h-100">
+                    <div class="row g-0">
+                        <!-- Image Section -->
+                        <div class="col-md-4">
+                            <img src="{{ asset('uploads/projects/' ~ project.image) }}" class="card-img-top" alt="{{ project.title }}">
+                        </div>
+
+                        <!-- Text Section -->
+                        <div class="col-md-8">
+                            
+                            <div class="card-header mx-2">
+                                <h3 class="card-title text-tertiary-color">{{ project.title }}</h3>
+                                
+                                <!-- Section: Date -->
+                                <p class="text-end">
+                                    {{ project.updated ? project.updated|date('d/m/Y') : project.createdAt|date('d/m/Y') }}
+                                </p>
+                            </div>
+
+                            <div class="card-body d-flex flex-column justify-content-between">
+
+                                <p class="card-text">{{ project.description|raw }}</p>
+
+                                <!-- Section: Skills -->
+                                <div class="skills">
+                                    {{ progressBar.renderProgressBar('Compétences', project.skills) }}
+                                </div>
+
+                                <!-- Section: Frameworks -->
+                                <div class="frameworks">
+                                    {{ progressBar.renderProgressBar('Frameworks', project.frameworks) }}
+                                </div>
+
+                                <!-- Section: APIs -->
+                                <div class="apis">
+                                    {{ progressBar.renderProgressBar('APIs', project.apis) }}
+                                </div>
+                                
+                                <!-- Section: Links -->
+                                <div class="links mb-3 mx-auto">
+                                    {% if project.githubLink %}
+                                        <a href="{{ project.githubLink }}" target="_blank" class="btn btn-info btn-sm me-2">
+                                            <i class="bi bi-github"></i> GitHub
+                                        </a>
+                                    {% endif %}
+                                    {% if project.demoLink %}
+                                        <a href="{{ project.demoLink }}" target="_blank" class="btn btn-info btn-sm">
+                                            <i class="bi bi-box-arrow-up-right"></i> Démo
+                                        </a>
+                                    {% endif %}
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        {% endfor %}
+    </div>
+{% endblock %}
+
+{% block javascripts %}
+    {{ parent() }}
+    <script>
+        document.addEventListener('DOMContentLoaded', function () {
+            const filterButtons = document.querySelectorAll('.filters a');
+            const portfolioItems = document.querySelectorAll('.portfolio-item');
+
+            filterButtons.forEach(button => {
+                button.addEventListener('click', function (e) {
+                    e.preventDefault(); // Empêche le comportement par défaut du lien
+                    const filter = this.getAttribute('data-filter');
+
+                    // Supprime la classe active de tous les boutons
+                    filterButtons.forEach(btn => btn.classList.remove('active'));
+                    // Ajoute la classe active au bouton cliqué
+                    this.classList.add('active');
+
+                    // Affiche ou masque les projets en fonction du filtre
+                    portfolioItems.forEach(item => {
+                        if (filter === '*' || item.classList.contains(filter.substring(1))) {
+                            item.style.display = 'block'; // Affiche l'élément
+                        } else {
+                            item.style.display = 'none'; // Masque l'élément
+                        }
+                    });
+                });
+            });
+        });
+    </script>
+{% endblock %}

@@ -56,22 +56,6 @@
     color: var(--tertiary-color);
 }
 
-.bg-secondary-color {
-    background-color: var(--secondary-color);
-}
-
-.bg-tertiary-color {
-    background-color: var(--tertiary-color);
-}
-
-.border-primary-color {
-    border-color: var(--primary-color);
-}
-
-.border-secondary-color {
-    border-color: var(--secondary-color);
-}
-
 .text-danger {
     color: var(--danger-color) !important;
 }
@@ -82,6 +66,30 @@
             1px -1px 0 var(--primary-color),
         -1px  1px 0 var(--primary-color),
         1px  1px 0 var(--primary-color); /* Couleur du tour de la lettre */
+}
+
+.bg-primary-color {
+    background-color: var(--primary-color);
+}
+
+.bg-secondary-color {
+    background-color: var(--secondary-color);
+}
+
+.bg-tertiary-color {
+    background-color: var(--tertiary-color);
+}
+
+.bg-danger-color {
+    background-color: var(--danger-color);
+}
+
+.border-primary-color {
+    border-color: var(--primary-color);
+}
+
+.border-secondary-color {
+    border-color: var(--secondary-color);
 }
 
 .btn:hover {
@@ -177,4 +185,34 @@ a:hover {
     height: 3px; /* Définir l'épaisseur du trait */
     border: none; /* Supprimer la bordure par défaut */
     background-color: currentColor; /* Utiliser la couleur actuelle du texte */
+}
+
+/* Portfolio */
+.portfolio-item-wrapper {
+    position: relative;
+    overflow: hidden;
+}
+
+.portfolio-item-wrapper img {
+    transition: transform 0.3s ease;
+}
+
+.portfolio-item-wrapper:hover img {
+    transform: scale(1.1);
+}
+
+.portfolio-item-wrapper .overlay {
+    background-color: rgba(0, 0, 0, 0.7);
+    opacity: 0;
+    transition: opacity 0.3s ease;
+}
+
+.portfolio-item-wrapper:hover .overlay {
+    opacity: 1;
+}
+
+.portfolio-item-wrapper .title {
+    font-size: 1.5rem;
+    font-weight: bold;
+    text-transform: uppercase;
 }

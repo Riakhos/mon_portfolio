@@ -5,13 +5,16 @@ namespace App\Controller\Admin;
 use App\Entity\Project;
 use EasyCorp\Bundle\EasyAdminBundle\Config\Crud;
 use EasyCorp\Bundle\EasyAdminBundle\Controller\AbstractCrudController;
+use EasyCorp\Bundle\EasyAdminBundle\Field\DateField;
+use EasyCorp\Bundle\EasyAdminBundle\Field\TextEditorField;
 use EasyCorp\Bundle\EasyAdminBundle\Field\TextField;
-use EasyCorp\Bundle\EasyAdminBundle\Field\TextareaField;
-use EasyCorp\Bundle\EasyAdminBundle\Field\DateTimeField;
 use EasyCorp\Bundle\EasyAdminBundle\Field\ImageField;
-use EasyCorp\Bundle\EasyAdminBundle\Field\UrlField;
+use EasyCorp\Bundle\EasyAdminBundle\Field\FormField;
+use EasyCorp\Bundle\EasyAdminBundle\Field\ArrayField;
+use Symfony\Component\EventDispatcher\EventSubscriberInterface;
+use EasyCorp\Bundle\EasyAdminBundle\Event\BeforeEntityUpdatedEvent;
 
-class ProjectCrudController extends AbstractCrudController
+class ProjectCrudController extends AbstractCrudController implements EventSubscriberInterface
 {
     public static function getEntityFqcn(): string
     {
@@ -22,44 +25,84 @@ class ProjectCrudController extends AbstractCrudController
     {
         return $crud
             ->setEntityLabelInSingular('Projet')
-            ->setEntityLabelInPlural('Projets');
+            ->setEntityLabelInPlural('Projets')
+            ->setPageTitle(Crud::PAGE_INDEX, 'Gestion des projets')
+            ->setPageTitle(Crud::PAGE_EDIT, 'Modifier un projet')
+            ->setPageTitle(Crud::PAGE_NEW, 'Ajouter un projet')
+            ->setHelp(Crud::PAGE_INDEX, 'Gérez les projets affichés sur votre site.')
+            ->setHelp(Crud::PAGE_EDIT, 'Modifiez les informations d\'un projet.')
+            ->setHelp(Crud::PAGE_NEW, 'Ajoutez un nouveau projet.');
     }
 
     public function configureFields(string $pageName): iterable
     {
         return [
-            TextField::new('title', 'Titre')
-                ->setHelp('Entrez le titre du projet.')
-                ->setColumns('col-md-6'), // Définir la colonne pour l'affichage
+            // Section: Informations générales
+            FormField::addFieldset('Informations générales')->setIcon('fas fa-info-circle'),
+            TextField::new('title', 'Titre du projet')
+                ->setColumns('col-md-6')
+                ->setHelp('Entrez le titre du projet.'),
+            TextEditorField::new('description', 'Description du projet')
+                ->setColumns('col-md-6')
+                ->setHelp('Entrez une description détaillée du projet.'),
 
-            TextareaField::new('description', 'Description')
-                ->setHelp('Entrez la description du projet.')
-                ->setColumns('col-md-12'), // Définir la colonne pour l'affichage
+            // Section: Liens
+            FormField::addFieldset('Liens')->setIcon('fas fa-link'),
+            TextField::new('github_link', 'Lien GitHub')
+                ->setColumns('col-md-6')
+                ->setHelp('Entrez le lien vers le dépôt GitHub du projet.'),
+            TextField::new('demo_link', 'Lien de démonstration')
+                ->setColumns('col-md-6')
+                ->setHelp('Entrez le lien vers la démonstration du projet.'),
 
-            ImageField::new('image')
-                ->setLabel('Image')
-                ->setHelp('Image de votre produit en 600*600px')
+            // Section: Image
+            FormField::addFieldset('Image')->setIcon('fas fa-image'),
+            ImageField::new('image', 'Image du projet')
+                ->setBasePath('/uploads/projects')
+                ->setUploadDir('public/uploads/projects')
                 ->setUploadedFileNamePattern('[year]-[month]-[day]-[contenthash].[extension]')
-                ->setBasePath('/uploads')
-                ->setUploadDir('public/uploads')
-                ->setRequired(false)
-                ->setColumns('col-md-6'), // Définir la colonne pour l'affichage
+                ->setRequired($pageName === Crud::PAGE_NEW)
+                ->setColumns('col-md-6')
+                ->setHelp('Téléchargez une image représentative du projet.'),
 
-            UrlField::new('github_link', 'Lien GitHub')
-                ->setHelp('Entrez le lien GitHub du projet.')
-                ->setColumns('col-md-6'), // Définir la colonne pour l'affichage
+            // Section: Compétences, Frameworks et APIs
+            FormField::addFieldset('Technologies utilisées')->setIcon('fas fa-tools'),
+            ArrayField::new('skills', 'Compétences')
+                ->setColumns('col-md-4')
+                ->setHelp('Entrez les compétences utilisées dans ce projet sous forme de tableau. Exemple: {"Symfony": 50, "Twig": 20, "PHP": 30}'),
+            ArrayField::new('frameworks', 'Frameworks')
+                ->setColumns('col-md-4')
+                ->setHelp('Entrez les frameworks utilisés dans ce projet sous forme de tableau. Exemple: {"Symfony": 50, "Laravel": 50}'),
+            ArrayField::new('apis', 'APIs')
+                ->setColumns('col-md-4')
+                ->setHelp('Entrez les APIs utilisées dans ce projet sous forme de tableau. Exemple: {"Google Maps": 50, "Stripe": 50}'),
 
-            UrlField::new('demo_link', 'Lien Démo')
-                ->setHelp('Entrez le lien de la démo du projet.')
-                ->setColumns('col-md-6'), // Définir la colonne pour l'affichage
-
-            DateTimeField::new('created_at', 'Date de création')
-                ->hideOnForm() // Masquer le champ dans les formulaires de création et d'édition
-                ->setColumns('col-md-6'), // Définir la colonne pour l'affichage
-
-            DateTimeField::new('updated', 'Date de mise à jour')
-                ->hideOnIndex() // Masquer le champ dans la vue index
-                ->setColumns('col-md-6'), // Définir la colonne pour l'affichage
+            // Section: Dates
+            FormField::addFieldset('Dates')->setIcon('fas fa-calendar-alt'),
+            DateField::new('createdAt', 'Date de création')
+                ->setColumns('col-md-6')
+                ->hideOnForm()
+                ->setHelp('Date de création du projet.'),
+            DateField::new('updated', 'Date de mise à jour')
+                ->setColumns('col-md-6')
+                ->hideOnIndex()
+                ->setHelp('Date de la dernière mise à jour du projet.'),
         ];
+    }
+
+    public static function getSubscribedEvents(): array
+    {
+        return [
+            BeforeEntityUpdatedEvent::class => 'updateTimestamp',
+        ];
+    }
+
+    public function updateTimestamp(BeforeEntityUpdatedEvent $event): void
+    {
+        $entity = $event->getEntityInstance();
+
+        if ($entity instanceof Project) {
+            $entity->updateTimestamp(); // Met à jour la date de mise à jour
+        }
     }
 }
