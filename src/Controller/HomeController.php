@@ -75,4 +75,33 @@ final class HomeController extends AbstractController
             'messageForm' => $form->createView(),
         ]);
     }
+
+    #[Route('/', name: 'app_home_contact')]
+    public function contact(EntityManagerInterface $em, Request $request): Response
+    {
+        //Envoyer un message
+        $message = new Message();
+        $form = $this->createForm(MessageType::class, $message);
+
+        $form->handleRequest($request);
+        
+        // Si le formulaire est soumis alors :
+        if ($form->isSubmitted() && $form->isValid()) {
+            // Tu définis la date de création de l'utilisateur
+            $message->setCreatedAt(new DateTimeImmutable());
+
+            // Tu enregistres les datas en BDD
+            $em->persist($message);
+            $em->flush();
+            $this->addFlash(
+                'success',
+                'Votre message a été envoyé avec succès.'
+            );
+        }
+
+        return $this->render('home/contact.html.twig', [
+            'message' => $message,
+            'messageForm' => $form->createView(),
+        ]);
+    }
 }

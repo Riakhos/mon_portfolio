@@ -1,0 +1,166 @@
+<!-- Section: Contact -->
+<div class="section-contact position-relative mb-4" id="contact">
+    <div class="container">
+        <h2 class="text-danger m-4">Contactez-nous</h2>
+    </div>
+
+    <!-- Carte Google Maps -->
+    <div id="map" class="map position-absolute top-1 start-0 w-100 h-100" style="z-index: 0;" aria-label="Carte de localisation"></div>
+
+    <!-- Contenu par-dessus la carte -->
+    <div class="container position-relative" style="z-index: 1;">
+        <div class="row d-flex justify-content-space-between align-items-center" style="min-height: 100vh;">
+    
+            <!-- Formulaire de contact -->
+            <div class="col-lg-8 my-4">
+                <div class="card card-contact">
+                    <div class="card-header mx-2">
+                        <h3 class="card-title">Envoyer un message</h3>
+                    </div>
+                    <div class="card-body d-flex flex-column justify-content-between">
+
+                        <!-- Formulaire Symfony -->
+                        {{ form(messageForm) }}
+                    </div>
+                </div>
+            </div>
+
+            <!-- Informations de contact -->
+            <div class="col-lg-4 my-4">
+                <div class="card card-contact">
+                    <div class="card-header mx-2">
+                        <h3 class="card-title">Prendre contact</h3>
+                    </div>
+                    <div class="card-body d-flex flex-column justify-content-between">
+
+                        <!-- Téléphone -->
+                        <div class="row mb-2">
+                            <div class="col-1 pt-1 mr-1">
+                                <i class="text-danger bi bi-phone" aria-hidden="true"></i>
+                            </div>
+                            <div class="col-10">
+                                <h6 class="d-inline">Téléphone : 
+                                    <span>
+                                        <p>
+                                            <a href="tel:{{ about.phone }}" class="text-decoration-none text-primary-color" aria-label="Téléphoner au {{ about.phone }}"> {{ about.phone }}
+                                            </a>
+                                        </p>
+                                    </span>
+                                </h6>
+                            </div>
+                        </div>
+
+                        <!-- Adresse -->
+                        <div class="row mb-2">
+                            <div class="col-1 pt-1 mr-1">
+                                <i class="text-danger bi bi-map" aria-hidden="true"></i>
+                            </div>
+                            <div class="col-10">
+                                <h6 class="d-inline">Adresse : 
+                                    <span>
+                                        <p>{{ about.address }}</p>
+                                        <p>{{ about.postal }} {{ about.city }} {{ about.country|country_name }}</p>
+                                    </span>
+                                </h6>
+                            </div>
+                        </div>
+
+                        <!-- Email -->
+                        <div class="row mb-2">
+                            <div class="col-1 pt-1 mr-1">
+                                <i class="text-danger bi bi-envelope-at" aria-hidden="true"></i>
+                            </div>
+                            <div class="col-10">
+                                <h6 class="d-inline">Email : 
+                                    <span>
+                                        <p>
+                                            <a href="mailto:{{ about.email }}" class="text-decoration-none text-primary-color" aria-label="Envoyer un email à {{ about.email }}">
+                                                {{ about.email }}
+                                            </a>
+                                        </p>
+                                    </span>
+                                </h6>
+                            </div>
+                        </div>
+                    </div>
+
+                    <!-- Réseaux sociaux -->
+                    <div class="card-footer mx-2">
+                        <ul class="social-icons list-inline mb-4 text-center d-flex justify-content-center" aria-label="Réseaux sociaux">
+                            {% for social in about.socialLinks %}
+                                <li class="social-item me-3">
+                                    <a class="social-link text-light" href="{{ social.href }}" target="_blank" rel="noopener noreferrer" aria-label="{{ social.imgAlt }}">
+                                        <img src="{{ asset(social.imgSrc) }}" alt="{{ social.imgAlt }}" title="{{ social.imgTitle }}" aria-hidden="true">
+                                    </a>
+                                </li>
+                            {% endfor %}
+                        </ul>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+
+<script 
+    src="https://maps.googleapis.com/maps/api/js?key={{ google_maps_api_key }}&callback=initMap&loading=async">
+</script>
+
+<script>
+    /**
+     * @license
+     * Copyright 2019 Google LLC. All Rights Reserved.
+     * SPDX-License-Identifier: Apache-2.0
+     */
+    // Initialize and add the map
+    let map;
+
+    async function initMap() {
+
+        // Position par défaut (Paris)
+        const defaultPosition = { lat: 48.8566, lng: 2.3522 };
+        
+        // Initialisation de la carte
+        const { Map } = await google.maps.importLibrary("maps");
+        const { AdvancedMarkerElement } = await google.maps.importLibrary("marker");
+
+        map = new Map(document.getElementById("map"), {
+            zoom: 12,
+            center: defaultPosition,
+            mapId: "DEMO_MAP_ID",
+        });
+
+        // Adresse à géocoder
+        const address = "{{ about.address }}, {{ about.postal }} {{ about.city }}, {{ about.country }}";
+
+        // Construire l'URL de l'API Geocoding
+        const geocodingUrl = `https://maps.googleapis.com/maps/api/geocode/json?address=${encodeURIComponent(address)}&key={{ google_maps_api_key }}`;
+
+        try {
+            // Effectuer une requête HTTP à l'API Geocoding
+            const response = await fetch(geocodingUrl);
+            const data = await response.json();
+
+            if (data.status === "OK") {
+                // Coordonnées géocodées
+                const position = data.results[0].geometry.location;
+                map.setCenter(position);
+
+                // Ajout d'un marqueur avancé
+                new AdvancedMarkerElement({
+                    map: map,
+                    position: position,
+                    title: "Localisation de l'adresse",
+                });
+            } else {
+                console.error("Le géocodage a échoué : " + data.status);
+            }
+        } catch (error) {
+            console.error("Erreur lors de la requête à l'API Geocoding :", error);
+        }
+    }
+
+    // Appel de la fonction initMap
+    window.initMap = initMap;
+    
+</script>
