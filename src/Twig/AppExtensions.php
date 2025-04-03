@@ -31,8 +31,12 @@ class AppExtensions extends AbstractExtension implements GlobalsInterface
 
     public function getGlobals(): array
     {
+        // Récupérer la clé API depuis les variables d'environnement
+        $googleMapsApiKey = $_ENV['GOOGLE_MAPS_API_KEY'];
+
         return [
             'about' => $this->em->getRepository(About::class)->find(1),
+            'google_maps_api_key' => $googleMapsApiKey,
         ];
     }
 }

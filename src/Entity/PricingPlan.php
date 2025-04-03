@@ -17,7 +17,7 @@ class PricingPlan
     private ?string $name = null;
 
     #[ORM\Column(type: 'decimal', scale: 2)]
-    private ?float $price = null;
+    private ?string $price = null;
 
     #[ORM\Column(length: 255)]
     private ?string $currency = null;
@@ -51,12 +51,12 @@ class PricingPlan
         return $this;
     }
 
-    public function getPrice(): ?float
+    public function getPrice(): ?string
     {
         return $this->price;
     }
 
-    public function setPrice(float $price): static
+    public function setPrice(string $price): static
     {
         $this->price = $price;
 

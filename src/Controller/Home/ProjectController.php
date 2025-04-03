@@ -35,7 +35,7 @@ final class ProjectController extends AbstractController
         }
         $frameworks = array_unique($frameworks); // Supprimer les doublons
 
-        return $this->render('home/project.html.twig', [
+        return $this->render('project/index.html.twig', [
             'projects' => $projects,
             'totalSkills' => $totalSkills,
             'totalFrameworks' => $totalFrameworks,
@@ -48,7 +48,7 @@ final class ProjectController extends AbstractController
     public function show(Project $project): Response
     {
         // Rendre la vue pour afficher les détails du projet
-        return $this->render('home/project_show.html.twig', [
+        return $this->render('project/project_show.html.twig', [
             'project' => $project,
         ]);
     }

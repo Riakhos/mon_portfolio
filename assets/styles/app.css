@@ -216,3 +216,22 @@ a:hover {
     font-weight: bold;
     text-transform: uppercase;
 }
+
+.card-contact {
+    background-color: rgba(6, 88, 112, 0.6); /* Fond blanc semi-transparent */
+    border-radius: 10px;
+    box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1); /* Ombre légère */
+}
+
+/* Champs translucides par défaut */
+.form-control-contact {
+    background-color: rgba(255, 255, 255, 0.3); /* Fond translucide */
+    transition: background-color 0.3s ease, box-shadow 0.3s ease; /* Transition fluide */
+}
+
+/* Champs opaques lorsqu'ils sont en focus ou lorsqu'on tape */
+.form-control-contact:focus {
+    background-color: rgba(255, 255, 255, 1); /* Fond opaque */
+    box-shadow: 0 0 5px rgba(0, 123, 255, 0.5); /* Légère ombre bleue */
+    outline: none; /* Supprime la bordure par défaut */
+}
