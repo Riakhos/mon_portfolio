@@ -29,7 +29,7 @@ class Project
     #[ORM\Column(length: 255, nullable: true)]
     private ?string $demo_link = null;
 
-    #[ORM\Column]
+    #[ORM\Column(type: 'datetime_immutable')]
     private ?\DateTimeImmutable $created_at = null;
 
     #[ORM\Column(type: Types::DATETIME_MUTABLE, nullable: true)]
@@ -117,13 +117,6 @@ class Project
     public function getCreatedAt(): ?\DateTimeImmutable
     {
         return $this->created_at;
-    }
-
-    public function setCreatedAt(\DateTimeImmutable $created_at): static
-    {
-        $this->created_at = $created_at;
-
-        return $this;
     }
 
     public function getUpdated(): ?\DateTimeInterface

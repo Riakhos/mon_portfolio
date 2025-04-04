@@ -82,10 +82,22 @@ class About
     #[ORM\Column(length: 255)]
     private ?string $imageAvatar = null;
 
+    /**
+     * @var Collection<int, BlogPost>
+     */
+    #[ORM\OneToMany(targetEntity: BlogPost::class, mappedBy: 'author')]
+    private Collection $blogPosts;
+
+    public function __toString(): string
+    {
+        return $this->firstname . ' ' . $this->lastname;
+    }
+
     public function __construct()
     {
         $this->socialLinks = new ArrayCollection();
         $this->experiences = new ArrayCollection();
+        $this->blogPosts = new ArrayCollection();
     }
 
     public function getId(): ?int
@@ -365,6 +377,36 @@ class About
     public function setImageAvatar(string $imageAvatar): static
     {
         $this->imageAvatar = $imageAvatar;
+
+        return $this;
+    }
+
+    /**
+     * @return Collection<int, BlogPost>
+     */
+    public function getBlogPosts(): Collection
+    {
+        return $this->blogPosts;
+    }
+
+    public function addBlogPost(BlogPost $blogPost): static
+    {
+        if (!$this->blogPosts->contains($blogPost)) {
+            $this->blogPosts->add($blogPost);
+            $blogPost->setAuthor($this);
+        }
+
+        return $this;
+    }
+
+    public function removeBlogPost(BlogPost $blogPost): static
+    {
+        if ($this->blogPosts->removeElement($blogPost)) {
+            // set the owning side to null (unless already changed)
+            if ($blogPost->getAuthor() === $this) {
+                $blogPost->setAuthor(null);
+            }
+        }
 
         return $this;
     }

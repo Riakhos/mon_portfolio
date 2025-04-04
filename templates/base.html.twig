@@ -30,7 +30,7 @@
                     <!-- Social Media Links -->
                     {% for social in about.socialLinks %}
                         <li class="social-item me-3">
-                            <a class="social-link text-light" href="{{ social.href }}" target="_blank" aria-label="{{ social.imgAlt }}">
+                            <a class="social-link" href="{{ social.href }}" target="_blank" aria-label="{{ social.imgAlt }}">
                                 <img src="{{ asset(social.imgSrc) }}" alt="{{ social.imgAlt }}" title="{{ social.imgTitle }}" aria-hidden="true">
                             </a>
                         </li>
@@ -76,10 +76,10 @@
                     <ul class="navbar-nav ms-auto">
                         <!-- Navbar Links -->
                         <li class="nav-item">
-                            <a href="{{ path('app_project') }}" class="nav-link {% if app.request.attributes.get('_route') == 'app_project' %}active{% endif %}"  aria-label="Mes Projets">Mes Projets</a>
+                            <a href="{{ path('app_project') }}" class="nav-link {% if app.request.attributes.get('_route') == 'app_project' %}active{% endif %}" aria-label="Mes Projets">Mes Projets</a>
                         </li>
                         <li class="nav-item">
-                            <a href="#" class="nav-link" aria-label="Blog">Blog</a>
+                            <a href="{{ path('app_blog_post') }}" class="nav-link {% if app.request.attributes.get('_route') == 'app_blog_post' %}active{% endif %}" aria-label="Blog">Blog</a>
                         </li>
                         <li class="nav-item last-item">
                             <a href="{{ path('app_home') }}#contact" class="nav-link" aria-label="Contact">Contact</a>
@@ -120,7 +120,7 @@
         <footer class="footer py-4 bg-secondary-color mt-5">
             <div class="container text-center">
                 <p class="small mb-0">
-                    &copy; 2025 Created With <i class="bi bi-suit-heart-fill text-danger"></i> By {{ about.firstname }} {{ about.lastname }}
+                    &copy; {{ "now"|date("Y") }} Créer avec <i class="bi bi-suit-heart-fill text-danger"></i> Par {{ about.firstname }} {{ about.lastname }}
                 </p>
             </div>
         </footer>

@@ -1,0 +1,98 @@
+{% extends 'base.html.twig' %}
+
+{% block title %}{{ post.title }}{% endblock %}
+
+{% block body %}
+    <section class="section" id="blog-post">
+        <div class="container">
+            <div class="d-flex justify-content-between align-items-center">
+                <h2 class="text-danger">{{ post.title }}</h2>
+                <p class="text-muted text-end">Publié le {{ post.createdAt|date('d/m/Y') }}</p>
+            </div>
+
+            <!-- blog-card -->
+            <div class="card p-0 mb-4">
+
+                <!-- Image Section -->
+                <div class="col-md-12">
+                    <img src="{{ asset('uploads/blogpost/' ~ post.image) }}" class="card-img-top h-100 object-fit-cover" alt="{{ post.title }}">
+                </div>
+
+                <!-- Text Section -->
+                <div class="col-md-12">
+                    <div class="card-header mx-2">
+                        <ul class="post-details list-unstyled d-flex gap-3 justify-content-between">
+                            <!-- link person post -->
+                            <li class="person-section">
+                                {% set selectedLink = post.author.socialLinks|filter(link => link.platform == post.selectedSocialLinkType)|first %}
+                                <a href="{{ selectedLink.href }}" class="text-primary-color text-decoration-none" target="_blank">
+                                    {% if app.user.imageAvatar is not null %}
+                                        <img class="rounded-circle" style="height: 20px; width: 20px;" src="{{ asset('uploads/imageAvatar/' ~ app.user.imageAvatar) }}" alt="Photo de profil">
+                                    {% elseif app.user.imageAvatar is empty %}
+                                        <i class="bi bi-person-fill" style="font-size: 20px;"></i>
+                                    {% endif %} {{ post.author.firstname }} {{ post.author.lastname }}
+                                </a>
+                            </li>
+
+                            <!-- link like post -->
+                            <li class="like-section">
+                                <a href="#" class="text-primary-color text-decoration-none" onclick="incrementLike({{ post.id }}, this)">
+                                    <i class="bi bi-hand-thumbs-up text-danger"></i> <span class="like-count">{{ post.likes }}</span> Likes
+                                </a>
+                            </li>
+
+                            <!-- link create comment post -->
+                            <li class="comment-section">
+                                <a href="#" class="text-primary-color text-decoration-none">
+                                    <i class="bi bi-chat-left text-danger"></i> {{ post.comments|length }} Commentaires
+                                </a>
+                            </li>
+                        </ul>
+
+                        <!-- Section des commentaires -->
+                        <div class="comments mt-4">
+                            <h4>Commentaires ({{ post.comments|length }})</h4>
+                            <ul class="list-unstyled">
+                                {% for comment in post.comments %}
+                                    <li class="mb-3">
+                                        <strong>{{ comment.author }}</strong> ({{ comment.createdAt|date('d/m/Y H:i') }}) :
+                                        <p>{{ comment.content }}</p>
+                                    </li>
+                                {% else %}
+                                    <li>Aucun commentaire pour cet article.</li>
+                                {% endfor %}
+                            </ul>
+                        </div>
+
+                    </div>
+                    
+                    <!-- Card Body -->
+                    <div class="card-body d-flex flex-column justify-content-between">
+                        <p class="card-text">{{ post.content|raw }}</p>
+                        <a href="{{ path('app_blog_post') }}" class="btn btn-info mt-4 mx-auto">Retour à la liste</a>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </section>
+{% endblock %}
+
+{% block javascripts %}
+    <script>
+        function incrementLike(postId, element) {
+            fetch(`/blog/${postId}/like`, {
+                method: 'POST',
+                headers: {
+                    'X-Requested-With': 'XMLHttpRequest',
+                    'Content-Type': 'application/json',
+                },
+            })
+            .then(response => response.json())
+            .then(data => {
+                const likeCountElement = element.querySelector('.like-count');
+                likeCountElement.textContent = data.likes;
+            })
+            .catch(error => console.error('Error:', error));
+        }
+    </script>
+{% endblock %}

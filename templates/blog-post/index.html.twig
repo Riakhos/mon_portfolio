@@ -1,0 +1,212 @@
+{% extends 'base.html.twig' %}
+
+{% block title %}Mon Blog{% endblock %}
+
+{% block body %}
+
+    <section class="section" id="blog">
+        <div class="container">
+            <h2 class="mb-5 text-danger">Les articles de mon Blog</h2>
+            
+            <!-- Section: Filters -->
+            <div class="filters text-center mb-4">
+                <a href="#" id="reset-filters" data-filter="*" class="btn btn-info active" aria-label="Afficher tous les articles">Tous</a>
+                <a href="#" data-filter=".new" class="btn btn-info" aria-label="Afficher les nouveautés">Nouveauté</a>
+
+                <!-- Select for Categories -->
+                {% if categories is not empty %}
+                    <select id="category-filter" class="form-select d-inline-block w-auto mx-2" aria-label="Filtrer par catégorie">
+                        <option value="*">Toutes les catégories</option>
+                        {% for category in categories %}
+                            <option value=".{{ category|lower }}">{{ category }}</option>
+                        {% endfor %}
+                    </select>
+                {% else %}
+                    <p>Aucune catégorie disponible.</p>
+                {% endif %}
+
+                <!-- Select for Frameworks -->
+                {% if frameworks is not empty %}
+                    <select id="framework-filter" class="form-select d-inline-block w-auto mx-2" aria-label="Filtrer par framework">
+                        <option value="*">Tous les frameworks</option>
+                        {% for framework in frameworks %}
+                            <option value=".{{ framework|lower }}">{{ framework }}</option>
+                        {% endfor %}
+                    </select>
+                {% else %}
+                    <p>Aucun framework disponible.</p>
+                {% endif %}
+            </div>
+
+            <!-- Section: Blog Posts -->
+            <div class="row">
+                {% for post in blogPosts %}
+                    <div class="blogPost-item {{ post.framework|join(' ')|lower }} {{ post.category|join(' ')|lower }} {% if loop.index <= 5 %}new{% endif %}">
+                        <div class="col-md-12 mb-4">
+                            <div class="card p-0">
+                                <div class="row g-0">
+                                    <!-- Image Section -->
+                                    <div class="col-md-4">
+                                        <img src="{{ asset('uploads/blogpost/' ~ post.image) }}" class="card-img-top h-100 object-fit-cover" alt="{{ post.title }}">
+                                    </div>
+                                    <!-- Text Section -->
+                                    <div class="col-md-8">
+                                        <div class="card-header mx-2">
+                                            <div class="d-flex justify-content-between align-items-center">
+                                                <h3 class="card-title text-tertiary-color">{{ post.title }}</h3>
+                                                <p class="text-end">
+                                                    {{ post.createdAt|date('d/m/Y') }}
+                                                </p>
+                                            </div>
+                                            
+                                            <ul class="post-details list-unstyled d-flex gap-3 justify-content-between">
+                                                <!-- link person post -->
+                                                <li class="person-section">
+                                                    {% set selectedLink = post.author.socialLinks|filter(link => link.platform == post.selectedSocialLinkType)|first %}
+                                                    <a href="{{ selectedLink.href }}" class="text-primary-color text-decoration-none" target="_blank">
+                                                        {% if app.user.imageAvatar is not null %}
+                                                            <img class="rounded-circle" style="height: 20px; width: 20px;" src="{{ asset('uploads/imageAvatar/' ~ app.user.imageAvatar) }}" alt="Photo de profil">
+                                                        {% elseif app.user.imageAvatar is empty %}
+                                                            <i class="bi bi-person-fill" style="font-size: 20px;"></i>
+                                                        {% endif %} {{ post.author.firstname }} {{ post.author.lastname }}
+                                                    </a>
+                                                </li>
+
+                                                <!-- link like post -->
+                                                <li class="like-section">
+                                                    <a href="#" class="text-primary-color text-decoration-none" onclick="incrementLike({{ post.id }}, this)">
+                                                        <i class="bi bi-hand-thumbs-up text-danger"></i> <span class="like-count">{{ post.likes }}</span> Likes
+                                                    </a>
+                                                </li>
+
+                                                <!-- link create comment post -->
+                                                <li class="comment-section">
+                                                    <a href="#" class="text-primary-color text-decoration-none">
+                                                        <i class="bi bi-chat-left text-danger"></i> {{ post.comments|length }} Commentaires
+                                                    </a>
+                                                </li>
+                                            </ul>
+
+                                            <!-- Section des commentaires -->
+                                            <div class="comments mt-4">
+                                                <h4>Commentaires ({{ post.comments|length }})</h4>
+                                                <ul class="list-unstyled">
+                                                    {% for comment in post.comments %}
+                                                        <li class="mb-3">
+                                                            <strong>{{ comment.author }}</strong> ({{ comment.createdAt|date('d/m/Y H:i') }}) :
+                                                            <p>{{ comment.content }}</p>
+                                                        </li>
+                                                    {% else %}
+                                                        <li>Aucun commentaire pour cet article.</li>
+                                                    {% endfor %}
+                                                </ul>
+                                            </div>
+                                        </div>
+
+                                        <!-- Card Body -->
+                                        <div class="card-body d-flex flex-column justify-content-between">
+                                            <p class="card-text">{{ post.content|slice(0, 150)|striptags }}</p>
+                                            <a href="{{ path('blog_post_show', { id: post.id }) }}" class="btn btn-info mt-4 mx-auto">Lire la suite</a>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+
+                    <!-- Separator -->
+                    <div class="col-md-12 mb-4">
+                        <hr class="text-danger mx-auto w-75 custom-hr">
+                    </div>
+                {% endfor %}
+            </div>
+        </div>
+    </section>
+{% endblock %}
+
+{% block javascripts %}
+    <script>
+        function incrementLike(postId, element) {
+            fetch(`/blog/${postId}/like`, {
+                method: 'POST',
+                headers: {
+                    'X-Requested-With': 'XMLHttpRequest',
+                    'Content-Type': 'application/json',
+                },
+            })
+            .then(response => response.json())
+            .then(data => {
+                const likeCountElement = element.querySelector('.like-count');
+                likeCountElement.textContent = data.likes;
+            })
+            .catch(error => console.error('Error:', error));
+        }
+
+        // Filtrage des articles de blog
+        document.addEventListener('DOMContentLoaded', function () {
+            const categoryFilter = document.getElementById('category-filter');
+            const frameworkFilter = document.getElementById('framework-filter');
+            const resetFilters = document.getElementById('reset-filters');
+            const blogPostItems = document.querySelectorAll('.blogPost-item');
+            
+            const filterButtons = document.querySelectorAll('.filters a[data-filter]');
+            const newFilterButton = document.querySelector('[data-filter=".new"]');
+
+            function applyFilters() {
+                const categoryValue = categoryFilter.value;
+                const frameworkValue = frameworkFilter.value;
+
+                blogPostItems.forEach((item, index) => {
+                    const matchesCategory = categoryValue === '*' || item.classList.contains(categoryValue.substring(1));
+                    const matchesFramework = frameworkValue === '*' || item.classList.contains(frameworkValue.substring(1));
+                    const isNew = index < 5;
+
+                    item.style.display = (matchesCategory && matchesFramework) || (newFilterButton.classList.contains('active') && isNew) ? 'block' : 'none';
+                });
+            }
+
+            function resetActiveClasses() {
+                // Supprime la classe active de tous les boutons et listes déroulantes
+                filterButtons.forEach(button => button.classList.remove('active'));
+                categoryFilter.classList.remove('active');
+                frameworkFilter.classList.remove('active');
+            }
+
+            categoryFilter.addEventListener('change', function () {
+                resetActiveClasses();
+                categoryFilter.classList.add('active'); // Ajoute la classe active au filtre de catégorie
+                applyFilters();
+            });
+
+            frameworkFilter.addEventListener('change', function () {
+                resetActiveClasses();
+                frameworkFilter.classList.add('active'); // Ajoute la classe active au filtre de framework
+                applyFilters();
+            });
+
+            filterButtons.forEach(button => {
+                button.addEventListener('click', function (e) {
+                    e.preventDefault();
+                    resetActiveClasses();
+                    this.classList.add('active'); // Ajoute la classe active au bouton cliqué
+                    if (this.dataset.filter === '.new') {
+                        categoryFilter.value = '*';
+                        frameworkFilter.value = '*';
+                    }
+                    applyFilters();
+                });
+            });
+
+            resetFilters.addEventListener('click', function () {
+                resetActiveClasses();
+                this.classList.add('active');
+                categoryFilter.value = '*';
+                frameworkFilter.value = '*';
+                applyFilters();
+            });
+
+            // Appliquer les filtres au chargement de la page
+            applyFilters();
+        });
+    </script>
+{% endblock %}

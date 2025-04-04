@@ -1,0 +1,132 @@
+
+    <h2 class="m-4 text-danger">Mon Blog</h2>
+
+    <div class="container">
+        <div class="row">
+            <div class="col-md-8">
+                {% for post in blogPosts %}
+                    <div class="card mb-4">
+                        <div class="card-header">
+                            <h2>{{ post.title }}</h2>
+                            <p>Publié le {{ post.created_at|date('d/m/Y') }}</p>
+                        </div>
+                        <div class="card-body">
+                            <p>{{ post.content|raw }}</p>
+                        </div>
+                    </div>
+                {% endfor %}
+            </div>
+        </div>
+    </div>
+    <div class="row">
+        <div class="col-md-4">
+            <h3>Catégories</h3>
+            <ul>
+                {% for category in categories %}
+                    <li>{{ category.name }}</li>
+                {% endfor %}
+            </ul>
+        </div>
+        <div class="col-md-4">
+            <h3>Archives</h3>
+            <ul>
+                {% for archive in archives %}
+                    <li>{{ archive.date|date('F Y') }}</li>
+                {% endfor %}
+            </ul>
+        </div>
+    </div>
+    <div class="row">
+        <div class="col-md-12">
+            <h3>Laisser un commentaire</h3>
+            {{ form_start(commentForm) }}
+                {{ form_widget(commentForm) }}
+                <button type="submit" class="btn btn-primary">Envoyer</button>
+            {{ form_end(commentForm) }}
+        </div>
+    </div>
+    <div class="row">
+        <div class="col-md-12">
+            <h3>Commentaires</h3>
+            {% for comment in comments %}
+                <div class="card mb-2">
+                    <div class="card-header">
+                        <strong>{{ comment.author }}</strong> a dit :
+                    </div>
+                    <div class="card-body">
+                        {{ comment.content|raw }}
+                    </div>
+                </div>
+            {% endfor %}
+        </div>
+    </div>
+    <div class="row">
+        <div class="col-md-12">
+            <h3>Articles similaires</h3>
+            <ul>
+                {% for similarPost in similarPosts %}
+                    <li>{{ similarPost.title }}</li>
+                {% endfor %}
+            </ul>
+        </div>
+    </div>
+    <div class="row">
+        <div class="col-md-12">
+            <h3>Articles récents</h3>
+            <ul>
+                {% for recentPost in recentPosts %}
+                    <li>{{ recentPost.title }}</li>
+                {% endfor %}
+            </ul>
+        </div>
+    </div>
+    <div class="row">
+        <div class="col-md-12">
+            <h3>Articles populaires</h3>
+            <ul>
+                {% for popularPost in popularPosts %}
+                    <li>{{ popularPost.title }}</li>
+                {% endfor %}
+            </ul>
+        </div>
+    </div>
+    <div class="row">
+        <div class="col-md-12">
+            <h3>Articles en vedette</h3>
+            <ul>
+                {% for featuredPost in featuredPosts %}
+                    <li>{{ featuredPost.title }}</li>
+                {% endfor %}
+            </ul>
+        </div>
+    </div>
+    <div class="row">
+        <div class="col-md-12">
+            <h3>Articles recommandés</h3>
+            <ul>
+                {% for recommendedPost in recommendedPosts %}
+                    <li>{{ recommendedPost.title }}</li>
+                {% endfor %}
+            </ul>
+        </div>
+    </div>
+    <div class="row">
+        <div class="col-md-12">
+            <h3>Articles à lire</h3>
+            <ul>
+                {% for readPost in readPosts %}
+                    <li>{{ readPost.title }}</li>
+                {% endfor %}
+            </ul>
+        </div>
+    </div>
+    <div class="row">
+        <div class="col-md-12">
+            <h3>Articles à découvrir</h3>
+            <ul>
+                {% for discoverPost in discoverPosts %}
+                    <li>{{ discoverPost.title }}</li>
+                {% endfor %}
+            </ul>
+        </div>
+    </div>

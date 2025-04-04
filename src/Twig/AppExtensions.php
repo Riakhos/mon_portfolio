@@ -20,8 +20,8 @@ class AppExtensions extends AbstractExtension implements GlobalsInterface
     public function getFilters(): array
 	{
 		return [
-			new TwigFilter('price', [$this, 'formatPrice'])
-		];
+			new TwigFilter('price', [$this, 'formatPrice']),
+        ];
 	}
 	
 	public function formatPrice($number)

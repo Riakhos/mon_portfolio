@@ -1,0 +1,64 @@
+<!-- Section: Blog -->
+    <section class="section" id="blog">
+    
+        <div class="container">
+
+            <h2 class="m-4 text-danger">Dernières nouveautés</h2>
+
+            <div class="row">
+
+                <!-- blog-card -->
+                <div class="card p-0 mb-4">
+                    <div class="row g-0">
+
+                        <!-- Image Section -->
+                        <div class="col-md-4">
+                            <img src="{{ asset('images/blog1.jpg') }}" class="card-img-top h-100 object-fit-cover" alt="Download free bootstrap 4 landing page, free bootstrap 4 templates, Download free bootstrap 4.1 landing page, free bootstrap 4.1.1 templates, meyawo Landing page">
+                        </div>
+
+                         <!-- Text Section -->
+                        <div class="col-md-8">
+                            <div class="card-header mx-2">
+
+                                <div class="d-flex justify-content-between align-items-center">
+                                    <h3 class="card-title text-tertiary-color text-start">Consectetur adipisicing elit</h3>
+                                    <!-- Section: Date -->
+                                    <p class="text-end">{{ 'now'|date('d/m/Y') }}</p>
+                                </div>
+
+                                <ul class="post-details list-unstyled d-flex gap-3 justify-content-between">
+
+                                    <!-- link person post -->
+                                    <li class="person-section">
+                                        <a href="https://www.facebook.com/richard.bonnegent" class="text-primary-color text-decoration-none" target="_blank"><i class="bi bi-person-fill text-danger" style="font-size: 20px;"></i> Richard</a>
+                                    </li> 
+
+                                    <!-- link like post -->
+                                    <li class="like-section">
+                                        <a href="#" class="text-primary-color text-decoration-none" onclick="incrementLike1()"><i class="bi bi-hand-thumbs-up text-danger"><span class="like-count1" id="like-count1"> 234</span></i> Like<!--! BDD pour stocker les likes en mémoires --></a>
+                                    </li> 
+
+                                    <!-- link create comment post -->
+                                    <li class="comment-section">
+                                    <!--! BDD pour stocker les commentaires en mémoires -->
+                                        <a href="#" class="text-primary-color text-decoration-none" onclick="incrementComment1()"><i class="bi bi-chat-left text-danger"><span class="comment-count1" id="comment-count1"> 264</span></i> Commentaire</a>
+                                    </li>
+                                </ul>
+                            </div>
+
+                            <div class="card-body d-flex flex-column justify-content-between">
+                                <p class="card-text">Lorem ipsum dolor sit amet, consectetur adipisicing elit. Impedit excepturi laborum enim, vitae ipsam atque eum, ad iusto consequuntur voluptas, esse doloribus. Perferendis porro quisquam vitae exercitationem aliquid, minus eos laborum repudiandae, cumque debitis iusto omnis praesentium? Laborum placeat sit adipisci illum tempore maxime, esse qui quae? Molestias excepturi corporis similique doloribus. Esse vitae earum architecto nulla non dolores illum at perspiciatis quod, et deleniti cupiditate reiciendis harum facere, delectus eum commodi soluta distinctio sit repudiandae possimus sunt. Ipsum, rem.</p>
+
+                                <a href="#"  class="read-more text-primary-color text-decoration-none">Read more <i class="ti-angle-double-right"></i></a>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+
+                <div class="col-md-12 mb-4">
+                    <hr class="text-danger mx-auto w-75 custom-hr">
+                </div>
+
+            </div>
+        </div>
+    </section>

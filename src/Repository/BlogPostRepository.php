@@ -40,4 +40,22 @@ class BlogPostRepository extends ServiceEntityRepository
     //            ->getOneOrNullResult()
     //        ;
     //    }
+
+    public function findDistinctCategories(): array
+    {
+        return $this->createQueryBuilder('b')
+            ->select('DISTINCT b.category')
+            ->where('b.category IS NOT NULL')
+            ->getQuery()
+            ->getResult();
+    }
+
+    public function findDistinctFrameworks(): array
+    {
+        return $this->createQueryBuilder('b')
+            ->select('DISTINCT b.framework')
+            ->where('b.framework IS NOT NULL')
+            ->getQuery()
+            ->getResult();
+    }
 }
