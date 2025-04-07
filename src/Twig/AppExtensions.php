@@ -21,6 +21,7 @@ class AppExtensions extends AbstractExtension implements GlobalsInterface
 	{
 		return [
 			new TwigFilter('price', [$this, 'formatPrice']),
+            new TwigFilter('format_number', [$this, 'formatNumber']),
         ];
 	}
 	
@@ -38,5 +39,18 @@ class AppExtensions extends AbstractExtension implements GlobalsInterface
             'about' => $this->em->getRepository(About::class)->find(1),
             'google_maps_api_key' => $googleMapsApiKey,
         ];
+    }
+
+    public function formatNumber(int $number): string
+    {
+        if ($number >= 1000000) {
+            return round($number / 1000000, 1) . 'M';
+        }
+
+        if ($number >= 1000) {
+            return round($number / 1000, 1) . 'K';
+        }
+
+        return (string) $number;
     }
 }

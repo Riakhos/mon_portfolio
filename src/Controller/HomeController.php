@@ -107,6 +107,20 @@ final class HomeController extends AbstractController
             $commentForms[$blogPost->getId()] = $form->createView();
         }
 
+        $totalProjects = count($projects);
+
+        // Calculer le nombre total de likes
+        $totalLikes = $blogPostRepository->createQueryBuilder('b')
+            ->select('SUM(b.likes)')
+            ->getQuery()
+            ->getSingleScalarResult();
+
+        // Calculer la somme des heures travaillées
+        $totalHoursWorked = array_sum(array_map(fn($project) => $project->getHoursWorked(), $projects));
+
+        // Calculer le nombre de cafés bus (1 café toutes les 3 heures)
+        $totalCoffees = intdiv($totalHoursWorked, 3);
+
         return $this->render('home/index.html.twig', [
             'services' => $services,
             'pricingPlans' => $pricingPlans,
@@ -115,6 +129,10 @@ final class HomeController extends AbstractController
             'messageForm' => $form->createView(),
             'latestBlogPosts' => $latestBlogPosts,
             'commentForms' => $commentForms,
+            'totalProjects' => $totalProjects,
+            'totalLikes' => $totalLikes,
+            'totalHoursWorked' => $totalHoursWorked,
+            'totalCoffees' => $totalCoffees,
         ]);
     }
 

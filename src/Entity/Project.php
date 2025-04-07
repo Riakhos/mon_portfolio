@@ -44,6 +44,9 @@ class Project
     #[ORM\Column(type: Types::JSON, nullable: true)]
     private ?array $apis = [];
 
+    #[ORM\Column(nullable: true)]
+    private ?int $hoursWorked = null;
+
     public function __construct()
     {
         $this->created_at = new \DateTimeImmutable(); // Définit la date actuelle par défaut
@@ -195,6 +198,18 @@ class Project
     public function setApis(?array $apis): static
     {
         $this->apis = $apis;
+
+        return $this;
+    }
+
+    public function getHoursWorked(): ?int
+    {
+        return $this->hoursWorked;
+    }
+
+    public function setHoursWorked(?int $hoursWorked): static
+    {
+        $this->hoursWorked = $hoursWorked;
 
         return $this;
     }

@@ -13,6 +13,7 @@ use EasyCorp\Bundle\EasyAdminBundle\Field\FormField;
 use EasyCorp\Bundle\EasyAdminBundle\Field\ArrayField;
 use Symfony\Component\EventDispatcher\EventSubscriberInterface;
 use EasyCorp\Bundle\EasyAdminBundle\Event\BeforeEntityUpdatedEvent;
+use EasyCorp\Bundle\EasyAdminBundle\Field\IntegerField;
 
 class ProjectCrudController extends AbstractCrudController implements EventSubscriberInterface
 {
@@ -40,8 +41,11 @@ class ProjectCrudController extends AbstractCrudController implements EventSubsc
             // Section: Informations générales
             FormField::addFieldset('Informations générales')->setIcon('fas fa-info-circle'),
             TextField::new('title', 'Titre du projet')
-                ->setColumns('col-md-6')
+                ->setColumns('col-md-4')
                 ->setHelp('Entrez le titre du projet.'),
+            IntegerField::new('hoursWorked', 'Heures travaillées')
+                ->setColumns('col-md-2')
+                ->setHelp('Indiquez le nombre d\'heures travaillées pour ce projet.'),
             TextEditorField::new('description', 'Description du projet')
                 ->setColumns('col-md-6')
                 ->setHelp('Entrez une description détaillée du projet.'),
