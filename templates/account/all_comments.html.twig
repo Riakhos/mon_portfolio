@@ -1,6 +1,6 @@
 {% extends 'base.html.twig' %}
 
-{% block title %}Mon Compte{% endblock %}
+{% block title %}Tous mes commentaires{% endblock %}
 
 {% block body %}
     <div class="container my-5">
@@ -11,25 +11,11 @@
             <!-- Section: Sidebar -->
             <div class="col-md-3">
                 {% include 'account/sidebar.html.twig' %}
-            </div>  
+            </div>
 
-            <!-- Section: Account Content -->
+            <!-- Section: Comments List -->
             <div class="col-md-9 text-secondary-color">
-                <h3 class="fs-1">Bienvenue, {{ app.user.username }}</h1>
-                <p>Gérez vos informations de compte ici.</p>
-
-                {% if app.user.roles == ['ROLE_USER'] %}
-                    <p>Vous êtes un utilisateur simple.</p>
-                {% elseif app.user.roles == ['ROLE_ADMIN'] %}
-                    <p>Vous êtes un administrateur.</p>
-                {% endif %}
-
-                <p>Vous pouvez modifier vos informations personnelles <a href="{{ path('app_account_profil') }}">ici</a>.</p>
-                
-                <p>Vous pouvez également <a href="{{ path('app_logout') }}">vous déconnecter</a>.</p>
-
-                <!-- Section: Commentaires -->
-                <h3 class="my-4 fs-2">Vos commentaires</h3>
+                <h3 class="my-4 fs-2">Tous mes commentaires</h3>
                 {% if comments is not empty %}
                     <ul class="list-group">
                         {% for comment in comments %}
@@ -48,13 +34,12 @@
                             </li>
                         {% endfor %}
                     </ul>
-                    <div class="mt-3 text-center">
-                        <a href="{{ path('app_account_all_comments') }}" class="btn btn-info">Voir tous les commentaires</a>
-                    </div>
                 {% else %}
                     <p class="text-muted">Vous n'avez pas encore laissé de commentaires.</p>
                 {% endif %}
-
+                <div class="mt-3">
+                    <a href="{{ path('app_account') }}" class="btn btn-info">Retour à mon compte</a>
+                </div>
             </div>
         </div>
     </div>
