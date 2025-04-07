@@ -4,7 +4,7 @@
 
 {% block body %}
 
-    <section class="section" id="blog">
+    <section class="section-blog scroll-offset" id="blog">
         <div class="container">
             <h2 class="mb-5 text-danger">Les articles de mon Blog</h2>
             
@@ -64,9 +64,9 @@
                                                 <li class="person-section">
                                                     {% set selectedLink = post.author.socialLinks|filter(link => link.platform == post.selectedSocialLinkType)|first %}
                                                     <a href="{{ selectedLink.href }}" class="text-primary-color text-decoration-none" target="_blank">
-                                                        {% if app.user.imageAvatar is not null %}
-                                                            <img class="rounded-circle" style="height: 20px; width: 20px;" src="{{ asset('uploads/imageAvatar/' ~ app.user.imageAvatar) }}" alt="Photo de profil">
-                                                        {% elseif app.user.imageAvatar is empty %}
+                                                        {% if post.author.imageAvatar is not null %}
+                                                            <img class="rounded-circle" style="height: 20px; width: 20px;" src="{{ asset('uploads/imageAvatar/' ~ post.author.imageAvatar) }}" alt="Photo de profil">
+                                                        {% elseif post.author.imageAvatar is empty %}
                                                             <i class="bi bi-person-fill" style="font-size: 20px;"></i>
                                                         {% endif %} {{ post.author.firstname }} {{ post.author.lastname }}
                                                     </a>
@@ -74,18 +74,42 @@
 
                                                 <!-- link like post -->
                                                 <li class="like-section">
-                                                    <a href="#" class="text-primary-color text-decoration-none" onclick="incrementLike({{ post.id }}, this)">
-                                                        <i class="bi bi-hand-thumbs-up text-danger"></i> <span class="like-count">{{ post.likes }}</span> Likes
-                                                    </a>
+                                                    <button class="btn btn-like" data-post-id="{{ post.id }}">
+                                                        <i class="bi bi-hand-thumbs-up text-danger"></i> 
+                                                        <span class="like-count">{{ post.likes }}</span> Likes
+                                                    </button>
                                                 </li>
 
                                                 <!-- link create comment post -->
                                                 <li class="comment-section">
-                                                    <a href="#" class="text-primary-color text-decoration-none">
+                                                    <a href="#" class="text-primary-color text-decoration-none" data-bs-toggle="modal" data-bs-target="#commentModal{{ post.id }}">
                                                         <i class="bi bi-chat-left text-danger"></i> {{ post.comments|length }} Commentaires
                                                     </a>
                                                 </li>
                                             </ul>
+
+                                            <!-- Modale pour ajouter un commentaire -->
+                                            <div class="modal" id="commentModal{{ post.id }}" tabindex="-1" aria-labelledby="commentModalLabel" aria-hidden="true">
+                                                <div class="modal-dialog">
+                                                    <div class="modal-content">
+                                                        <div class="modal-header">
+                                                            <h5 class="modal-title" id="commentModalLabel">Ajouter un commentaire</h5>
+                                                            <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+                                                        </div>
+                                                        <div class="modal-body">
+                                                            {% if app.user %}
+                                                                <!-- Formulaire pour ajouter un commentaire -->
+                                                                {{ form(commentForms[post.id]) }}
+                                                            {% else %}
+                                                                <p>
+                                                                    <a href="{{ path('app_login') }}" class="btn btn-info">Connectez-vous</a>
+                                                                    pour ajouter un commentaire.
+                                                                </p>
+                                                            {% endif %}
+                                                        </div>
+                                                    </div>
+                                                </div>
+                                            </div>
 
                                             <!-- Section des commentaires -->
                                             <div class="comments mt-4">
@@ -106,7 +130,7 @@
                                         <!-- Card Body -->
                                         <div class="card-body d-flex flex-column justify-content-between">
                                             <p class="card-text">{{ post.content|slice(0, 150)|striptags }}</p>
-                                            <a href="{{ path('blog_post_show', { id: post.id }) }}" class="btn btn-info mt-4 mx-auto">Lire la suite</a>
+                                            <a href="{{ path('blog_post_show', { id: post.id }) }}#blog-post" class="btn btn-info mt-4 mx-auto">Lire la suite</a>
                                         </div>
                                     </div>
                                 </div>
@@ -120,30 +144,62 @@
                     </div>
                 {% endfor %}
             </div>
+                        
         </div>
     </section>
 {% endblock %}
 
 {% block javascripts %}
     <script>
-        function incrementLike(postId, element) {
-            fetch(`/blog/${postId}/like`, {
-                method: 'POST',
-                headers: {
-                    'X-Requested-With': 'XMLHttpRequest',
-                    'Content-Type': 'application/json',
-                },
-            })
-            .then(response => response.json())
-            .then(data => {
-                const likeCountElement = element.querySelector('.like-count');
-                likeCountElement.textContent = data.likes;
-            })
-            .catch(error => console.error('Error:', error));
+        // Fonction pour imprimer la page
+        function printfile() {
+            const style = document.createElement('style');
+            style.type = 'text/css';
+            style.media = 'print';
+            style.innerHTML = `
+                header, footer, .navbar, .section {
+                    display: none;
+                }
+            `;
+            document.head.appendChild(style);
+            window.print();
         }
 
-        // Filtrage des articles de blog
+        // Incrémentation des likes
         document.addEventListener('DOMContentLoaded', function () {
+            const likeButtons = document.querySelectorAll('.btn-like');
+
+            likeButtons.forEach(button => {
+                button.addEventListener('click', function () {
+                    const postId = this.getAttribute('data-post-id');
+                    const likeCountElement = this.querySelector('.like-count');
+
+                    fetch(`/blog/${postId}/like`, {
+                        method: 'POST',
+                        headers: {
+                            'X-Requested-With': 'XMLHttpRequest',
+                            'Content-Type': 'application/json',
+                        },
+                    })
+                    .then(response => {
+                        if (!response.ok) {
+                            throw new Error('Erreur lors de la requête.');
+                        }
+                        return response.json();
+                    })
+                    .then(data => {
+                        if (data.likes !== undefined) {
+                            likeCountElement.textContent = data.likes;
+                            alert('Merci pour votre like !');
+                        } else {
+                            console.error('Réponse JSON invalide :', data);
+                        }
+                    })
+                    .catch(error => console.error('Erreur lors de l\'incrémentation des likes :', error));
+                });
+            });
+
+            // Filtrage des articles de blog
             const categoryFilter = document.getElementById('category-filter');
             const frameworkFilter = document.getElementById('framework-filter');
             const resetFilters = document.getElementById('reset-filters');

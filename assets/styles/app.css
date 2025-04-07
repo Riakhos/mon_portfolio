@@ -246,3 +246,20 @@ a:hover {
     color: var(--secondary-color);
     border-color: var(--secondary-color);
 }
+
+/* Ajoute un décalage pour les ancres ciblées */
+.scroll-offset {
+    scroll-margin-top: 150px; /* Ajustez cette valeur en fonction de la hauteur de votre navbar */
+}
+
+.modal {
+    --bs-modal-color: ;
+    --bs-modal-bg: var(--secondary-color);
+}
+
+.toast {
+    --bs-toast-color: var(--primary-color);
+    --bs-toast-bg: rgba(var(--secondary-color), 0.85);
+    --bs-toast-header-color: var(--tertiary-color);
+    --bs-toast-header-bg: rgba(var(--secondary-color), 0.85);
+}

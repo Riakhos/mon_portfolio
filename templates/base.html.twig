@@ -59,10 +59,10 @@
                             <a href="{{ path('app_home') }}" class="nav-link {% if app.request.attributes.get('_route') == 'app_home' %}active{% endif %}" aria-current="page" aria-label="Accueil">Accueil</a>
                         </li>
                         <li class="nav-item">
-                            <a href="{{ path('app_about') }}" class="nav-link {% if app.request.attributes.get('_route') == 'app_about' %}active{% endif %}" aria-label="À propos">À propos</a>
+                            <a href="{{ path('app_about') }}#about" class="nav-link {% if app.request.attributes.get('_route') == 'app_about' %}active{% endif %}" aria-label="À propos">À propos</a>
                         </li>
                         <li class="nav-item">
-                            <a href="{{ path('app_resume') }}" class="nav-link {% if app.request.attributes.get('_route') == 'app_resume' %}active{% endif %}" aria-label="Resume">Mon parcours</a>
+                            <a href="{{ path('app_resume') }}#resume" class="nav-link {% if app.request.attributes.get('_route') == 'app_resume' %}active{% endif %}" aria-label="Resume">Mon parcours</a>
                         </li>
                     </ul>
                     <ul class="navbar-nav brand d-none d-sm-flex align-items-center justify-content-between">
@@ -76,10 +76,10 @@
                     <ul class="navbar-nav ms-auto">
                         <!-- Navbar Links -->
                         <li class="nav-item">
-                            <a href="{{ path('app_project') }}" class="nav-link {% if app.request.attributes.get('_route') == 'app_project' %}active{% endif %}" aria-label="Mes Projets">Mes Projets</a>
+                            <a href="{{ path('app_project') }}#projects" class="nav-link {% if app.request.attributes.get('_route') == 'app_project' %}active{% endif %}" aria-label="Mes Projets">Mes Projets</a>
                         </li>
                         <li class="nav-item">
-                            <a href="{{ path('app_blog_post') }}" class="nav-link {% if app.request.attributes.get('_route') == 'app_blog_post' %}active{% endif %}" aria-label="Blog">Blog</a>
+                            <a href="{{ path('app_blog_post') }}#blog" class="nav-link {% if app.request.attributes.get('_route') == 'app_blog_post' %}active{% endif %}" aria-label="Blog">Blog</a>
                         </li>
                         <li class="nav-item last-item">
                             <a href="{{ path('app_home') }}#contact" class="nav-link" aria-label="Contact">Contact</a>
@@ -126,8 +126,8 @@
         </footer>
         
         <!-- Section: Scripts -->
+        <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/js/bootstrap.bundle.min.js" integrity="sha384-YvpcrYf0tY3lHB60NNkmXc5s9fDVZLESaAA55NDzOxhy9GkcIdslK1eN7N6jIeHz" crossorigin="anonymous"></script>      
         {% block javascripts %}
-            <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/js/bootstrap.bundle.min.js" integrity="sha384-YvpcrYf0tY3lHB60NNkmXc5s9fDVZLESaAA55NDzOxhy9GkcIdslK1eN7N6jIeHz" crossorigin="anonymous"></script>            
             {% block importmap %}{{ importmap('app') }}{% endblock %}
             
             <script>

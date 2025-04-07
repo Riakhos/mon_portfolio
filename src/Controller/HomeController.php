@@ -2,9 +2,12 @@
 
 namespace App\Controller;
 
+use App\Entity\Comment;
 use App\Entity\Message;
 use App\Entity\Project;
+use App\Form\CommentType;
 use App\Form\MessageType;
+use App\Repository\BlogPostRepository;
 use App\Repository\PricingPlanRepository;
 use App\Repository\ServiceRepository;
 use DateTimeImmutable;
@@ -17,7 +20,7 @@ use Symfony\Component\Routing\Attribute\Route;
 final class HomeController extends AbstractController
 {
     #[Route('/', name: 'app_home')]
-    public function index(ServiceRepository $serviceRepository, PricingPlanRepository $pricingPlanRepository, EntityManagerInterface $em, Request $request): Response
+    public function index(ServiceRepository $serviceRepository, PricingPlanRepository $pricingPlanRepository, EntityManagerInterface $em, Request $request, BlogPostRepository $blogPostRepository): Response
     {
         $services = $serviceRepository->findAll();
 
@@ -67,12 +70,51 @@ final class HomeController extends AbstractController
             );
         }
 
+        // Récupérer les derniers articles publiés (par exemple, les 5 derniers)
+        $latestBlogPosts = $blogPostRepository->findBy([], ['updated' => 'DESC', 'created_at' => 'DESC'], 5);
+
+        if (!$latestBlogPosts) {
+            // Gérer le cas où l'entité BlogPost n'est pas trouvée
+            return $this->render('@Twig/Exception/error.html.twig', [
+                'message' => 'Les articles de blog ne sont pas disponibles.',
+            ]);
+        }
+
+        // Gestion des commentaires
+        $commentForms = [];
+        foreach ($latestBlogPosts as $blogPost) {
+            $comment = new Comment();
+            $comment->setBlogPost($blogPost);
+            
+            // Vérifier si l'utilisateur est connecté et définir l'auteur avec getUsername()
+            if ($user = $this->getUser()) {
+                /** @var \App\Entity\User $user */
+                $comment->setAuthor($user->getUsername()); // Utiliser le nom d'utilisateur comme auteur
+            }
+
+            $form = $this->createForm(CommentType::class, $comment);
+            $form->handleRequest($request);
+
+            if ($form->isSubmitted() && $form->isValid()) {
+                $em->persist($comment);
+                $em->flush();
+
+                $this->addFlash('success', 'Votre commentaire a été ajouté avec succès.');
+
+                return $this->redirectToRoute('app_blog_post');
+            }
+
+            $commentForms[$blogPost->getId()] = $form->createView();
+        }
+
         return $this->render('home/index.html.twig', [
             'services' => $services,
             'pricingPlans' => $pricingPlans,
             'projects' => $projects,
             'frameworks' => $frameworks,
             'messageForm' => $form->createView(),
+            'latestBlogPosts' => $latestBlogPosts,
+            'commentForms' => $commentForms,
         ]);
     }
 

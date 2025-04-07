@@ -1,64 +1,168 @@
 <!-- Section: Blog -->
-    <section class="section" id="blog">
-    
-        <div class="container">
+<section class="section-blog scroll-offset" id="blog">
 
-            <h2 class="m-4 text-danger">Dernières nouveautés</h2>
+    <div class="container">
 
-            <div class="row">
+        <h2 class="m-4 text-danger">Dernières nouveautés</h2>
 
-                <!-- blog-card -->
-                <div class="card p-0 mb-4">
-                    <div class="row g-0">
-
-                        <!-- Image Section -->
-                        <div class="col-md-4">
-                            <img src="{{ asset('images/blog1.jpg') }}" class="card-img-top h-100 object-fit-cover" alt="Download free bootstrap 4 landing page, free bootstrap 4 templates, Download free bootstrap 4.1 landing page, free bootstrap 4.1.1 templates, meyawo Landing page">
-                        </div>
-
-                         <!-- Text Section -->
-                        <div class="col-md-8">
-                            <div class="card-header mx-2">
-
-                                <div class="d-flex justify-content-between align-items-center">
-                                    <h3 class="card-title text-tertiary-color text-start">Consectetur adipisicing elit</h3>
-                                    <!-- Section: Date -->
-                                    <p class="text-end">{{ 'now'|date('d/m/Y') }}</p>
+        <!-- Section: Blog Posts -->
+        <div class="row">
+            {% for post in latestBlogPosts %}
+                <div class="blogPost-item {{ post.framework|join(' ')|lower }} {{ post.category|join(' ')|lower }} {% if loop.index <= 5 %}new{% endif %}">
+                    <div class="col-md-12 mb-4">
+                        <div class="card p-0">
+                            <div class="row g-0">
+                                <!-- Image Section -->
+                                <div class="col-md-4">
+                                    <img src="{{ asset('uploads/blogpost/' ~ post.image) }}" class="card-img-top h-100 object-fit-cover" alt="{{ post.title }}">
                                 </div>
+                                <!-- Text Section -->
+                                <div class="col-md-8">
+                                    <div class="card-header mx-2">
+                                        <div class="d-flex justify-content-between align-items-center">
+                                            <h3 class="card-title text-tertiary-color">{{ post.title }}</h3>
+                                            <p class="text-end">
+                                                {{ post.createdAt|date('d/m/Y') }}
+                                            </p>
+                                        </div>
+                                        
+                                        <ul class="post-details list-unstyled d-flex gap-3 justify-content-between">
+                                            <!-- link person post -->
+                                            <li class="person-section">
+                                                {% set selectedLink = post.author.socialLinks|filter(link => link.platform == post.selectedSocialLinkType)|first %}
+                                                <a href="{{ selectedLink.href }}" class="text-primary-color text-decoration-none" target="_blank">
+                                                    {% if post.author.imageAvatar is not null %}
+                                                        <img class="rounded-circle" style="height: 20px; width: 20px;" src="{{ asset('uploads/imageAvatar/' ~ post.author.imageAvatar) }}" alt="Photo de profil">
+                                                    {% elseif post.author.imageAvatar is empty %}
+                                                        <i class="bi bi-person-fill" style="font-size: 20px;"></i>
+                                                    {% endif %} {{ post.author.firstname }} {{ post.author.lastname }}
+                                                </a>
+                                            </li>
 
-                                <ul class="post-details list-unstyled d-flex gap-3 justify-content-between">
+                                            <!-- link like post -->
+                                            <li class="like-section">
+                                                <button class="btn btn-like" data-post-id="{{ post.id }}">
+                                                    <i class="bi bi-hand-thumbs-up text-danger"></i> 
+                                                    <span class="like-count">{{ post.likes }}</span> Likes
+                                                </button>
+                                            </li>
 
-                                    <!-- link person post -->
-                                    <li class="person-section">
-                                        <a href="https://www.facebook.com/richard.bonnegent" class="text-primary-color text-decoration-none" target="_blank"><i class="bi bi-person-fill text-danger" style="font-size: 20px;"></i> Richard</a>
-                                    </li> 
+                                            <!-- link create comment post -->
+                                            <li class="comment-section">
+                                                <a href="#" class="text-primary-color text-decoration-none" data-bs-toggle="modal" data-bs-target="#commentModal{{ post.id }}">
+                                                    <i class="bi bi-chat-left text-danger"></i> {{ post.comments|length }} Commentaires
+                                                </a>
+                                            </li>
+                                        </ul>
 
-                                    <!-- link like post -->
-                                    <li class="like-section">
-                                        <a href="#" class="text-primary-color text-decoration-none" onclick="incrementLike1()"><i class="bi bi-hand-thumbs-up text-danger"><span class="like-count1" id="like-count1"> 234</span></i> Like<!--! BDD pour stocker les likes en mémoires --></a>
-                                    </li> 
+                                        <!-- Modale pour ajouter un commentaire -->
+                                        <div class="modal" id="commentModal{{ post.id }}" tabindex="-1" aria-labelledby="commentModalLabel" aria-hidden="true">
+                                            <div class="modal-dialog">
+                                                <div class="modal-content">
+                                                    <div class="modal-header">
+                                                        <h5 class="modal-title" id="commentModalLabel">Ajouter un commentaire</h5>
+                                                        <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+                                                    </div>
+                                                    <div class="modal-body">
+                                                        {% if app.user %}
+                                                            <!-- Formulaire pour ajouter un commentaire -->
+                                                            {{ form(commentForms[post.id]) }}
+                                                        {% else %}
+                                                            <p>
+                                                                <a href="{{ path('app_login') }}" class="btn btn-info">Connectez-vous</a>
+                                                                pour ajouter un commentaire.
+                                                            </p>
+                                                        {% endif %}
+                                                    </div>
+                                                </div>
+                                            </div>
+                                        </div>
 
-                                    <!-- link create comment post -->
-                                    <li class="comment-section">
-                                    <!--! BDD pour stocker les commentaires en mémoires -->
-                                        <a href="#" class="text-primary-color text-decoration-none" onclick="incrementComment1()"><i class="bi bi-chat-left text-danger"><span class="comment-count1" id="comment-count1"> 264</span></i> Commentaire</a>
-                                    </li>
-                                </ul>
-                            </div>
+                                        <!-- Section des commentaires -->
+                                        <div class="comments mt-4">
+                                            <h4>Commentaires ({{ post.comments|length }})</h4>
+                                            <ul class="list-unstyled">
+                                                {% for comment in post.comments %}
+                                                    <li class="mb-3">
+                                                        <strong>{{ comment.author }}</strong> ({{ comment.createdAt|date('d/m/Y H:i') }}) :
+                                                        <p>{{ comment.content }}</p>
+                                                    </li>
+                                                {% else %}
+                                                    <li>Aucun commentaire pour cet article.</li>
+                                                {% endfor %}
+                                            </ul>
+                                        </div>
+                                    </div>
 
-                            <div class="card-body d-flex flex-column justify-content-between">
-                                <p class="card-text">Lorem ipsum dolor sit amet, consectetur adipisicing elit. Impedit excepturi laborum enim, vitae ipsam atque eum, ad iusto consequuntur voluptas, esse doloribus. Perferendis porro quisquam vitae exercitationem aliquid, minus eos laborum repudiandae, cumque debitis iusto omnis praesentium? Laborum placeat sit adipisci illum tempore maxime, esse qui quae? Molestias excepturi corporis similique doloribus. Esse vitae earum architecto nulla non dolores illum at perspiciatis quod, et deleniti cupiditate reiciendis harum facere, delectus eum commodi soluta distinctio sit repudiandae possimus sunt. Ipsum, rem.</p>
-
-                                <a href="#"  class="read-more text-primary-color text-decoration-none">Read more <i class="ti-angle-double-right"></i></a>
+                                    <!-- Card Body -->
+                                    <div class="card-body d-flex flex-column justify-content-between">
+                                        <p class="card-text">{{ post.content|slice(0, 150)|striptags }}</p>
+                                        <a href="{{ path('blog_post_show', { id: post.id }) }}#blog-post" class="btn btn-info mt-4 mx-auto">Lire la suite</a>
+                                    </div>
+                                </div>
                             </div>
                         </div>
                     </div>
                 </div>
 
+                <!-- Separator -->
                 <div class="col-md-12 mb-4">
                     <hr class="text-danger mx-auto w-75 custom-hr">
                 </div>
-
-            </div>
+            {% endfor %}
         </div>
-    </section>
+    </div>
+</section>
+
+{% block javascripts %}
+    <script>
+        // Fonction pour imprimer la page
+        function printfile() {
+            const style = document.createElement('style');
+            style.type = 'text/css';
+            style.media = 'print';
+            style.innerHTML = `
+                header, footer, .navbar, .section {
+                    display: none;
+                }
+            `;
+            document.head.appendChild(style);
+            window.print();
+        }
+
+        // Incrémentation des likes
+        document.addEventListener('DOMContentLoaded', function () {
+            const likeButtons = document.querySelectorAll('.btn-like');
+
+            likeButtons.forEach(button => {
+                button.addEventListener('click', function () {
+                    const postId = this.getAttribute('data-post-id');
+                    const likeCountElement = this.querySelector('.like-count');
+
+                    fetch(`/blog/${postId}/like`, {
+                        method: 'POST',
+                        headers: {
+                            'X-Requested-With': 'XMLHttpRequest',
+                            'Content-Type': 'application/json',
+                        },
+                    })
+                    .then(response => {
+                        if (!response.ok) {
+                            throw new Error('Erreur lors de la requête.');
+                        }
+                        return response.json();
+                    })
+                    .then(data => {
+                        if (data.likes !== undefined) {
+                            likeCountElement.textContent = data.likes;
+                            alert('Merci pour votre like !');
+                        } else {
+                            console.error('Réponse JSON invalide :', data);
+                        }
+                    })
+                    .catch(error => console.error('Erreur lors de l\'incrémentation des likes :', error));
+                });
+            });
+        });
+    </script>
+{% endblock %}

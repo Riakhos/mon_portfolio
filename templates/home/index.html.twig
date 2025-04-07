@@ -206,9 +206,9 @@
             <div class="portfolio">
                 <!-- Filters -->
                 <div class="filters text-center mb-4">
-                    <a href="#" data-filter=".new" class="btn btn-info active">Nouveauté</a>
+                    <a href="#" data-filter=".new" class="btn btn-info active" aria-label="Afficher les nouveautés">Nouveauté</a>
                     {% for framework in frameworks %}
-                        <a href="#" data-filter=".{{ framework|lower }}" class="btn btn-info">{{ framework }}</a>
+                        <a href="#" data-filter=".{{ framework|lower }}" class="btn btn-info" aria-label="Afficher {{ framework }}">{{ framework }}</a>
                     {% endfor %}
                 </div>
 
