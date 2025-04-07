@@ -89,40 +89,84 @@
                 </div>
 
                 <!-- Section: Experience Card -->
-                    <div class="col-md-8 card m-4">
-                        <div class="card-header text-center">
-                            <h2 class="font-weight-light">Mon Expérience</h2>
-                        </div>
-                        <div class="card-body">
-                            {% for experience in about.experiences %}
-                                {% if experience.institution is null %}
-                                    <h3 class="text-tertiary-color mb-3">{{ experience.title }}</h3>
-                                    <p>{{ experience.description|raw }}</p>
-                                {% endif %}
-                            {% endfor %}
-                        </div>
+                <div class="col-md-8 card m-4">
+                    <div class="card-header text-center">
+                        <h2 class="font-weight-light">Mon Expérience</h2>
                     </div>
+                    <div class="card-body">
+                        {% for experience in about.experiences %}
+                            {% if experience.institution is null %}
+                                <h3 class="text-tertiary-color mb-3">{{ experience.title }}</h3>
+                                <p>{{ experience.description|raw }}</p>
+                            {% endif %}
+                        {% endfor %}
+                    </div>
+                </div>
             </div>
 
             <div class="row justify-content-center">
+
                 <!-- Section: Skills Card -->
-                <div class="col-md-5 card m-4">
+                <div class="col-md-3 card m-4">
                     <div class="card-header text-center">
-                        <h4 class="mt-2">Skills</h4>
+                        <h4 class="mt-2">Compétences</h4>
                         <span class="line"></span>  
                     </div>
                     <div class="card-body pb-2">
-                        <p>{{ about.skills }}</p>
+                        {% for skill, data in skills %}
+                            <h5 class="fs-6">{{ skill }} ({{ data.level }})</h5>
+                            <div class="progress mb-3">
+                                <div class="progress-bar bg-danger" role="progressbar" style="width: {{ data.percentage }}%" aria-valuenow="{{ data.percentage }}" aria-valuemin="0" aria-valuemax="100"></div>
+                            </div>
+                        {% endfor %}
                     </div>
                 </div>
-                <!-- Section: Languages Card -->
-                <div class="col-md-5 card m-4">
+
+                <!-- Section: Frameworks Card -->
+                <div class="col-md-3 card m-4">
                     <div class="card-header text-center">
-                        <h4 class="mt-2">Languages</h4>
+                        <h4 class="mt-2">Frameworks</h4>
                         <span class="line"></span>  
                     </div>
                     <div class="card-body pb-2">
-                        <p>{{ about.languages }}</p>
+                        {% for framework, data in frameworks %}
+                            <h5 class="fs-6">{{ framework }} ({{ data.level }})</h5>
+                            <div class="progress mb-3">
+                                <div class="progress-bar bg-danger" role="progressbar" style="width: {{ data.percentage }}%" aria-valuenow="{{ data.percentage }}" aria-valuemin="0" aria-valuemax="100"></div>
+                            </div>
+                        {% endfor %}
+                    </div>
+                </div>
+
+                <!-- Section: APIs Card -->
+                <div class="col-md-2 card m-4">
+                    <div class="card-header text-center">
+                        <h4 class="mt-2">APIS</h4>
+                        <span class="line"></span>  
+                    </div>
+                    <div class="card-body pb-2">
+                        {% for api, data in apis %}
+                            <h5 class="fs-6">{{ api }} ({{ data.level }})</h5>
+                            <div class="progress mb-3">
+                                <div class="progress-bar bg-danger" role="progressbar" style="width: {{ data.percentage }}%" aria-valuenow="{{ data.percentage }}" aria-valuemin="0" aria-valuemax="100"></div>
+                            </div>
+                        {% endfor %}
+                    </div>
+                </div>
+
+                <!-- Section: Languages Card -->
+                <div class="col-md-2 card m-4">
+                    <div class="card-header text-center">
+                        <h4 class="mt-2">Langues</h4>
+                        <span class="line"></span>  
+                    </div>
+                    <div class="card-body pb-2">
+                        {% for language, level in about.languages %}
+                            <h5 class="fs-6">{{ language }}</h5>
+                            <div class="progress mb-3">
+                                <div class="progress-bar bg-danger" role="progressbar" style="width: {{ level }}%" aria-valuenow="{{ level }}" aria-valuemin="0" aria-valuemax="100"></div>
+                            </div>
+                        {% endfor %}
                     </div>
                 </div>
             </div>

@@ -6,6 +6,7 @@ use App\Entity\About;
 use App\Form\SocialLinkType;
 use EasyCorp\Bundle\EasyAdminBundle\Config\Crud;
 use EasyCorp\Bundle\EasyAdminBundle\Controller\AbstractCrudController;
+use EasyCorp\Bundle\EasyAdminBundle\Field\ArrayField;
 use EasyCorp\Bundle\EasyAdminBundle\Field\CountryField;
 use EasyCorp\Bundle\EasyAdminBundle\Field\DateField;
 use EasyCorp\Bundle\EasyAdminBundle\Field\TelephoneField;
@@ -115,6 +116,10 @@ class AboutCrudController extends AbstractCrudController
             TextEditorField::new('aboutMe', 'À propos de moi')
                 ->setColumns('col-md-8')
                 ->setHelp('Entrez une description à propos de vous.'),
+
+            ArrayField::new('languages', 'Langues')
+                ->setColumns('col-md-6')
+                ->setHelp('Ajoutez les langues et leurs niveaux sous forme de tableau. Exemple: {"English": 80, "French": 45, "Spanish": 67}'),
         ];
     }
 }

@@ -7,6 +7,7 @@ use Doctrine\Common\Collections\ArrayCollection;
 use Doctrine\Common\Collections\Collection;
 use Doctrine\DBAL\Types\Types;
 use Doctrine\ORM\Mapping as ORM;
+use Symfony\Component\Validator\Constraints as Assert;
 
 #[ORM\Entity(repositoryClass: AboutRepository::class)]
 class About
@@ -49,8 +50,9 @@ class About
     #[ORM\Column(type: Types::TEXT)]
     private ?string $skills = null;
 
-    #[ORM\Column(type: Types::TEXT)]
-    private ?string $languages = null;
+    #[ORM\Column(type: Types::JSON, nullable: true)]
+    #[Assert\Type('array')]
+    private ?array $languages = [];
 
     #[ORM\Column(length: 255)]
     private ?string $jobTitle = null;
@@ -98,6 +100,7 @@ class About
         $this->socialLinks = new ArrayCollection();
         $this->experiences = new ArrayCollection();
         $this->blogPosts = new ArrayCollection();
+        $this->languages = []; // Initialisation par défaut
     }
 
     public function getId(): ?int
@@ -237,12 +240,25 @@ class About
         return $this;
     }
 
-    public function getLanguages(): ?string
+    public function getLanguages(): array
     {
-        return $this->languages;
+        $formattedLanguages = [];
+
+        if ($this->languages === null) {
+            return $formattedLanguages; // Retourne un tableau vide si $languages est null
+        }
+
+        foreach ($this->languages as $language) {
+            if (strpos($language, ':') !== false) {
+                [$key, $value] = explode(':', $language);
+                $formattedLanguages[trim($key)] = (int) trim($value);
+            }
+        }
+
+        return $formattedLanguages;
     }
 
-    public function setLanguages(string $languages): static
+    public function setLanguages(array $languages): static
     {
         $this->languages = $languages;
 

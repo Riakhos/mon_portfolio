@@ -9,6 +9,7 @@ use App\Form\CommentType;
 use App\Form\MessageType;
 use App\Repository\BlogPostRepository;
 use App\Repository\PricingPlanRepository;
+use App\Repository\ProjectRepository;
 use App\Repository\ServiceRepository;
 use DateTimeImmutable;
 use Doctrine\ORM\EntityManagerInterface;
@@ -20,7 +21,7 @@ use Symfony\Component\Routing\Attribute\Route;
 final class HomeController extends AbstractController
 {
     #[Route('/', name: 'app_home')]
-    public function index(ServiceRepository $serviceRepository, PricingPlanRepository $pricingPlanRepository, EntityManagerInterface $em, Request $request, BlogPostRepository $blogPostRepository): Response
+    public function index(ServiceRepository $serviceRepository, PricingPlanRepository $pricingPlanRepository, EntityManagerInterface $em, Request $request, BlogPostRepository $blogPostRepository, ProjectRepository $projectRepository): Response
     {
         $services = $serviceRepository->findAll();
 
@@ -120,6 +121,41 @@ final class HomeController extends AbstractController
 
         // Calculer le nombre de cafés bus (1 café toutes les 3 heures)
         $totalCoffees = intdiv($totalHoursWorked, 3);
+        
+        $projects = $projectRepository->findAll();
+
+        // Récupérer toutes les compétences, frameworks et APIs
+        $skills = [];
+        $frameworksUsage = [];
+        $apis = [];
+
+        foreach ($projects as $project) {
+            foreach ($project->getSkills() as $skill => $value) {
+                if (!isset($skills[$skill])) {
+                    $skills[$skill] = 0;
+                }
+                $skills[$skill] += $value;
+            }
+
+            foreach ($project->getFrameworks() as $framework => $value) {
+                if (!isset($frameworksUsage[$framework])) {
+                    $frameworksUsage[$framework] = 0;
+                }
+                $frameworksUsage[$framework] += $value;
+            }
+
+            foreach ($project->getApis() as $api => $value) {
+                if (!isset($apis[$api])) {
+                    $apis[$api] = 0;
+                }
+                $apis[$api] += $value;
+            }
+        }
+
+        // Calculer les pourcentages de maîtrise
+        $skillsMastery = $this->calculateMastery($skills);
+        $frameworksMastery = $this->calculateMastery($frameworksUsage);
+        $apisMastery = $this->calculateMastery($apis);
 
         return $this->render('home/index.html.twig', [
             'services' => $services,
@@ -133,7 +169,42 @@ final class HomeController extends AbstractController
             'totalLikes' => $totalLikes,
             'totalHoursWorked' => $totalHoursWorked,
             'totalCoffees' => $totalCoffees,
+            'skills' => $skillsMastery,
+            'frameworksMastery' => $frameworksMastery,
+            'apis' => $apisMastery,
         ]);
+    }
+    
+    private function calculateMastery(array $items): array
+    {
+        $mastery = [];
+
+        foreach ($items as $key => $usagePercentage) {
+             // Calculer l'augmentation de la maîtrise
+            $increase = floor($usagePercentage / 10); // Chaque tranche de 10 % d'utilisation augmente la maîtrise de 1 %
+            $currentMastery = $mastery[$key]['percentage'] ?? 0; // Maîtrise actuelle (par défaut 0)
+
+            // Ajouter l'augmentation à la maîtrise actuelle
+            $newMastery = min($currentMastery + $increase, 100); // Limiter à 100 %
+    
+            // Déterminer le niveau de maîtrise
+            $level = 'Débutant';
+            if ($newMastery > 25 && $newMastery <= 50) {
+                $level = 'Intermédiaire';
+            } elseif ($newMastery > 50 && $newMastery <= 75) {
+                $level = 'Avancé';
+            } elseif ($newMastery > 75) {
+                $level = 'Expert';
+            }
+    
+            // Ajouter le pourcentage et le niveau au tableau
+            $mastery[$key] = [
+                'percentage' => $newMastery,
+                'level' => $level,
+            ];
+        }
+
+        return $mastery;
     }
 
     #[Route('/', name: 'app_home_contact')]
