@@ -1,0 +1,20 @@
+{
+  "name": "mon_portfolio",
+  "version": "1.0.0",
+  "description": "Mon portfolio",
+  "main": "index.js",
+  "scripts": {
+    "build": "encore production",
+    "dev": "encore dev",
+    "watch": "encore dev --watch"
+  },
+  "author": "Richard Bonnegent",
+  "license": "MIT",
+  "devDependencies": {
+    "@symfony/webpack-encore": "^4.7.0",
+    "autoprefixer": "^10.4.21",
+    "postcss-loader": "^8.1.1",
+    "sass": "^1.86.3",
+    "sass-loader": "^13.0.0"
+  }
+}
