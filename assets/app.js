@@ -1,4 +1,4 @@
-import './bootstrap.js';
+import './bootstrap';
 /*
  * Bienvenue dans le fichier JavaScript principal de votre application !
  *
@@ -8,3 +8,11 @@ import './bootstrap.js';
 import './styles/app.css';
 
 console.log('This log comes from assets/app.js - welcome to AssetMapper! 🎉');
+
+import { Application } from '@hotwired/stimulus';
+
+const application = Application.start();
+
+// Importez vos contrôleurs ici
+import HelloController from './controllers/hello_controller';
+application.register('hello', HelloController);
