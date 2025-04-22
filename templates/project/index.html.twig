@@ -14,7 +14,7 @@
             <a href="#" data-filter="*" class="btn btn-info active" aria-label="Afficher tous les projets">Tous</a>
             <a href="#" data-filter=".new" class="btn btn-info" aria-label="Afficher les nouveautés">Nouveauté</a>
             {% for framework in frameworks %}
-                <a href="#" data-filter=".{{ framework|lower }}" class="btn btn-info" aria-label="Afficher {{ framework }}">{{ framework }}</a>
+                <a href="#" data-filter=".{{ framework|lower }}" class="btn btn-info mb-2" aria-label="Afficher {{ framework }}">{{ framework }}</a>
             {% endfor %}
         </div>
 
@@ -101,6 +101,7 @@
                     portfolioItems.forEach(item => {
                         if (filter === '*' || item.classList.contains(filter.substring(1))) {
                             item.style.display = 'block'; // Affiche l'élément
+                            console.log('Classes de l\'élément :', item.classList);
                         } else {
                             item.style.display = 'none'; // Masque l'élément
                         }

@@ -33,15 +33,16 @@
                 <!-- Section: Links -->
                 <div class="links mb-3 text-center">
                     {% if project.githubLink %}
-                        <a href="{{ project.githubLink }}" target="_blank" class="btn btn-info me-2">
+                        <a href="{{ project.githubLink }}" target="_blank" class="btn btn-info m-2">
                             <i class="bi bi-github"></i> GitHub
                         </a>
                     {% endif %}
                     {% if project.demoLink %}
-                        <a href="{{ project.demoLink }}" target="_blank" class="btn btn-info me-2">
+                        <a href="{{ project.demoLink }}" target="_blank" class="btn btn-info m-2">
                             <i class="bi bi-box-arrow-up-right"></i> Démo
                         </a>
                     {% endif %}
+                    <button onclick="history.back()" class="btn btn-info m-2">Retour à la liste</button>
                 </div>
             </div>
         </div>

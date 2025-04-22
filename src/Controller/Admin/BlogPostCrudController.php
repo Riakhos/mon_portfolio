@@ -80,6 +80,20 @@ class BlogPostCrudController extends AbstractCrudController
                     'Django' => 'Django',
                     'Spring' => 'Spring',
                     'React' => 'React',
+                    'HTML/CSS' => 'HTML/CSS',
+                    'JavaScript' => 'JavaScript',
+                    'Vue.js' => 'Vue.js',
+                    'Angular' => 'Angular',
+                    'Node.js' => 'Node.js',
+                    'React Native' => 'React Native',
+                    'Bootstrap' => 'Bootstrap',
+                    'jQuery' => 'jQuery',
+                    'Next.js' => 'Next.js',
+                    'REST API' => 'REST API',
+                    'Docker' => 'Docker',
+                    'Kubernetes' => 'Kubernetes',
+                    'GitHub' => 'GitHub',
+                    'Trello' => 'Trello',
                 ])
                 ->allowMultipleChoices(true) // Permet plusieurs sélections
                 ->setHelp('Sélectionnez le framework utilisé dans ce projet.')

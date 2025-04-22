@@ -15,7 +15,7 @@
 
                 <!-- Select for Categories -->
                 {% if categories is not empty %}
-                    <select id="category-filter" class="form-select d-inline-block w-auto mx-2" aria-label="Filtrer par catégorie">
+                    <select id="category-filter" class="form-select d-inline-block w-auto m-2" aria-label="Filtrer par catégorie">
                         <option value="*">Toutes les catégories</option>
                         {% for category in categories %}
                             <option value=".{{ category|lower }}">{{ category }}</option>
@@ -27,7 +27,7 @@
 
                 <!-- Select for Frameworks -->
                 {% if frameworks is not empty %}
-                    <select id="framework-filter" class="form-select d-inline-block w-auto mx-2" aria-label="Filtrer par framework">
+                    <select id="framework-filter" class="form-select d-inline-block w-auto m-2" aria-label="Filtrer par framework">
                         <option value="*">Tous les frameworks</option>
                         {% for framework in frameworks %}
                             <option value=".{{ framework|lower }}">{{ framework }}</option>
@@ -137,11 +137,7 @@
                             </div>
                         </div>
                     </div>
-
-                    <!-- Separator -->
-                    <div class="col-md-12 mb-4">
-                        <hr class="text-danger mx-auto w-75 custom-hr">
-                    </div>
+                    
                 {% endfor %}
             </div>
                         
@@ -211,13 +207,14 @@
             function applyFilters() {
                 const categoryValue = categoryFilter.value;
                 const frameworkValue = frameworkFilter.value;
+                const isNewFilterActive = newFilterButton.classList.contains('active');
 
-                blogPostItems.forEach((item, index) => {
+                blogPostItems.forEach((item) => {
                     const matchesCategory = categoryValue === '*' || item.classList.contains(categoryValue.substring(1));
                     const matchesFramework = frameworkValue === '*' || item.classList.contains(frameworkValue.substring(1));
-                    const isNew = index < 5;
+                    const isNew = item.classList.contains('new');
 
-                    item.style.display = (matchesCategory && matchesFramework) || (newFilterButton.classList.contains('active') && isNew) ? 'block' : 'none';
+                    item.style.display = (isNewFilterActive && isNew) || (!isNewFilterActive && matchesCategory && matchesFramework) ? 'block' : 'none';
                 });
             }
 
