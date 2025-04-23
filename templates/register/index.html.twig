@@ -22,7 +22,7 @@
 
         <!-- Section: Google Sign-In -->
         <div class="mt-3 text-center">
-            <button id="google-sign-in-btn" class="btn btn-info">
+            <button id="google-signup-with-btn" class="btn btn-info">
                 <i class="fab fa-google"></i> S'inscrire avec Google
             </button>
         </div>
@@ -32,15 +32,21 @@
 
 {# Inclusion du script Google Sign-In #}
 {% block javascripts %}
+    <script src="https://accounts.google.com/gsi/client?hl=fr" async defer></script>
     <script>
+        function handleCredentialResponse(response) {
+            console.log("Encoded JWT ID token: " + response.credential);
+            // Envoyez le jeton au serveur pour vérification et connexion
+        }
         window.onload = function () {
             google.accounts.id.initialize({
-                client_id: "305203962782-h9a7k49vu0gh27lt1i3bnaqq6halvkmg.apps.googleusercontent.com",
+                client_id: "{{ google_client_id }}",
                 callback: handleCredentialResponse
             });
             google.accounts.id.renderButton(
-                document.getElementById("google-sign-in-btn"),
+                document.getElementById("google-signup-with-btn"),
                 { 
+                    locale: "fr",
                     theme: "outline",
                     size: "large",
                     type: "standard",
@@ -49,10 +55,5 @@
                 }
             );
         };
-
-        function handleCredentialResponse(response) {
-            console.log("Encoded JWT ID token: " + response.credential);
-            // Envoyez le jeton au serveur pour vérification et connexion
-        }
     </script>
 {% endblock %}

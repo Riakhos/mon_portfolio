@@ -47,7 +47,8 @@ class RegisterController extends AbstractController
         }
         
         return $this->render('register/index.html.twig', [
-            'registerForm' => $form->createView()
+            'registerForm' => $form->createView(),
+            'google_client_id' => $_ENV['GOOGLE_CLIENT_ID'],
         ]);
     }
 }

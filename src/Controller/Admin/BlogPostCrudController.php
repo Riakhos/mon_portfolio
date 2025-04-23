@@ -94,6 +94,10 @@ class BlogPostCrudController extends AbstractCrudController
                     'Kubernetes' => 'Kubernetes',
                     'GitHub' => 'GitHub',
                     'Trello' => 'Trello',
+                    'Figma' => 'Figma',
+                    'MongoDB' => 'MongoDB',
+                    'Xampp' => 'Xampp',
+                    'Stripe' => 'Stripe',
                 ])
                 ->allowMultipleChoices(true) // Permet plusieurs sélections
                 ->setHelp('Sélectionnez le framework utilisé dans ce projet.')

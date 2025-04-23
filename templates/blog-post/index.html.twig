@@ -10,8 +10,8 @@
             
             <!-- Section: Filters -->
             <div class="filters text-center mb-4">
-                <a href="#" id="reset-filters" data-filter="*" class="btn btn-info active" aria-label="Afficher tous les articles">Tous</a>
-                <a href="#" data-filter=".new" class="btn btn-info" aria-label="Afficher les nouveautés">Nouveauté</a>
+                <a href="#" id="reset-filters" data-filter="*" class="btn btn-info active mb-2" aria-label="Afficher tous les articles">Tous</a>
+                <a href="#" data-filter=".new" class="btn btn-info mb-2" aria-label="Afficher les nouveautés">Nouveauté</a>
 
                 <!-- Select for Categories -->
                 {% if categories is not empty %}
@@ -140,6 +140,15 @@
                     
                 {% endfor %}
             </div>
+
+            <!-- Section: Pagination -->
+            <div class="pagination-container text-center mt-4">
+                <nav>
+                    <ul class="pagination justify-content-center">
+                        <!-- Les boutons de pagination seront générés dynamiquement -->
+                    </ul>
+                </nav>
+            </div>
                         
         </div>
     </section>
@@ -196,57 +205,106 @@
             });
 
             // Filtrage des articles de blog
+            const blogPostItems = document.querySelectorAll('.blogPost-item');
+            const paginationContainer = document.querySelector('.pagination-container .pagination');
             const categoryFilter = document.getElementById('category-filter');
             const frameworkFilter = document.getElementById('framework-filter');
             const resetFilters = document.getElementById('reset-filters');
-            const blogPostItems = document.querySelectorAll('.blogPost-item');
-            
             const filterButtons = document.querySelectorAll('.filters a[data-filter]');
             const newFilterButton = document.querySelector('[data-filter=".new"]');
+            const itemsPerPage = 10; // Nombre d'articles par page
+            let currentPage = 1;
 
-            function applyFilters() {
+            // Fonction pour afficher les articles en fonction de la page et des filtres
+            function displayBlogPosts(page = 1) {
                 const categoryValue = categoryFilter.value;
                 const frameworkValue = frameworkFilter.value;
                 const isNewFilterActive = newFilterButton.classList.contains('active');
 
-                blogPostItems.forEach((item) => {
+                const filteredItems = Array.from(blogPostItems).filter(item => {
                     const matchesCategory = categoryValue === '*' || item.classList.contains(categoryValue.substring(1));
                     const matchesFramework = frameworkValue === '*' || item.classList.contains(frameworkValue.substring(1));
                     const isNew = item.classList.contains('new');
 
-                    item.style.display = (isNewFilterActive && isNew) || (!isNewFilterActive && matchesCategory && matchesFramework) ? 'block' : 'none';
+                    return (isNewFilterActive && isNew) || (!isNewFilterActive && matchesCategory && matchesFramework);
+                });
+
+                // Calcul des indices pour la pagination
+                const startIndex = (page - 1) * itemsPerPage;
+                const endIndex = startIndex + itemsPerPage;
+
+                // Affiche ou masque les articles
+                blogPostItems.forEach(item => item.style.display = 'none'); // Masque tous les articles
+                filteredItems.slice(startIndex, endIndex).forEach(item => item.style.display = 'block'); // Affiche les articles de la page
+
+                // Met à jour la pagination
+                updatePagination(filteredItems.length, page);
+            }
+
+            // Fonction pour mettre à jour la pagination
+            function updatePagination(totalItems, activePage) {
+                paginationContainer.innerHTML = ''; // Réinitialise la pagination
+                const totalPages = Math.ceil(totalItems / itemsPerPage);
+
+                for (let i = 1; i <= totalPages; i++) {
+                    const li = document.createElement('li');
+                    li.classList.add('page-item');
+                    if (i === activePage) li.classList.add('active');
+
+                    const a = document.createElement('a');
+                    a.classList.add('page-link');
+                    a.href = '#';
+                    a.textContent = i;
+                    a.setAttribute('data-page', i);
+
+                    li.appendChild(a);
+                    paginationContainer.appendChild(li);
+                }
+
+                // Ajoute les événements de clic sur les boutons de pagination
+                const pageLinks = paginationContainer.querySelectorAll('.page-link');
+                pageLinks.forEach(link => {
+                    link.addEventListener('click', function (e) {
+                        e.preventDefault();
+                        currentPage = parseInt(this.getAttribute('data-page'));
+                        displayBlogPosts(currentPage);
+                    });
                 });
             }
 
+            // Fonction pour réinitialiser les classes actives
             function resetActiveClasses() {
-                // Supprime la classe active de tous les boutons et listes déroulantes
                 filterButtons.forEach(button => button.classList.remove('active'));
                 categoryFilter.classList.remove('active');
                 frameworkFilter.classList.remove('active');
             }
 
+            // Ajoute les événements de changement sur les filtres
             categoryFilter.addEventListener('change', function () {
                 resetActiveClasses();
-                categoryFilter.classList.add('active'); // Ajoute la classe active au filtre de catégorie
-                applyFilters();
+                categoryFilter.classList.add('active');
+                currentPage = 1;
+                displayBlogPosts(currentPage);
             });
 
             frameworkFilter.addEventListener('change', function () {
                 resetActiveClasses();
-                frameworkFilter.classList.add('active'); // Ajoute la classe active au filtre de framework
-                applyFilters();
+                frameworkFilter.classList.add('active');
+                currentPage = 1;
+                displayBlogPosts(currentPage);
             });
 
             filterButtons.forEach(button => {
                 button.addEventListener('click', function (e) {
                     e.preventDefault();
                     resetActiveClasses();
-                    this.classList.add('active'); // Ajoute la classe active au bouton cliqué
+                    this.classList.add('active');
                     if (this.dataset.filter === '.new') {
                         categoryFilter.value = '*';
                         frameworkFilter.value = '*';
                     }
-                    applyFilters();
+                    currentPage = 1;
+                    displayBlogPosts(currentPage);
                 });
             });
 
@@ -255,11 +313,12 @@
                 this.classList.add('active');
                 categoryFilter.value = '*';
                 frameworkFilter.value = '*';
-                applyFilters();
+                currentPage = 1;
+                displayBlogPosts(currentPage);
             });
 
-            // Appliquer les filtres au chargement de la page
-            applyFilters();
+            // Affiche les articles initiaux (page 1)
+            displayBlogPosts(currentPage);
         });
     </script>
 {% endblock %}

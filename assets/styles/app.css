@@ -263,3 +263,9 @@ a:hover {
     --bs-toast-header-color: var(--tertiary-color);
     --bs-toast-header-bg: rgba(var(--secondary-color), 0.85);
 }
+
+.pagination {
+    --bs-pagination-active-color: var(--bs-primary-color);
+    --bs-pagination-active-bg: var(--bs-secondary-color);
+    --bs-pagination-active-border-color: var(--bs-tertiary-color);
+}
