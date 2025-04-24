@@ -52,6 +52,9 @@
             <button id="google-sign-in-with-btn" class="btn btn-info">
                 <i class="fab fa-google"></i> Se connecter avec Google
             </button>
+            <div id="google-error" class="text-danger mt-2" style="display: none;">
+                Une erreur est survenue lors de la connexion avec Google.
+            </div>
         </div>        
         
     </div>
@@ -62,8 +65,31 @@
     <script src="https://accounts.google.com/gsi/client?hl=fr" async defer></script>
     <script>
         function handleCredentialResponse(response) {
-            console.log("Encoded JWT ID token: " + response.credential);
-            // Envoyez le jeton au serveur pour vérification et connexion
+            const jwtToken = response.credential;
+
+            // Envoyer le jeton JWT au serveur via une requête POST
+            fetch('{{ path('app_google_auth') }}', {
+                method: 'POST',
+                headers: {
+                    'Content-Type': 'application/json',
+                    'X-CSRF-Token': '{{ csrf_token('authenticate') }}'
+                },
+                body: JSON.stringify({ token: jwtToken })
+            })
+            .then(response => response.json())
+            .then(data => {
+                if (data.redirect) {
+                    // Rediriger vers la page d'inscription
+                    window.location.href = data.redirect;
+                } else if (data.success) {
+                    // Rediriger vers la page d'accueil ou une autre page
+                    window.location.href = '{{ path('app_account') }}';
+                } else {
+                    console.error(data.message || 'Erreur inconnue');
+                }
+            })
+            .catch(error => console.error('Erreur réseau :', error));
+            document.getElementById('google-error').style.display = 'block';
         }
         window.onload = function () {
             google.accounts.id.initialize({

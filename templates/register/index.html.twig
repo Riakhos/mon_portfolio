@@ -35,8 +35,27 @@
     <script src="https://accounts.google.com/gsi/client?hl=fr" async defer></script>
     <script>
         function handleCredentialResponse(response) {
-            console.log("Encoded JWT ID token: " + response.credential);
-            // Envoyez le jeton au serveur pour vérification et connexion
+            const jwtToken = response.credential;
+
+            // Envoyer le jeton JWT au serveur via une requête POST
+            fetch('{{ path('app_google_register') }}', {
+                method: 'POST',
+                headers: {
+                    'Content-Type': 'application/json',
+                    'X-CSRF-Token': '{{ csrf_token('authenticate') }}'
+                },
+                body: JSON.stringify({ token: jwtToken })
+            })
+            .then(response => response.json())
+            .then(data => {
+                if (data.redirect) {
+                    // Rediriger vers la page de connexion ou une autre page
+                    window.location.href = data.redirect;
+                } else {
+                    console.error(data.message || 'Erreur inconnue');
+                }
+            })
+            .catch(error => console.error('Erreur réseau :', error));
         }
         window.onload = function () {
             google.accounts.id.initialize({

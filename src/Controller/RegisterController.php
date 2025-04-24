@@ -11,6 +11,7 @@ use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\HttpFoundation\Response;
 use Symfony\Component\Routing\Attribute\Route;
 use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
+use Symfony\Component\HttpFoundation\JsonResponse;
 
 class RegisterController extends AbstractController
 {
@@ -50,5 +51,58 @@ class RegisterController extends AbstractController
             'registerForm' => $form->createView(),
             'google_client_id' => $_ENV['GOOGLE_CLIENT_ID'],
         ]);
+    }
+
+    #[Route('/google/inscription', name: 'app_google_register', methods: ['POST'])]
+    public function googleRegister(
+        Request $request,
+        EntityManagerInterface $em
+    ): JsonResponse {
+        $data = json_decode($request->getContent(), true);
+        $token = $data['token'] ?? null;
+
+        if (!$token) {
+            return new JsonResponse(['error' => 'Token manquant'], 400);
+        }
+
+        try {
+            // Valider le jeton avec Google
+            $client = new \Google\Client(['client_id' => $_ENV['GOOGLE_CLIENT_ID']]);
+            $payload = $client->verifyIdToken($token);
+
+            if (!$payload) {
+                return new JsonResponse(['error' => 'Jeton Google invalide.'], 400);
+            }
+
+            // Récupérer les informations de l'utilisateur
+            $email = $payload['email'];
+
+            // Vérifier si l'utilisateur existe déjà
+            $user = $em->getRepository(User::class)->findOneBy(['email' => $email]);
+
+            if ($user) {
+                return new JsonResponse([
+                    'redirect' => $this->generateUrl('app_login'),
+                    'message' => 'Un compte existe déjà avec cet e-mail. Veuillez vous connecter.'
+                ], 302);
+            }
+
+            // Créer un nouvel utilisateur
+            $user = new User();
+            $user->setEmail($email);
+            $user->setPassword(''); // Pas de mot de passe pour les connexions via Google
+            $user->setCreatedAt(new \DateTimeImmutable());
+
+            $em->persist($user);
+            $em->flush();
+
+            // Retourner une réponse de succès
+            return new JsonResponse([
+                'redirect' => $this->generateUrl('app_login'),
+                'message' => 'Votre compte a été créé avec succès. Veuillez vous connecter.'
+            ], 201);
+        } catch (\Exception $e) {
+            return new JsonResponse(['error' => $e->getMessage()], 400);
+        }
     }
 }
