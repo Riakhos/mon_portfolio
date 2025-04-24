@@ -14,7 +14,7 @@ final class ProjectController extends AbstractController
     public function index(EntityManagerInterface $em): Response
     {
         // Récupérer tous les projets et les trier par date décroissante
-        $projects = $em->getRepository(Project::class)->findBy([], ['updated' => 'DESC', 'created_at' => 'DESC']);
+        $projects = $em->getRepository(Project::class)->findBy([], ['created_at' => 'DESC']);
 
         $totalSkills = array_sum(array_map(function ($project) {
             return array_sum(array_values($project->getSkills()));

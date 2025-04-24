@@ -42,7 +42,7 @@ final class HomeController extends AbstractController
         }
 
         // Récupérer tous les projets triés par date décroissante
-        $projects = $em->getRepository(Project::class)->findBy([], ['updated' => 'DESC', 'created_at' => 'DESC']);
+        $projects = $em->getRepository(Project::class)->findBy([], ['created_at' => 'DESC']);
 
         // Récupérer les frameworks uniques
         $frameworks = [];
@@ -122,7 +122,7 @@ final class HomeController extends AbstractController
         // Calculer le nombre de cafés bus (1 café toutes les 3 heures)
         $totalCoffees = intdiv($totalHoursWorked, 3);
         
-        $projects = $projectRepository->findAll();
+        // $projects = $projectRepository->findAll();
 
         // Récupérer toutes les compétences, frameworks et APIs
         $skills = [];

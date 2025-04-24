@@ -220,9 +220,12 @@
     <!-- Section: Portfolio -->
     <section class="section-portfolio" id="portfolio">
         <div class="container">
+
+            <!-- Section: Header -->
             <h2 class="text-danger m-4">Mes Projets</h2>
             <div class="portfolio">
-                <!-- Filters -->
+
+                <!-- Section: Filters -->
                 <div class="filters text-center mb-4">
                     <a href="#" data-filter="*" class="btn btn-info active mb-2" aria-label="Afficher tous les projets">Tous</a>
                     <a href="#" data-filter=".new" class="btn btn-info mb-2" aria-label="Afficher les nouveautés">Nouveautés</a>
@@ -231,12 +234,14 @@
                     {% endfor %}
                 </div>
 
-                <!-- Portfolio Items -->
+                <!-- Section: Portfolio Items -->
                 <div class="portfolio-container bg-secondary-color border border-primary-color rounded row m-1">
                     {% for project in projects %}
                         <div class="col-md-4 portfolio-item-wrapper {{ project.frameworks|keys|join(' ')|lower }} {% if loop.index <= 5 %}new{% endif %} position-relative">
                             <a href="{{ path('app_project_show', { id: project.id }) }}" class="d-block position-relative">
-                                <img src="{{ asset('uploads/projects/' ~ project.image) }}" class="img-fluid my-2" alt="{{ project.title }}">
+                                <div class="ratio ratio-4x3">
+                                    <img src="{{ asset('uploads/projects/' ~ project.image) }}" class="img-fluid my-2 w-100 h-100 object-fit-cover" alt="{{ project.title }}">
+                                </div>
                                 <div class="overlay position-absolute top-0 start-0 w-100 h-100 d-flex align-items-center justify-content-center">
                                     <h3 class="title text-primary-color text-center">{{ project.title }}</h3>
                                 </div>
@@ -275,7 +280,7 @@
             const filterButtons = document.querySelectorAll('.filters a');
             const portfolioItems = document.querySelectorAll('.portfolio-item-wrapper');
             const paginationContainer = document.querySelector('.pagination-container .pagination');
-            const itemsPerPage = 6; // Nombre de projets par page
+            const itemsPerPage = 9; // Nombre de projets par page
             let currentPage = 1;
 
             // Fonction pour afficher les projets en fonction de la page et du filtre
