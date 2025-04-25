@@ -1,0 +1,71 @@
+{% extends 'base.html.twig' %}
+
+{% block title %}Politique de Confidentialité{% endblock %}
+
+{% block body %}
+
+    <div class="card mt-5 w-75 mx-auto">
+
+        <div class="card-header">
+            <div class="d-flex justify-content-between align-items-center">
+                <h2 class="card-title text-tertiary-color">Politique de Confidentialité</h2>
+                <p class="text-danger">Dernière mise à jour : 25/04/2025</p>
+            </div>
+        </div>
+
+        <div class="card-body">
+            <h3 class="card-title text-tertiary-color">1. Introduction</h3>
+            <p>Bienvenue sur <strong>richard.bonnegent.fr</strong>. Cette politique de confidentialité explique comment nous collectons, utilisons et protégeons vos données personnelles lorsque vous utilisez notre site.</p>
+            <hr class="text-danger border-4">
+
+            <h3 class="card-title text-tertiary-color">2. Les données que nous collectons</h3>
+            <p>Nous collectons les informations suivantes lorsque vous vous inscrivez ou interagissez avec notre site :</p>
+            <ul>
+                <li><strong>Adresse email</strong> - pour la création d'un compte utilisateur et l'envoi d'informations importantes.</li>
+                <li><strong>Mot de passe</strong> - pour sécuriser l'accès à votre compte.</li>
+                <li><strong>Commentaires</strong> - pour permettre la gestion et l'affichage de vos commentaires sur notre site.</li>
+            </ul>
+            <hr class="text-danger border-4">
+
+            <h3 class="card-title text-tertiary-color">3. Comment nous utilisons vos données</h3>
+            <p>Les informations collectées sont utilisées dans les buts suivants :</p>
+            <ul>
+                <li>Fournir l'accès à votre compte utilisateur.</li>
+                <li>Gérer et afficher vos commentaires sur le site.</li>
+                <li>Améliorer l'expérience utilisateur en fonction des interactions.</li>
+            </ul>
+            <hr class="text-danger border-4">
+
+            <h3 class="card-title text-tertiary-color">4. Sécurité des données</h3>
+            <p>Nous mettons en œuvre des mesures de sécurité pour protéger vos données personnelles. Cependant, aucune méthode de transmission sur Internet n'est totalement sûre, et nous ne pouvons garantir la sécurité absolue de vos informations.</p>
+            <hr class="text-danger border-4">
+
+            <h3 class="card-title text-tertiary-color">5. Vos droits</h3>
+            <p>Vous avez le droit de demander l'accès, la rectification ou la suppression de vos données personnelles. Vous pouvez également vous opposer à leur traitement ou demander la limitation de celui-ci.</p>
+            <hr class="text-danger border-4">
+            
+            <h3 class="card-title text-tertiary-color">6. Liens vers d'autres sites</h3>
+            <p>Notre site peut contenir des liens vers d'autres sites. Nous ne sommes pas responsables de la politique de confidentialité ou du contenu de ces sites.</p>
+            <hr class="text-danger border-4">
+
+            <h3 class="card-title text-tertiary-color">7. Modifications de cette politique</h3>
+            <p>Nous nous réservons le droit de modifier cette politique de confidentialité à tout moment. Les modifications seront publiées sur cette page.</p>
+            <p>Nous vous encourageons à consulter régulièrement cette page pour rester informé des mises à jour.</p>
+            <hr class="text-danger border-4">
+
+            <h3 class="card-title text-tertiary-color">8. Contact</h3>
+            <p>Si vous avez des questions concernant cette politique de confidentialité, veuillez nous contacter à l'adresse suivante : <a href="mailto:{{ about.email }}" class="text-decoration-none text-primary-color" aria-label="Envoyer un email à {{ about.email }}">{{ about.email }}</a></p>
+        </div>
+
+        <div class="card-footer">
+            <p>Cette politique de confidentialité s'applique à toutes les données collectées par <strong>richard.bonnegent.fr</strong>. Nous nous engageons à protéger votre vie privée et à respecter vos droits. En utilisant notre site, vous acceptez cette politique de confidentialité.</p>
+            <p class="text-tertiary-color">Merci de votre confiance !</p>
+        </div>
+        
+    </div>
+
+    <div class="text-center mt-4">
+        <button class="btn btn-lg btn-info px-3 py-2" onclick="window.history.back()">Retour à la page précédente</button>
+    </div>
+
+{% endblock %}

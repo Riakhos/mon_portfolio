@@ -1,0 +1,52 @@
+{% extends 'base.html.twig' %}
+
+{% block title %}Conditions d'Utilisation{% endblock %}
+
+{% block body %}
+    
+    <div class="card mt-5 w-75 mx-auto">
+
+        <div class="card-header">
+            <div class="d-flex justify-content-between align-items-center">
+                <h2 class="card-title text-tertiary-color">Conditions d'Utilisation</h2>
+                <p class="text-danger">Dernière mise à jour : 25/04/2025</p>
+            </div>
+        </div>
+
+        <div class="card-body">
+            <h3 class="card-title text-tertiary-color">1. Acceptation des conditions</h3>
+            <p>En accédant et en utilisant le site <strong>richard.bonnegent.fr</strong>, vous acceptez les présentes conditions d'utilisation. Si vous n'êtes pas d'accord avec ces conditions, veuillez ne pas utiliser notre site.</p>
+            <hr class="text-danger border-4">
+
+            <h3 class="card-title text-tertiary-color">2. Utilisation du site</h3>
+            <p>Le site est destiné à un usage personnel et non commercial. Vous vous engagez à ne pas utiliser le site à des fins illégales ou nuisibles.</p>
+            <hr class="text-danger border-4">
+
+            <h3 class="card-title text-tertiary-color">3. Comptes utilisateurs</h3>
+            <p>Pour accéder à certaines fonctionnalités du site, vous devrez créer un compte utilisateur. Vous êtes responsable de la confidentialité de vos informations de connexion, y compris de votre mot de passe.</p>
+            <hr class="text-danger border-4">
+
+            <h3 class="card-title text-tertiary-color">4. Gestion des commentaires</h3>
+            <p>Les utilisateurs peuvent laisser des commentaires sur le site. Vous êtes responsable du contenu de vos commentaires, et vous vous engagez à ne pas publier de contenu illégal, offensant ou nuisible.</p>
+            <hr class="text-danger border-4">
+
+            <h3 class="card-title text-tertiary-color">5. Propriété intellectuelle</h3>
+            <p>Tout le contenu du site, y compris les textes, images, logos, et autres éléments graphiques, est protégé par les droits d'auteur. Vous ne pouvez pas reproduire, distribuer ou modifier ce contenu sans notre autorisation préalable.</p>
+            <hr class="text-danger border-4">
+
+            <h3 class="card-title text-tertiary-color">6. Limitation de responsabilité</h3>
+            <p>Nous ne serons pas responsables des dommages directs ou indirects résultant de l'utilisation ou de l'impossibilité d'utiliser le site. Nous ne garantissons pas que le site sera exempt d'erreurs ou de virus.</p>
+
+        </div>
+
+        <div class="card-footer">
+            <p>Ces conditions d'utilisation s'appliquent à tous les utilisateurs de <strong>richard.bonnegent.fr</strong>. En utilisant notre site, vous acceptez ces conditions.</p>
+            <p class="text-tertiary-color">Merci de votre confiance !</p>
+        </div>
+
+    </div>
+
+    <div class="text-center mt-4">
+        <button class="btn btn-lg btn-info px-3 py-2" onclick="window.history.back()">Retour à la page précédente</button>
+    </div>
+{% endblock %}
