@@ -118,76 +118,16 @@
 
         <!-- Section: Footer -->
         <footer class="footer py-4 bg-secondary-color mt-5">
-    <div class="container text-center">
-        <p class="small mb-0">
-            &copy; {{ "now"|date("Y") }} Créer avec <i class="bi bi-suit-heart-fill text-danger"></i> Par {{ about.firstname }} {{ about.lastname }}
-        </p>
-        <p class="small mt-2">
-            <a href="{{ path('app_privacy_policy') }}" class="text-primary-color text-decoration-none">Politique de Confidentialité</a> |
-            <a href="{{ path('app_terms_of_use') }}" class="text-primary-color text-decoration-none">Conditions d'Utilisation</a>
-        </p>
-    </div>
-</footer>
-                    
-        <!-- Modal: Politique de Confidentialité -->
-        <div class="modal fade" id="privacyPolicyModal" tabindex="-1" aria-labelledby="privacyPolicyModalLabel" aria-hidden="true">
-            <div class="modal-dialog modal-lg">
-                <div class="modal-content">
-                    <div class="modal-header">
-                        <h5 class="modal-title" id="privacyPolicyModalLabel">Politique de Confidentialité</h5>
-                        <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Fermer"></button>
-                    </div>
-                    <div class="modal-body">
-                        <h1>Politique de Confidentialité</h1>
-                        <p>Dernière mise à jour : 25/04/2025</p>
-                        <h2>1. Introduction</h2>
-                        <p>Bienvenue sur <strong>richard.bonnegent.fr</strong>. Cette politique de confidentialité explique comment nous collectons, utilisons et protégeons vos données personnelles lorsque vous utilisez notre site.</p>
-                        <h2>2. Les données que nous collectons</h2>
-                        <p>Nous collectons les informations suivantes lorsque vous vous inscrivez ou interagissez avec notre site :</p>
-                        <ul>
-                            <li><strong>Adresse email</strong> - pour la création d'un compte utilisateur et l'envoi d'informations importantes.</li>
-                            <li><strong>Mot de passe</strong> - pour sécuriser l'accès à votre compte.</li>
-                            <li><strong>Commentaires</strong> - pour permettre la gestion et l'affichage de vos commentaires sur notre site.</li>
-                        </ul>
-                        <h2>3. Comment nous utilisons vos données</h2>
-                        <p>Les informations collectées sont utilisées dans les buts suivants :</p>
-                        <ul>
-                            <li>Fournir l'accès à votre compte utilisateur.</li>
-                            <li>Gérer et afficher vos commentaires sur le site.</li>
-                            <li>Améliorer l'expérience utilisateur en fonction des interactions.</li>
-                        </ul>
-                        <h2>4. Sécurité des données</h2>
-                        <p>Nous mettons en œuvre des mesures de sécurité pour protéger vos données personnelles. Cependant, aucune méthode de transmission sur Internet n'est totalement sûre, et nous ne pouvons garantir la sécurité absolue de vos informations.</p>
-                    </div>
-                </div>
+            <div class="container text-center">
+                <p class="small mb-0">
+                    &copy; {{ "now"|date("Y") }} Créer avec <i class="bi bi-suit-heart-fill text-danger"></i> Par {{ about.firstname }} {{ about.lastname }}
+                </p>
+                <p class="small mt-2">
+                    <a href="{{ path('app_privacy_policy') }}" class="text-primary-color text-decoration-none">Politique de Confidentialité</a> |
+                    <a href="{{ path('app_terms_of_use') }}" class="text-primary-color text-decoration-none">Conditions d'Utilisation</a>
+                </p>
             </div>
-        </div>
-
-        <!-- Modal: Conditions d'Utilisation -->
-        <div class="modal fade" id="termsModal" tabindex="-1" aria-labelledby="termsModalLabel" aria-hidden="true">
-            <div class="modal-dialog modal-lg">
-                <div class="modal-content">
-                    <div class="modal-header">
-                        <h5 class="modal-title" id="termsModalLabel">Conditions d'Utilisation</h5>
-                        <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Fermer"></button>
-                    </div>
-                    <div class="modal-body">
-                        <h1>Conditions d'Utilisation</h1>
-                        <p>Dernière mise à jour : 25/04/2025</p>
-                        <h2>1. Acceptation des conditions</h2>
-                        <p>En accédant et en utilisant le site <strong>richard.bonnegent.fr</strong>, vous acceptez les présentes conditions d'utilisation. Si vous n'êtes pas d'accord avec ces conditions, veuillez ne pas utiliser notre site.</p>
-                        <h2>2. Utilisation du site</h2>
-                        <p>Le site est destiné à un usage personnel et non commercial. Vous vous engagez à ne pas utiliser le site à des fins illégales ou nuisibles.</p>
-                        <h2>3. Comptes utilisateurs</h2>
-                        <p>Pour accéder à certaines fonctionnalités du site, vous devrez créer un compte utilisateur. Vous êtes responsable de la confidentialité de vos informations de connexion, y compris de votre mot de passe.</p>
-                        <h2>4. Gestion des commentaires</h2>
-                        <p>Les utilisateurs peuvent laisser des commentaires sur le site. Vous êtes responsable du contenu de vos commentaires, et vous vous engagez à ne pas publier de contenu illégal, offensant ou nuisible.</p>
-                        <h2>5. Propriété intellectuelle</h2>
-                        <p>Tout le contenu du site, y compris les textes, images, logos, et autres éléments graphiques, est protégé par les droits d'auteur. Vous ne pouvez pas reproduire, distribuer ou modifier ce contenu sans notre autorisation préalable.</p>
-                    </div>
-                </div>
-            </div>
-        </div>
+        </footer>
         
         <!-- Section: Scripts -->
         <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/js/bootstrap.bundle.min.js" integrity="sha384-YvpcrYf0tY3lHB60NNkmXc5s9fDVZLESaAA55NDzOxhy9GkcIdslK1eN7N6jIeHz" crossorigin="anonymous"></script>      
