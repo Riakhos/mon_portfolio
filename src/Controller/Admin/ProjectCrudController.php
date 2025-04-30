@@ -32,7 +32,8 @@ class ProjectCrudController extends AbstractCrudController implements EventSubsc
             ->setPageTitle(Crud::PAGE_NEW, 'Ajouter un projet')
             ->setHelp(Crud::PAGE_INDEX, 'Gérez les projets affichés sur votre site.')
             ->setHelp(Crud::PAGE_EDIT, 'Modifiez les informations d\'un projet.')
-            ->setHelp(Crud::PAGE_NEW, 'Ajoutez un nouveau projet.');
+            ->setHelp(Crud::PAGE_NEW, 'Ajoutez un nouveau projet.')
+            ->setEntityPermission('ROLE_ADMIN');
     }
 
     public function configureFields(string $pageName): iterable
