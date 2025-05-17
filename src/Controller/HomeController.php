@@ -182,7 +182,7 @@ final class HomeController extends AbstractController
         foreach ($items as $key => $usagePercentage) {
              // Calculer l'augmentation de la maîtrise
             $increase = floor($usagePercentage / 10); // Chaque tranche de 10 % d'utilisation augmente la maîtrise de 1 %
-            $currentMastery = $mastery[$key]['percentage'] ?? 0; // Maîtrise actuelle (par défaut 0)
+            $currentMastery = $mastery[$key]['percentage'] ?? 25; // Maîtrise actuelle (par défaut 0)
 
             // Ajouter l'augmentation à la maîtrise actuelle
             $newMastery = min($currentMastery + $increase, 100); // Limiter à 100 %
